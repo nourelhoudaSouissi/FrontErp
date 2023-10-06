@@ -1,0 +1,220 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<!--{{"ADD" | translate }} {{"MEMBER" | translate }}-->
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+        <mat-label>Type</mat-label>
+        <input
+        matInput
+        name="type"
+        [formControl]="itemForm.controls['type']"
+        placeholder="Type">
+        <mat-error *ngIf="itemForm.controls['type'].invalid && itemForm.controls['type'].touched">
+          Le champ type est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+        <mat-label>Numéro Série</mat-label>
+        <input
+        matInput
+        name="serialNumber"
+        [formControl]="itemForm.controls['serialNumber']"
+        placeholder="Numéro Série">
+        <mat-error *ngIf="itemForm.controls['serialNumber'].invalid && itemForm.controls['serialNumber'].touched">
+          Le champ numéro de série  est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="100"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=16.75>
+        <mat-label>Désignation</mat-label>
+        <input
+        matInput
+        name="designation"
+        [formControl]="itemForm.controls['designation']"
+        placeholder="designation">
+        <mat-error *ngIf="itemForm.controls['designation'].invalid && itemForm.controls['designation'].touched">
+          Le champ désignation  est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+        <mat-label>Date d'acquisition </mat-label>
+        <input
+        matInput
+        type="date"
+        name="acquisitionDate"
+        [formControl]="itemForm.controls['acquisitionDate']"
+        placeholder="Date d'acquisition">
+        <mat-error *ngIf="itemForm.controls['acquisitionDate'].invalid && itemForm.controls['acquisitionDate'].touched">
+          Le champ date d'acquisition est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+        <mat-label>Date fin garantie</mat-label>
+        <input
+        matInput
+        type="date"
+        name="endDate"
+        [formControl]="itemForm.controls['endDate']"
+        placeholder="Date Fin">
+        <mat-error *ngIf="itemForm.controls['endDate'].invalid && itemForm.controls['endDate'].touched">
+          Le champ date de fin est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+
+
+
+    <div fxFlex="50"  class="pr-16">
+    <mat-form-field appearance="outline"  [style.width.cm]=8>
+    <mat-label>Fournisseur</mat-label>
+        <input
+        matInput
+        name="supplier"
+        [formControl]="itemForm.controls['supplier']"
+        placeholder="Fournisseur">
+        <mat-error *ngIf="itemForm.controls['supplier'].invalid && itemForm.controls['supplier'].touched">
+          Le champ fournisseur est requis.
+        </mat-error>
+    </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+      <mat-label>Numéro de commande fournisseur</mat-label>
+          <input
+          matInput
+          name="supplierOrderNumber"
+          [formControl]="itemForm.controls['supplierOrderNumber']"
+          placeholder="Numéro de commande fournisseur">
+          <mat-error *ngIf="itemForm.controls['supplierOrderNumber'].invalid && itemForm.controls['supplierOrderNumber'].touched">
+            Le champ numéro de commande fournisseur est requis.
+          </mat-error>
+      </mat-form-field>
+      </div>
+  
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+        <mat-label>Prix d'achat</mat-label>
+        <input
+        matInput
+        type="number"
+        name="purchasePrise"
+        [formControl]="itemForm.controls['purchasePrise']"
+        placeholder="Prix d'achat">
+        <mat-error *ngIf="itemForm.controls['purchasePrise'].invalid && itemForm.controls['purchasePrise'].touched">
+          Le champ prix d'achat est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=8>
+        <mat-label>Devise</mat-label>
+        <mat-select formControlName="currency">
+          <mat-option *ngFor="let currency of Currency" [value]="currency">{{currencyMap[currency] }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['currency'].invalid && itemForm.controls['currency'].touched">
+          Le champ devise est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="100"  class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=16.75>
+        <mat-label>Modalité d'achat</mat-label>
+        <mat-select formControlName="purchaseMethod">
+          <mat-option *ngFor="let purchaseMethod of PurchaseMethod" [value]="purchaseMethod">{{PurchaseMethodMap[purchaseMethod] }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['purchaseMethod'].invalid && itemForm.controls['purchaseMethod'].touched">
+          Le champ modalité d'achat est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pt-16 pr-16">
+      <mat-slide-toggle [formControl]="itemForm.controls['amortizable']">Amortissable</mat-slide-toggle>
+    </div>
+    
+<div fxFlex="50"  class="pr-16" *ngIf="itemForm.controls['amortizable'].value === true">
+  <mat-form-field appearance="outline"  [style.width.cm]=8>
+    <mat-label>Type d'amortissement</mat-label>
+    <mat-select formControlName="amortizationType">
+      <mat-option *ngFor="let amortizationType of AmortizationType" [value]="amortizationType">{{AmortizationTypeMap[amortizationType]}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="itemForm.controls['amortizationType'].invalid && itemForm.controls['amortizationType'].touched">
+      Le champ type d'amortissement est requis.
+    </mat-error>
+    </mat-form-field>
+</div>
+<div fxFlex="50"  class="pt-16 pr-16">
+  <mat-slide-toggle [formControl]="itemForm.controls['affectable']">Affectable</mat-slide-toggle>
+</div>
+<div fxFlex="50"  class="pr-16">
+  <mat-form-field appearance="outline"  [style.width.cm]=8>
+    <mat-label>Disponibilité</mat-label>
+    <mat-select formControlName="status">
+      <mat-option *ngFor="let status of StatusDisponibility" [value]="status">{{StatusMap[status]}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="itemForm.controls['status'].invalid && itemForm.controls['status'].touched">
+      Le champ disponibilité est requis.
+    </mat-error>
+    </mat-form-field>
+</div>
+
+<div fxFlex="100" class="pr-16" *ngIf="itemForm.controls['status'].value === 'UNAVAILABLE'">
+  <mat-form-field appearance="outline" [style.width.cm]=16.75>
+    <mat-label>Motif d'indisponibilité</mat-label>
+    <textarea
+      matInput
+      formControlName="motifUnavailability" 
+      placeholder="Motif d'indisponibilité"
+      rows="4"
+    ></textarea>
+    <mat-error *ngIf="itemForm.controls['motifUnavailability'].invalid && itemForm.controls['motifUnavailability'].touched">
+      Le champ motif d'indisponibilité est requis.
+    </mat-error>
+  </mat-form-field>
+</div>
+
+    <div fxFlex="100" class="pr-16">
+      <mat-form-field appearance="outline"  [style.width.cm]=16.75>
+        <mat-label>Commentaire</mat-label>
+        <textarea
+          matInput
+          name="comment"
+          [formControl]="itemForm.controls['comment']"
+          placeholder="Commentaire"
+          rows="4"
+        ></textarea>
+        <mat-error *ngIf="itemForm.controls['comment'].invalid && itemForm.controls['comment'].touched">
+          Le champ commentaire est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    
+
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
+    </div>
+  </div>
+  </form>

@@ -1,0 +1,59 @@
+<mat-card>
+  <form [formGroup]="updateEducation" (ngSubmit)="submit()">
+    <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Diploma</mat-label>
+            <input matInput name="diploma" formControlName="diploma" placeholder="" required>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Institution</mat-label>
+            <input matInput name="institution" formControlName="institution" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Date d'obtention</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="obtainedDate" placeholder=" ">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>date de début</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="startYear" placeholder=" ">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Mention</mat-label>
+            <input matInput name="score" formControlName="score" placeholder="" value="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-checkbox color="primary" formControlName="actual">En cours</mat-checkbox>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div fxLayout="row" fxLayoutAlign="end center" class="mt-16">
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Ignorer</button>
+      <button mat-raised-button color="primary" >Enregistrer</button>
+    </div>
+  </form>
+</mat-card>

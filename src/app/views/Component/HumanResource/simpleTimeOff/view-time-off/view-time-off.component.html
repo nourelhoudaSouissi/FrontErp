@@ -1,0 +1,56 @@
+<mat-card class="p-0">
+  <mat-card-title class="cardColor">
+    <div class="card-title-text">Informations Générales</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="flex-container">
+      <div class="flex-item" style="padding-top: 15px;">
+        <mat-icon color="primary" class="mr-16">event</mat-icon>
+        <strong style="padding-right: 10px;">Date de début : </strong>{{ timeOff.startDate | date: 'dd/MM/yyyy' }}
+      </div>
+      <div class="flex-item">
+        <mat-icon color="primary" class="mr-16">event</mat-icon>
+        <strong style="padding-right: 10px;">Date de fin : </strong>{{ timeOff.endDate | date: 'dd/MM/yyyy' }}
+      </div>
+      <div class="flex-item">
+        <mat-icon color="primary" class="mr-16">date_range</mat-icon>
+        <strong style="padding-right: 10px;">Période de congé : </strong>{{ timeOff.timeOffPeriod }}
+      </div>
+      <div class="flex-item">
+        <mat-icon color="primary" class="mr-16">date_range</mat-icon>
+        <strong style="padding-right: 10px;">Date de saisie : </strong>{{ timeOff.requestInputDate | date: 'dd/MM/yyyy'}}
+      </div>
+      <div class="flex-item">
+        <mat-icon color="primary" class="mr-16">pending</mat-icon>
+        <strong style="padding-right: 10px;">Status : </strong>{{ StatusMap[timeOff.requestStatus] }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<mat-card class="p-0">
+  <mat-card-title class="cardColor">
+    <div class="card-title-text">Justification</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+
+    <div class="flex-container">
+      <div class="flex-item">
+        <mat-icon color="primary" class="mr-16">description</mat-icon>
+        <strong style="padding-right: 10px;">Commentaire: </strong>
+        {{ timeOff.comment }}
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="flex-container">
+      <div class="propic text-center">
+        <img *ngIf="timeOff.justificationDoc" [src]="timeOff.justificationDoc" alt="" style="width: 1000px; height: 500px;">
+        <span *ngIf="!timeOff.justificationDoc">Pas de document</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

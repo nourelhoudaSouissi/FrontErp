@@ -1,0 +1,26 @@
+export interface AdministrativeData{
+    id?: number;
+    contractTitle ?:ContractTitle;
+    currentSalary ?:number;
+    expectedSalary ?:number;
+    availability ?:AvailabilityEnum;
+    availabilityDate ?:String;
+}
+
+export enum ContractTitle {
+    PERMANENT_EMPLOYMENT_CONTRACT="PERMANENT_EMPLOYMENT_CONTRACT",
+    FIXED_TERM_EMPLOYMENT_CONTRACT="FIXED_TERM_EMPLOYMENT_CONTRACT",
+    PROFESSIONALIZATION_CONTRACT="PROFESSIONALIZATION_CONTRACT",
+    TEMPORARY_WORK_CONTRACT="TEMPORARY_WORK_CONTRACT",
+    PART_TIME_WORK_CONTRACT="PART_TIME_WORK_CONTRACT",
+    SEASONAL_WORK_CONTRACT="SEASONAL_WORK_CONTRACT",
+    STUDY_CONTRACT="STUDY_CONTRACT"
+  }
+
+export enum AvailabilityEnum{
+   // FROM="FROM",
+    IMMEDIATELY="IMMEDIATELY",
+    ASAP="ASAP",
+    MONTH_MAXIMUM="MONTH_MAXIMUM",
+    THREE_MONTHS_MAXIMUM="THREE_MONTHS_MAXIMUM"
+}

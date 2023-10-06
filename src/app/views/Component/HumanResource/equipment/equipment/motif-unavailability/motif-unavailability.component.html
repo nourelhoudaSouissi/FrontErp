@@ -1,0 +1,50 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <h2>Saisir la cause de l'indisponibilité</h2>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+
+
+<div fxFlex="100" class="pr-16" style="text-align: center;">
+    <mat-form-field appearance="outline" [style.width.cm]="17">
+      <mat-label>Motif d'indisponibilité</mat-label>
+      <textarea
+        matInput
+        formControlName="motifUnavailability" 
+        placeholder="Motif d'indisponibilité"
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+  </div>
+    
+
+  <div fxFlex="100" class="pr-16" style="text-align: center;">
+    <mat-form-field appearance="outline" [style.width.cm]="17">
+      <mat-label>Date de prochaine disponibilité</mat-label>
+          <input
+          matInput
+          type="date"
+          name="disponibilityDate"
+          [formControl]="itemForm.controls['disponibilityDate']"
+          placeholder="Date de prochaine disponibilité">
+       </mat-form-field>
+  </div>
+  <div fxFlex="100" class="mt-16">
+    <div style="display: flex; justify-content: space-between;">
+      <button mat-raised-button color="primary" style="order: 2;">{{"Enregistrer" | translate }}</button>
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)" style="order: 1;">Annuler</button>
+    </div>
+  </div>
+  
+ </div>
+ </form>
+
+   
+  

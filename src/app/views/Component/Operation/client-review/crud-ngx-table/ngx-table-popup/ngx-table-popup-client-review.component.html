@@ -1,0 +1,104 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+
+<!--{{"ADD" | translate }} {{"MEMBER" | translate }}-->
+ <form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="date"
+        name="dateReview"
+        [formControl]="itemForm.controls['dateReview']"
+        placeholder="DateReview">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="string"
+        name="subject"
+        [formControl]="itemForm.controls['subject']"
+        placeholder="Subject">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="string"
+        name="comment"
+        [formControl]="itemForm.controls['comment']"
+        placeholder="Comment">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="satisfaction"
+        [formControl]="itemForm.controls['satisfaction']"
+        placeholder="Satisfaction">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="string"
+        name="reviewType"
+        [formControl]="'reviewType'"
+        placeholder="ReviewType">
+      </mat-form-field>
+    </div>
+    <!--
+    <mat-card class="p-0">
+      <mat-card-content class="p-0">
+        <quill-editor 
+        theme="snow" 
+        [(ngModel)]="editorData" 
+        (onContentChanged)="onContentChanged()" 
+        onSelectionChanged="onSelectionChanged()"></quill-editor>
+      </mat-card-content>
+    </mat-card>-->
+    
+<!--
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="address"
+        [formControl]="itemForm.controls['address']"
+        placeholder="address">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="balance"
+        [formControl]="itemForm.controls['balance']"
+        placeholder="Balance">
+      </mat-form-field>
+    </div>-->
+
+   <!-- <div fxFlex="50"  class="pt-16 pr-16">
+      <mat-slide-toggle [formControl]="itemForm.controls['isActive']">Active Client </mat-slide-toggle>
+    </div>
+    -->
+
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" >{{"SAVE" | translate }}</button>
+      <span fxFlex></span>
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)">Cancel</button>
+    
+    </div>
+  </div>
+  </form>
+
+

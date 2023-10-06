@@ -1,0 +1,79 @@
+<mat-card class="p-0">
+  <mat-tab-group>
+    <mat-tab label="Account Settings">
+      <mat-card-content class="mt-16">
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+           <input matInput formControlName="username" placeholder="username">
+          </mat-form-field>
+    
+          <mat-form-field class="full-width">
+            <input matInput formControlName="email" placeholder="email">
+            </mat-form-field>
+    
+          <mat-form-field class="full-width">
+          <input matInput formControlName="fullname" placeholder="fullname">
+          </mat-form-field>
+     
+    
+          <mat-form-field class="full-width">
+            <input matInput formControlName="phone" placeholder="Phone">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="adresse" placeholder="Address">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="website" placeholder="Website">
+          </mat-form-field>
+          <button *ngIf="!submitted" mat-raised-button color="primary" type="submit">Save</button>
+          <button *ngIf="submitted" mat-raised-button color="accent" type="button" (click)="onUpdate()">Update</button>
+        </form>
+      </mat-card-content>
+    </mat-tab>
+    
+    <mat-tab label="Profile Picture">
+      <mat-card-content class="card-content">
+
+        <div class="upload-container">
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          <button (click)="uploadImage()">Upload</button>
+        </div>
+      
+        <div class="progress-container" *ngIf="uploadProgress !== null">
+          <div class="progress-bar" [style.width.%]="uploadProgress">
+            <div class="progress-bar-text">{{ uploadProgress }}%</div>
+          </div>
+        </div>
+      
+      </mat-card-content>
+      
+      
+    </mat-tab>
+
+
+   <!-- <mat-tab label="Privacy Settings">
+      <mat-card-content>
+        <div class="mb-16 mt-16">
+          <mat-checkbox> Get weekly news in your email.</mat-checkbox>
+        </div>
+        <div class="mb-16">
+          <mat-checkbox> Get notification when someone follows you.</mat-checkbox>
+        </div>
+        <div class="mb-16">
+          <mat-checkbox> Get email when someone follows you.</mat-checkbox>
+        </div>
+        <div class="mb-16">
+            <p>Choose your admin panel color schemes.</p>
+            <mat-radio-group fxLayout="column" fxLayoutGap="4px">
+              <mat-radio-button value="indigo">Indigo</mat-radio-button>
+              <mat-radio-button value="blue">Blue</mat-radio-button>
+              <mat-radio-button value="pink">Pink</mat-radio-button>
+              <mat-radio-button value="purple">Purple</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <button mat-raised-button color="primary">Save</button>
+      </mat-card-content>
+    </mat-tab>
+    -->
+  </mat-tab-group>
+</mat-card>

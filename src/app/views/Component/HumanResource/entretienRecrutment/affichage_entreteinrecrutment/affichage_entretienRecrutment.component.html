@@ -1,0 +1,130 @@
+<div class="">
+  <mat-card class="p-24">
+    <!-- Employee details -->
+    <div fxLayout="row wrap">
+      <div fxFlex="70">
+
+        <div  class="name-card" >
+            <mat-card-title>{{employee.firstName}} {{employee.lastName}}</mat-card-title>
+        </div>
+        
+        <div>
+          <p class="text-small">
+            <strong class="infor-card-text">
+              <mat-icon color="primary">email</mat-icon>
+              L'email :
+            </strong>
+            {{employee.emailOne}}
+          </p>
+          <p class="text-small">
+            <strong class="infor-card-text">
+              <mat-icon color="primary">phone</mat-icon>
+              Numéro de téléphone :</strong>
+            {{employee.phoneNumberOne}}
+          </p>
+          <p class="text-small">
+            <strong class="infor-card-text">
+              <mat-icon color="primary">star</mat-icon>
+              La note globale est :
+            </strong>
+            {{evaluation.globalAppreciation}}
+          </p>
+        </div>
+        
+        
+          
+        
+      </div>
+
+      
+      <div fxFlex="30">
+        <app-half-circle-dashboard [globalAppreciation]="evaluation.globalAppreciation"></app-half-circle-dashboard>
+
+      </div>
+    </div>
+
+    <!-- Buttons to add interview and administrative data -->
+    <div>
+      <button mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary" (click)="openPopUpEntretien({}, true)">Ajouter Entretien</button>
+      <button mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary" (click)="openPopupAdministrativeData(employee.id, {}, !hasAdministrativeData)">
+        {{ hasAdministrativeData ? 'Voir les informations administratives' : 'Ajouter des informations administratives' }}
+      </button>
+      
+      <button mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary"  (click)="calculateGlobalAppreciation()">Calcule Appréciation globale</button>
+
+    </div>
+  </mat-card>
+
+  <!-- Accordion to display interviews and updated questions -->
+  <div style="padding-left: 15px; padding-right: 15px;">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let interviews of interview">
+        <mat-expansion-panel-header>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <!--<mat-icon color="primary" style="padding-right: 10px;">description</mat-icon>-->
+              <span class="interview-details" style="font-weight: bold;">{{InterviewTypeMap[interviews.interviewType]}}</span>
+              <span class="interview-details" color="primary">{{interviews.interviewDate | date:'dd-MM-yyyy'}}</span>
+              <span class="interview-details">{{interviews.interviewTime}}</span>
+            </div>
+            <div>
+              <button  matTooltip="Voir les détails de l'entretien"  mat-icon-button (click)="openInterviewDetailsPopup(interviews.id)">
+                <mat-icon class="info-iconn">info</mat-icon>
+              </button>
+              <button   matTooltip="Ajouter les questions" mat-icon-button  (click)="openPopupQuestionnaire(interviews.id)"><mat-icon color="primary">add</mat-icon></button>
+            </div>
+           <!--<span class="interview-details">{{interviews.interviewMark}}</span>-->
+          <!-- <button   mat-icon-button  (click)="getInterviewsMark(interviews.id)"><mat-icon color="primary">add</mat-icon></button>-->
+
+           <span class="interview-details">Note: {{ interviews.interviewMark }}</span>
+
+
+          </div>
+        </mat-expansion-panel-header>
+
+        <!-- Display updated questions -->
+        <mat-panel-content>
+          <div class="question-list">
+            <div *ngFor="let updatedQuestion of interviews.updatedQuestions; let i = index" class="question-item">
+              <div class="question-text">{{ updatedQuestion.questionText }}</div>
+              <div class="form-fields">
+                <div class="form-group">
+                  <div class="form-field">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Note</mat-label>
+                      <input matInput type="number" 
+                      [(ngModel)]="updatedQuestion.mark" 
+                      id="mark{{ i }}" min="0" max="5" 
+                      class="input-field" [disabled]="isCheckDisabled">
+                    </mat-form-field>
+                  </div>
+                
+                  <div class="slider-field">
+                    <mat-slider [(ngModel)]="updatedQuestion.mark" min="0" max="5" [disabled]="isCheckDisabled"></mat-slider>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline" [style.width.cm]=11 [style.padding-left.cm]=0.5>
+                    <mat-label>Commentaire</mat-label>
+                    <textarea matInput [(ngModel)]="updatedQuestion.comment" id="comment{{ i }}"  [disabled]="isCheckDisabled"></textarea>
+                  </mat-form-field>
+                  
+                </div>
+                <div class="button-group">
+                  <button mat-icon-button color="primary" [disabled]="isCheckDisabled" (click)="updateUpdatedQuestion(updatedQuestion.id, updatedQuestion)" class="small-button">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button color="primary" [disabled]="!isCheckDisabled" (click)="enableEdit()" class="small-button">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </div>
+                
+                </div>
+            </div>
+          </div>
+        </mat-panel-content>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

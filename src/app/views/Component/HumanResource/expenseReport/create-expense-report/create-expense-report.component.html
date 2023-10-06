@@ -1,0 +1,96 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<form [formGroup]="itemForm" (ngSubmit)="submit()" >
+ 
+
+ 
+      
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        
+        
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Type de Frais</mat-label>
+        <mat-select formControlName="feeType"  >
+          <mat-option *ngFor="let x of feeType " [value]="x">{{feeTypeMap[x]}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['feeType'].invalid && itemForm.controls['feeType'].touched">
+          Le champ type de frais est requis.
+        </mat-error>
+        </mat-form-field>
+        </div>
+            
+
+          <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date de facturation</mat-label>
+            <input type="date" matInput name="billingDate" formControlName="billingDate" placeholder=" billingDate"/>
+            <mat-error *ngIf="itemForm.controls['billingDate'].invalid && itemForm.controls['billingDate'].touched">
+              Le champ date de facturation est requis.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <input matInput 
+              name="amount" 
+              type="number"  
+              formControlName="amount" 
+              placeholder="Montant"  />
+              <mat-error *ngIf="itemForm.controls['amount'].invalid && itemForm.controls['amount'].touched">
+                Le champ montant est requis.
+              </mat-error>
+            </mat-form-field>
+          </div>
+   
+          <div fxFlex="50"  class="pb-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Devise</mat-label>
+            <mat-select formControlName="currency"  >
+              <mat-option *ngFor="let y of currency " [value]="y">{{currencyMap[y]}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="itemForm.controls['currency'].invalid && itemForm.controls['currency'].touched">
+              Le champ devise est requis.
+            </mat-error>
+            </mat-form-field>
+            </div>
+
+
+    
+          <div class="mini-container" >
+            <mat-form-field [style.width.cm]=21.2 class="example-full-width" appearance="outline">
+             <mat-label>Commentaire</mat-label>
+             <textarea matInput placeholder="Veuillez saisir un commentaire." 
+             [formControl]="itemForm.controls['comment']"></textarea>
+           </mat-form-field>
+         </div>
+      
+         <div fxFlex="50"  class="pt-16 pr-16">
+            <mat-slide-toggle [formControl]="itemForm.controls['customerBilling']">Facturation Client</mat-slide-toggle>
+          </div>
+
+          <div  fxFlex="50"  class="pr-16">
+            <mat-label>Joindre une justification: </mat-label>
+            <input type="file" (change)="onFileSelected($event)">
+          </div>
+          
+       
+        
+          <div fxFlex="100" class="mt-16">
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+            <span fxFlex></span>
+            <button mat-raised-button color="primary" >Enregistrer</button>
+            
+           
+          </div>
+      </div>
+
+
+</form>

@@ -1,0 +1,641 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+{{"Ajouter" | translate }} {{"Partenaire" | translate }}
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <mat-card class="p-0">
+  
+      <mat-tab-group mat-stretch-tabs>
+         
+          <mat-tab>
+           
+            <ng-template mat-tab-label>
+              <mat-icon style="color: #0077C2;">info</mat-icon>
+              <span class="tab-label" style="color: #0077C2;">Informations générales</span>
+            </ng-template>
+            <mat-card-content class="mt-16">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width">
+                <input
+                matInput
+                name="name"
+                [formControlName]="'name'"
+                placeholder="Nom">
+              </mat-form-field>
+            </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="staffNumber"
+        type="number"
+        [formControlName]="'staffNumber'"
+        placeholder="Nombre d'effectifs">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="parentCompany"
+        [formControlName]="'parentCompany'"
+        placeholder="Société mère">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="description"
+        type="text"
+        [formControlName]="'description'"
+        placeholder="description">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="ceoName"
+        [formControlName]="'ceoName'"
+        placeholder="Nom du CEO">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+
+      <mat-form-field class="full-width">
+        <mat-label>Provenance</mat-label>
+        <mat-select  [formControlName]="'provenance'">
+          <mat-option *ngFor="let provenances of Provenance" [value]="provenances">{{provenances }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+
+      <mat-form-field class="full-width">
+        <mat-label>Pays</mat-label>
+        <mat-select  [formControlName]="'country'">
+          <mat-option *ngFor="let country of countries" [value]="country.shortName">{{ country.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+  <div fxFlex="50"  class="pr-16">
+
+    <mat-form-field class="full-width">
+      <mat-label>Ville</mat-label>
+      <mat-select  [formControlName]="'city'">
+        <mat-option *ngFor="let state of states" [value]="state">{{ state }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="number"
+        name="postCode"
+        [formControlName]="'postCode'"
+        placeholder="Code Postal">
+      </mat-form-field>
+    </div>
+
+    
+
+      
+      <div  fxFlex="50"  class="pr-16">
+        <input type="file" (change)="onFileSelected($event)">
+      </div>
+    
+  </div>
+  </mat-card-content>
+     
+</mat-tab>
+
+<mat-tab>
+           
+  <ng-template mat-tab-label>
+    <mat-icon style="color: #0077C2;">person_pin</mat-icon>
+    <span class="tab-label" style="color: #0077C2;">Coordonnées</span>
+  </ng-template>
+  <mat-card-content class="mt-16">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+   
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        
+        <input matInput  [formControlName]="'phoneNumber'" placeholder="Téléphone ">
+        
+      </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+            <mat-label>Téléphone 2</mat-label>
+            <input matInput formControlName="phoneNumberTwo" placeholder="+1 1234567890">
+            <mat-error *ngIf="itemForm.get('phoneNumberTwo').invalid && itemForm.get('phoneNumberTwo').touched">
+              <div *ngIf="itemForm.get('phoneNumberTwo').errors.required">Phone number is required</div>
+              <div *ngIf="itemForm.get('phoneNumberTwo').errors.pattern">Invalid phone number format</div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16">
+          <mat-form-field class="full-width">
+            <mat-label>RefPhoneNumber</mat-label>
+            <input matInput formControlName="refPhoneNumber" placeholder="+1 1234567890">
+            <mat-error *ngIf="itemForm.get('refPhoneNumber').invalid && itemForm.get('refPhoneNumber').touched">
+              <div *ngIf="itemForm.get('refPhoneNumber').errors.required">Phone number is required</div>
+              <div *ngIf="itemForm.get('refPhoneNumber').errors.pattern">Invalid phone number format</div>
+            </mat-error>
+            </mat-form-field>
+          </div>
+     </div>
+        </mat-card-content>
+     
+      </mat-tab>
+      <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="color: #0077C2;">work</mat-icon>
+        <span class="tab-label" style="color: #0077C2;">Informations légales</span>
+      </ng-template>
+     
+      <mat-card-content class="mt-16">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+          
+          <div fxFlex="50"  class="pr-16">
+
+            <mat-form-field class="full-width">
+              <mat-label>Secteur d'activité</mat-label>
+              <mat-select  [formControlName]="'workField'">
+                <mat-option *ngFor="let x of WorkField" [value]="x">{{ x }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16">
+
+          <mat-form-field class="full-width">
+            <mat-label>Statut juridique</mat-label>
+            <mat-select  [formControlName]="'legalStatus'">
+              <mat-option *ngFor="let legalStatuss of LegalStatus" [value]="legalStatuss">{{ legalStatuss }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+
+     
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>Statut de la société</mat-label>
+          <mat-select  [formControlName]="'companyStatus'">
+            <mat-option *ngFor="let companyStatuss of CompanyStatus" [value]="companyStatuss">{{ companyStatuss }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="activityStartDate"
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Date de début d'activité"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="partnerShipDate"
+            matInput
+            [matDatepicker]="picker2"
+            placeholder="Date de partenairiat"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+</mat-card-content>
+</mat-tab>
+<mat-tab>
+<!--------------------------------Contacts--------------------------------------->
+
+<ng-template mat-tab-label>
+  <mat-icon style="color: #0077C2;">person</mat-icon>
+  <span class="tab-label" style="color: #0077C2;">Contacts</span>
+</ng-template>
+  <mat-card-content class="mt-16">
+    <!--<form [formGroup]="repeatForm" class="repeat-form">
+      <div formArrayName="repeatArray">
+        <div class="col-12" *ngFor="let repeatForm of repeatFormGroup.controls; let i = index;">
+          <div class="repeater-default" style="display: flex; justify-content: center; align-items: center;">
+            <div [formGroupName]="i" class="d-flex align-items-center">
+              <div class="d-flex">
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field class="full-width">
+                    <input
+                    matInput
+                    name="firstName"
+                    [formControlName]="'firstName'"
+                    placeholder="Nom">
+                  </mat-form-field>
+                
+              </div>
+              <div class="form-group mb-1 col-sm-12 col-md-3">
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field class="full-width">
+                    <input
+                    matInput
+                    name="lastName"
+                    type="text"
+                    [formControlName]="'lastName'"
+                    placeholder="Prénom">
+                  </mat-form-field>
+                </div>
+              </div>
+              </div>
+              
+              <div class="d-flex">
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field class="full-width">
+                    <input
+                    matInput
+                    name="function"
+                    [formControlName]="'function'"
+                    placeholder="Fonction">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group mb-1 col-sm-12 col-md-3">
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field class="full-width">
+                    <input
+                    matInput
+                    name="emailOne"
+                    type="email"
+                    [formControlName]="'emailOne'"
+                    placeholder="Email 1">
+                  </mat-form-field>
+                </div>
+              </div>
+              </div>
+              
+              <div class="d-flex">
+            <div class="form-group mb-1 col-sm-12 col-md-3">
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field class="full-width">
+                    <input
+                    matInput
+                    name="emailTwo"
+                    type="email"
+                    [formControlName]="'emailTwo'"
+                    placeholder="Email 2">
+                  </mat-form-field>
+                </div> 
+                </div>
+                
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <div fxFlex="50"  class="pr-16">
+                    <mat-form-field class="full-width">
+                        <mat-label>Téléphone 1</mat-label>
+                        <input matInput formControlName="phoneNumberOne" placeholder="+1 1234567890">
+                        <mat-error *ngIf="itemForm.get('phoneNumberOne').invalid && itemForm.get('phoneNumberOne').touched">
+                          <div *ngIf="itemForm.get('phoneNumberOne').errors.required">Phone number is required</div>
+                          <div *ngIf="itemForm.get('phoneNumberOne').errors.pattern">Invalid phone number format</div>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <div fxFlex="50"  class="pr-16">
+                    <mat-form-field class="full-width">
+                      <input
+                      matInput
+                      name="comment"
+                      type="text"
+                      [formControlName]="'comment'"
+                      placeholder="Commentaire">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <div fxFlex="50"  class="pr-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Privilège</mat-label>
+                      <mat-select  [formControlName]="'privilege'">
+                        <mat-option *ngFor="let x of Privilege" [value]="x">{{ x }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                   </div>
+                </div>
+              </div>
+                
+              <div class="d-flex">
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <div fxFlex="50"  class="pr-16">
+
+                    <mat-form-field class="full-width">
+                      <mat-label>Civilité</mat-label>
+                      <mat-select  [formControlName]="'civility'">
+                        <mat-option *ngFor="let x of Civility" [value]="x">{{ x }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <div fxFlex="50"  class="pr-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Service</mat-label>
+                      <mat-select  [formControlName]="'service'">
+                        <mat-option *ngFor="let service of Service" [value]="service">{{service }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="form-group col-sm-12 col-md-3 d-flex justify-content-center align-items-center">
+                <button mat-icon-button color="warn" type="button" [disabled]="i === 0"  (click)="handleRemoveRepeatForm(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" type="button" (click)="handleAddRepeatForm()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+         </div>
+        </div>  
+    </form>
+    <!-------------------------------------------------------------------------->
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="firstName"
+        [formControlName]="'firstName'"
+        placeholder="Nom">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="lastName"
+        type="text"
+        [formControlName]="'lastName'"
+        placeholder="Prénom">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="function"
+        [formControlName]="'function'"
+        placeholder="Fonction">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="emailOne"
+        type="email"
+        [formControlName]="'emailOne'"
+        placeholder="Email 1">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          name="emailTwo"
+          type="email"
+          [formControlName]="'emailTwo'"
+          placeholder="Email 2">
+        </mat-form-field>
+      </div>
+
+
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+            <mat-label>Téléphone 1</mat-label>
+            <input matInput formControlName="phoneNumberOne" placeholder="+1 1234567890">
+            <mat-error *ngIf="itemForm.get('phoneNumberOne').invalid && itemForm.get('phoneNumberOne').touched">
+              <div *ngIf="itemForm.get('phoneNumberOne').errors.required">Phone number is required</div>
+              <div *ngIf="itemForm.get('phoneNumberOne').errors.pattern">Invalid phone number format</div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        
+
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width">
+              <input
+              matInput
+              name="comment"
+              type="text"
+              [formControlName]="'comment'"
+              placeholder="Commentaire">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width">
+              <mat-label>Privilège</mat-label>
+              <mat-select  [formControlName]="'privilege'">
+                <mat-option *ngFor="let x of Privilege" [value]="x">{{ x }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+           </div>
+
+        <div fxFlex="50"  class="pr-16">
+
+          <mat-form-field class="full-width">
+            <mat-label>Civilité</mat-label>
+            <mat-select  [formControlName]="'civility'">
+              <mat-option *ngFor="let x of Civility" [value]="x">{{ x }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Service</mat-label>
+          <mat-select  [formControlName]="'service'">
+            <mat-option *ngFor="let service of Service" [value]="service">{{service }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  </div>
+</mat-card-content>
+</mat-tab>
+
+
+<!-----------------------------Assignment------------------------>
+<mat-tab>
+  <ng-template mat-tab-label>
+    <mat-icon style="color: #0077C2;">assignment</mat-icon>
+    <span class="tab-label" style="color: #0077C2;">Besoins</span>
+  </ng-template>
+  
+    <mat-card-content class="mt-16">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          name="title"
+          type="text"
+          [formControlName]="'title'"
+          placeholder="Titre">
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          name="description"
+          type="text"
+          [formControlName]="'description'"
+          placeholder="description">
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          name="criteria"
+          type="text"
+          [formControlName]="'criteria'"
+          placeholder="Critère">
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          name="plannedBudget"
+          type="number"
+          [formControlName]="'plannedBudget'"
+          placeholder="Budget planifié">
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          type="number"
+          name="plannedIncome"
+          [formControlName]="'plannedIncome'"
+          placeholder="Revenu prévu">
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50"  class="pr-16">
+          <mat-form-field class="full-width">
+            <input
+            matInput
+            type="number"
+            name="totalCandidateNumber"
+            [formControlName]="'totalCandidateNumber'"
+            placeholder="Nombre total de candidats">
+          </mat-form-field>
+        </div>
+  
+      
+        
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width">
+                <input
+                matInput
+                name="description"
+                type="text"
+                [formControlName]="'description'"
+                placeholder="description">
+              </mat-form-field>
+            </div>
+  
+            <div fxFlex="50"  class="pr-16">
+  
+              <mat-form-field class="full-width">
+                <mat-label>Secteur d'activité</mat-label>
+                <mat-select  [formControlName]="'workField'">
+                  <mat-option *ngFor="let x of WorkField" [value]="x">{{ x }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+  
+  
+  
+        <div fxFlex="50"  class="pr-16">
+  
+          <mat-form-field class="full-width">
+            <mat-label>Type de Besoin</mat-label>
+            <mat-select  [formControlName]="'requirementType'">
+              <mat-option *ngFor="let requirementType of RequirementType" [value]="requirementType">{{requirementType }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div fxFlex="50"  class="pr-16">
+  
+          <mat-form-field class="full-width">
+            <mat-label>Statut de besoin</mat-label>
+            <mat-select  [formControlName]="'requirementStatus'">
+              <mat-option *ngFor="let requirementStatus of RequirementStatus" [value]="requirementStatus">{{ requirementStatus }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div fxFlex="50"  class="pr-16">
+  
+          <mat-form-field class="full-width">
+            <mat-label>Disponibilité</mat-label>
+            <mat-select  [formControlName]="'availability'">
+              <mat-option *ngFor="let availability of Availability" [value]="availability">{{ availability }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+ 
+        <div fxFlex="100" class="mt-16">
+          <button mat-raised-button color="primary" >{{"Enregsitrer" | translate }}</button>
+          <span fxFlex></span>
+          <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Ignorer</button>
+        </div>
+</div>
+</mat-card-content>
+</mat-tab>
+  
+  </mat-tab-group>
+</mat-card>
+  </form>
+

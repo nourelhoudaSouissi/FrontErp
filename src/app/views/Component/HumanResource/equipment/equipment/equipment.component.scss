@@ -1,0 +1,30 @@
+.mat-button-as-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    border-radius: 16px;
+    background-color: #E0E0E0;
+    padding: 0 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.87);
+    cursor: default;
+    transition: background-color 0.2s;
+  }
+  .mat-button-as-chip:hover {
+    background-color:  #BDBDBD;
+  }
+  .mat-button-as-chip.mat-primary {
+    background-color: #1976D2;
+    color: #FFFFFF;
+  }
+  .mat-button-as-chip.mat-primary:hover {
+    background-color: #1565C0;
+  }
+  .mat-button-as-chip mat-icon {
+    margin-right: 8px;
+  }
+
+
+  

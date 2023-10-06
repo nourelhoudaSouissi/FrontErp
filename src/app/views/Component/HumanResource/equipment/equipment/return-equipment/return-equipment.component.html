@@ -1,0 +1,64 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <h2>Restituer l'équipement</h2>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<form [formGroup]="itemForm" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Date de restitution</mat-label>
+              <input
+              matInput
+              type="date"
+              name="returnDate"
+              formControlName="returnDate" 
+              placeholder="Date de restitution">
+           </mat-form-field>
+      </div>
+     
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Etat de l'équipement</mat-label>
+          <textarea
+            matInput
+            formControlName="returnStatus" 
+            placeholder="Etat de l'équipement"
+            rows="4"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      
+        
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Commentaire</mat-label>
+          <textarea
+            matInput
+            formControlName="returnComment" 
+            placeholder="Etat de l'équipement"
+            rows="4"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+
+
+
+
+
+      <div fxFlex="100" class="mt-16">
+        <div style="display: flex; justify-content: space-between;">
+          <button  type="submit" mat-raised-button color="primary" (click)="submit()" style="order: 1;">{{"Restituer" | translate }}</button>
+          <button mat-button color="gray" type="button" (click)="dialogRef.close(false)" style="order: 2;">Annuler</button>
+        </div>
+      </div>
+      
+ </div>
+ </form>

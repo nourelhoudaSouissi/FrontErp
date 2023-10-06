@@ -1,0 +1,90 @@
+<div class="modal-body px-0">
+  <div style="overflow-y: hidden; height: calc(100vh - 15rem);">
+    <div class="px-2" style="overflow-y: auto; height: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="width: 50%; display: flex; display: inline-block; flex-grow: 2; height: 100%;">
+          <mat-card-title class="mx-auto my-24" style="text-align: center;">Fiche équipement</mat-card-title>
+        </div>
+
+        <!-- Bouton de fermeture -->
+        <button mat-icon-button class="close-button" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+
+      
+  
+          <!-- Contenu de la première carte -->
+          <mat-card style="width: 710px;">
+            <mat-card-title>Informations générales</mat-card-title>
+            <mat-card-content class="pt-0">
+            <div class="flex-container">
+              <div class="flex-item" style="margin-bottom: 20px;">
+                <strong style="padding-right: 10px;">Référence &nbsp;:&nbsp; </strong>{{ equipment.reference}}
+                <strong style="padding-right: 10px;" style="padding-left: 240px;">Numéro de série &nbsp;:&nbsp;</strong>{{equipment.serialNumber}}
+             </div>
+             <div class="flex-item" style="margin-bottom: 20px;">
+              <strong style="padding-right: 10px;">Type d'équipement &nbsp;:&nbsp;</strong>{{equipment.type}}
+              <strong style="padding-right: 10px;" style="padding-left: 180px;">Désignation &nbsp;:&nbsp; </strong>{{equipment.designation}}
+            </div>
+            <div class="flex-item" style="margin-bottom: 20px;">
+              <strong style="padding-right: 10px;">Date d'acquisition &nbsp;:&nbsp;</strong>{{equipment.acquisitionDate | date:'dd-MM-yyyy'}}
+              <strong style="padding-right: 10px;" style="padding-left: 180px;">Date de Fin de garentie &nbsp;:&nbsp; </strong>{{equipment.endDate | date:'dd-MM-yyyy'}}
+           </div>
+           </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Contenu de la deuxième carte -->
+      <div style="display: flex;">
+        <div style="flex: 1;">
+          <mat-card style="height: 100%;">
+            <mat-card-title>Etat de l'équipement</mat-card-title>
+            <mat-card-content class="pt-0">
+              <mat-list>
+                <mat-list-item> <mat-icon color="primary" class="mr-16" >timeline</mat-icon><strong>Amortissable &nbsp;:&nbsp;</strong>{{equipment.amortizable ? 'oui' : 'non' }}</mat-list-item>
+                <mat-list-item *ngIf="equipment.amortizable === true"> <mat-icon color="primary" class="mr-16" >trending_up</mat-icon><strong>Type d'amortissement &nbsp;:&nbsp; </strong>{{AmortizationTypeMap[equipment.amortizationType]}}</mat-list-item>
+                <mat-list-item> <mat-icon color="primary" class="mr-16" >spellcheck</mat-icon><strong>Affectable &nbsp;:&nbsp;</strong>{{equipment.affectable ? 'oui' : 'non' }}</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+            <!-- Contenu de la troisième carte -->
+        <div style="flex: 1;">
+    
+          <mat-card style="height: 100%;">
+            <mat-card-title>Informations financières </mat-card-title>
+            <mat-card-content class="pt-0">
+              <mat-list>
+                <mat-list-item> <mat-icon color="primary" class="mr-16" >business</mat-icon><strong>Fournisseur &nbsp; : &nbsp;</strong>{{equipment.supplier}}</mat-list-item>
+                <mat-list-item> <mat-icon color="primary" class="mr-16" >assignment</mat-icon><strong>Numéro de commande &nbsp; : &nbsp;</strong>{{equipment.supplier}}</mat-list-item>
+                <mat-list-item> <mat-icon color="primary" class="mr-16" >attach_money</mat-icon><strong>Prix d'achat &nbsp;:&nbsp; </strong>{{equipment.purchasePrise}}&nbsp;{{equipment.currency}}</mat-list-item>
+                <mat-list-item> <mat-icon color="primary" class="mr-16" >credit_card</mat-icon><strong>Modalité d'achat &nbsp;:&nbsp; </strong>{{PurchaseMethodMap[equipment.purchaseMethod]}}</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      
+      <br>
+
+    <!-- Contenu de la quatrième carte -->
+      <mat-card style="width: 710px;">
+        <mat-card-title>Etat de disponibilité </mat-card-title>
+        <mat-card-content class="pt-0">
+          <mat-list>
+
+              <mat-list-item> <mat-icon color="primary" class="mr-16" >done</mat-icon><strong>Disponibilité &nbsp;:&nbsp;  </strong>{{StatusDisponibilityMap[equipment.status]}}</mat-list-item>
+              <mat-list-item *ngIf="equipment.status === 'UNAVAILABLE'"> <mat-icon color="primary" class="mr-16" >done</mat-icon><strong>Motif d'indisponibilité &nbsp;:&nbsp;  </strong>{{equipment.motifUnavailability}}</mat-list-item>
+            <mat-list-item> <mat-icon color="primary" class="mr-16" >comment</mat-icon><strong>Commentaire &nbsp;:&nbsp;  </strong>{{equipment.comment}}</mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+
+
+
+  

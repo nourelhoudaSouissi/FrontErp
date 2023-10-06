@@ -1,0 +1,272 @@
+<div class="page-layout overflow-hidden pb-8">
+  <div class="header-bg blue"></div>
+
+  <div class="content">
+    <div class="content-header p-24" fxLayout="row wrap" fxLayoutAlign="start center">
+      <mat-list role="list">
+        <mat-list-item  role="listitem" ><h1 class="text-white m-0">{{ employee.firstName }} {{ employee.lastName }}</h1></mat-list-item>
+        <mat-list-item role="listitem"><h2 class="text-white m-0">{{employeeTitleMap[employee.title]}}</h2> </mat-list-item>
+       </mat-list>
+    </div>
+    <div class="content-body">
+      <div class="content-card mat-bg-default">
+        <div div fxLayout="row" fxLayoutAlign="space-evenly center" >
+          
+          <div fxFlex="100" fxFlex.gt-sm="60" >
+            <div style="margin: 30px;" fxLayout="row" fxLayoutAlign="space-between center" >
+              <div class="card-title-text"><h1>Modification du Candidat</h1></div>
+              <span fxFlex></span>
+                <div> <button  mat-raised-button (click)="openPopUpEmployee(employee)" color="primary"  >Modifier le candidat</button>
+               
+                </div>
+            </div>
+
+            
+                
+          <mat-card class="p-0" >
+              <mat-card-title class="cardColor">
+               
+                <div class="card-title-text">Informations Personelles </div>
+                <mat-divider></mat-divider>
+              </mat-card-title>
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">face</mat-icon> <strong style="padding-right: 10px;">Civilité : </strong>{{ civilityMap[employee.civility]}} </mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">cake</mat-icon><strong style="padding-right: 10px;">Date de naissance : </strong> {{ employee.birthDate }}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">people_outline</mat-icon> <strong style="padding-right: 10px;">Situation Maritale : </strong>{{ maritalSituationMap[employee.maritalSituation] }}</mat-list-item>
+                   <mat-list-item><mat-icon color="primary" class="mr-16">location_on</mat-icon> <strong style="padding-right: 10px;">Adresse : </strong>{{ employee.address}}</mat-list-item>
+                   <mat-list-item><mat-icon color="primary" class="mr-16">add_locationgit </mat-icon> <strong style="padding-right: 10px;" >Code Postal : </strong>{{ employee.postCode }}</mat-list-item>
+                    <mat-list-item><mat-icon color="primary" class="mr-16">location_city</mat-icon> <strong style="padding-right: 10px;">Ville : </strong>{{ employee.city }}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">public</mat-icon> <strong style="padding-right: 10px;">Pays : </strong>{{ employee.country }}</mat-list-item>
+                </mat-list>
+               <!-- <mat-divider></mat-divider>
+                <div  fxLayoutAlign="center center" style="padding-top: 25px;">
+                  <button mat-raised-button color="primary">Envoyer un Email</button>
+                </div>-->
+              </mat-card-content>
+            </mat-card>
+        </div>
+        <div style="padding-top: 50px;"></div>
+        
+           <div fxFlex="100" fxFlex.gt-sm="50"  style="width: 14.5cm;">
+            <mat-card class="p-0" >
+              <mat-card-title class="cardColor">
+                <div class="card-title-text">Informations de Contact </div>
+                <mat-divider></mat-divider>
+              </mat-card-title>
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item><mat-icon  color="primary"class="mr-16">email</mat-icon> <strong style="padding-right: 10px;">Email 1 : </strong> {{ employee.emailOne}}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">email</mat-icon> <strong style="padding-right: 10px;">Email 2 : </strong> {{ employee.emailTwo}}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">phone</mat-icon><strong style="padding-right: 10px;">Numéro de téléphone 1 : </strong>{{ employee.phoneNumberOne }}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">phone</mat-icon><strong style="padding-right: 10px;">Numéro de téléphone 2 : </strong> {{ employee.phoneNumberTwo }}</mat-list-item>
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <div fxLayout="column">
+          <div fxLayout="row">
+          <div fxFlex="100" fxFlex.gt-sm="50"  style="width: 14.5cm;">
+            <mat-card class="p-0">
+              <mat-card-title class="cardColor"> 
+                <div class="card-title-text">Dossier Technique</div>
+                <mat-divider></mat-divider>
+          <!---      <div style="padding-top: 20px;  margin-right: 3cm;"><button  mat-raised-button (click)="openPopUpTechFile(technicalFile)" color="primary"  >Modifier le candidat</button></div>-->
+              </mat-card-title>
+              <mat-card-content>
+                <mat-list>
+                  <mat-list-item><mat-icon  color="primary"class="mr-16">bookmark</mat-icon> <strong style="padding-right: 10px;">Référence  : </strong> {{ technicalFile.reference}}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">description</mat-icon><strong style="padding-right: 10px;">Déscription : </strong>{{ technicalFile.description }}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">check</mat-icon><strong style="padding-right: 10px;">Objectif : </strong> {{ technicalFile.objective }}</mat-list-item>
+                  <mat-list-item><mat-icon color="primary" class="mr-16">directions_car</mat-icon> <strong style="padding-right: 10px;">Permit de conduire : </strong>{{ technicalFile.driverLicense}}</mat-list-item>
+  
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+
+
+<!---------------------------------------------------------------------------------------------------------------------->
+
+<mat-accordion style="margin-top: 0.8cm; " multi="false">
+  <!---------Education-------->
+  <mat-expansion-panel >
+    <mat-expansion-panel-header style="height: 60px;">
+      <mat-panel-title>
+        <mat-icon style="padding-right: 15px;" color="primary">school </mat-icon>
+        <h6 class="text-18 mb-4"> Education de  <strong>{{employee.firstName}} {{employee.lastName}}</strong></h6>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  <!----  <button mat-icon-button color="primary" type="button" (click)="openPopUpEducation({},true)">
+      <mat-icon>add</mat-icon>
+    </button>-->
+    <mat-table [dataSource]="dataSourceEducation" matSort >
+      <ng-container matColumnDef="diploma">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Diplome </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="diploma"> {{row.diploma}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="institution">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Institution </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="institution"> {{row.institution}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button mat-button color="primary" class="mr-16" (click)="openPopUpEducation(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-button color="warn" (click)="deleteEducation(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsEducation"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsEducation;"></mat-row>
+    </mat-table>
+  </mat-expansion-panel>
+  <!---------Experience------->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="height: 60px;">
+      <mat-panel-title>
+        <mat-icon style="padding-right: 15px;" color="primary">work</mat-icon>
+        <h6 class="text-18 mb-4"> Experience de  <strong>{{employee.firstName}} {{employee.lastName}}</strong></h6>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!---- <button mat-icon-button color="primary" type="button" (click)="openPopUpExperience({},true)">
+      <mat-icon>add</mat-icon>
+    </button>-->
+    <mat-table [dataSource]="dataSourceExperience" matSort >
+      <ng-container matColumnDef="experienceCompany">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Société </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="experienceCompany"> {{row.experienceCompany}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="experiencePost">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Intitulé du poste </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="experiencePost"> {{row.experiencePost}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="technology">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Technologie </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="technology"> {{row.technology}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button mat-button color="primary" class="mr-16" (click)="openPopUpExperience(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-button color="warn" (click)="deleteExperience(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsExperience"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsExperience;"></mat-row>
+    </mat-table>
+  </mat-expansion-panel>
+  <!-------Certification------>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="height: 60px;">
+      <mat-panel-title>
+        <mat-icon style="padding-right: 15px;" color="primary">verified_user</mat-icon>
+        <h6 class="text-18 mb-4"> Certifications <strong>{{employee.firstName}} {{employee.lastName}}</strong></h6>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+   <!---<button mat-icon-button color="primary" type="button" (click)="openPopUpCertification({},true)">
+      <mat-icon>add</mat-icon>
+    </button>-->
+    <mat-table [dataSource]="dataSourceCertification" matSort >
+      <ng-container matColumnDef="certificationTitle">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Titre de la certification </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="certificationTitle"> {{row.certificationTitle}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="certificationObtainedDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date d'obtention </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="certificationObtainedDate"> {{row.certificationObtainedDate}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button mat-button color="primary" class="mr-16" (click)="openPopUpCertification(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-button color="warn" (click)="deleteCertification(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsCertification"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsCertification;"></mat-row>
+    </mat-table>
+  </mat-expansion-panel>
+  <!---------Language----------->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="height: 60px;">
+      <mat-panel-title>
+        <mat-icon style="padding-right: 15px;" color="primary">language</mat-icon>
+        <h6 class="text-18 mb-4"> Language <strong>{{employee.firstName}} {{employee.lastName}}</strong></h6>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-table [dataSource]="dataSourceLanguage" matSort >
+      <ng-container matColumnDef="language">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Language </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="language"> {{row.language}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="languageLevel">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Niveau </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="languageLevel"> {{row.languageLevel}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button mat-button color="primary" class="mr-16" (click)="openPopUpLanguage(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-button color="warn" (click)="deleteLanguage(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsLanguage"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsLanguage;"></mat-row>
+    </mat-table>
+  </mat-expansion-panel>
+  <!-----------Skills---------->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="height: 60px;">
+      <mat-panel-title>
+        <mat-icon style="padding-right: 15px;" color="primary">lightbulb_outline</mat-icon>
+        <h6 class="text-18 mb-4"> Skills <strong>{{employee.firstName}} {{employee.lastName}}</strong></h6>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <mat-table [dataSource]="dataSourceSkills" matSort >
+      <ng-container matColumnDef="skillsTitle">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> titre </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="skillsTitle"> {{row.skillsTitle}} </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button mat-button color="primary" class="mr-16" (click)="openPopUpSkills(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-button color="warn" (click)="deleteSkills(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsSkills"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsSkills"></mat-row>
+    </mat-table>
+  </mat-expansion-panel>
+</mat-accordion>
+</div>
+</div>

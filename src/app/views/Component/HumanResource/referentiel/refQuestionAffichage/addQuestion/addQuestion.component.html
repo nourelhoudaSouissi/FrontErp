@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-content>
+      <div class="container">
+        <form [formGroup]="questionForm">
+          <div class="card-body" formArrayName="value"  >
+            <div class="row" >
+              <div class="repeater-default">
+                <div fxLayout="row"  *ngFor="let val of getQuestion; let i = index"  [formGroupName]="i"  >
+                <div>
+  
+                  <div class="align">
+                    <!-----Liste des questions --->
+                  <mat-form-field [style.width.cm]=15 class="example-full-width"  style="margin-right: 20px;" appearance="outline">
+                    <mat-label>Question</mat-label>
+                    <textarea matInput  formControlName="question"></textarea>
+                  </mat-form-field>
+                  </div>
+  
+  
+                   <div class="align">
+                    <button mat-icon-button color="primary" type="button" (click)="saveQuestion(i)">
+                      <mat-icon>check</mat-icon>
+                    </button>
+                  </div>
+                </div>
+               </div>
+             </div>
+           </div>
+         </div>
+          
+        </form>
+        
+   <div fxFlex="100" class="mt-16">
+            <button mat-button (click)="onCancel()">Fermer</button>
+          </div>
+  
+  </div>
+  </mat-card-content>
+  </mat-card>
+  
+  

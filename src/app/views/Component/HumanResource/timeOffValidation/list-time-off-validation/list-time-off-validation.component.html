@@ -1,0 +1,213 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+  <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <div fxLayout="row wrap">
+      <div fxFlex="30">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-black">pending</mat-icon>
+          <h4 class="m-0">{{pendingCount}}</h4>
+          <small class="m-0">Demandes en cours </small>
+        </div>
+      </div>
+      <div fxFlex="30">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-green">spellcheck</mat-icon>
+          <h4 class="m-0">{{validatedCount}}</h4>
+          <small class="m-0">Demandes validées</small>
+        </div>
+      </div>
+      <div fxFlex="30">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-red">highlight_off</mat-icon>
+          <h4 class="m-0">{{rejectedCount}}</h4>
+          <small class="m-0">Demandes rejetées</small>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+   
+              
+    <mat-form-field style="padding-left: 19px;">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+    </mat-form-field>
+      
+  
+       
+     <div style="clear: both;"></div>
+    
+    <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+
+
+            
+      
+          
+          <ng-container matColumnDef="employeeName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span >Employé</span>
+      
+                  <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilter($event, 'employeeName')" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+       
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.employeeFirstName }} {{ element.employeeLastName }}</mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="dates">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span >Début/ Fin</span>
+                  <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilter($event, 'dates')" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+               </mat-header-cell>
+           <!--<mat-cell *matCellDef="let element">{{ formatDate(element.startDate)}} / {{formatDate(element.endDate) }}</mat-cell>--> 
+            <mat-cell *matCellDef="let element">{{ element.startDate  | date:'dd-MM-yyyy'}} / {{element.endDate | date:'dd-MM-yyyy' }}</mat-cell>
+  
+          </ng-container>
+ 
+        
+         
+          
+     
+        
+         <ng-container matColumnDef="leaveType">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                 <span >Congé </span>
+                 <mat-form-field style="width:3cm; text-align: center;" >
+                   <input matInput (input)="applyFilterr($event, 'leaveType')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+        
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+           
+            <!--{{ getLeaveType(row.timeOffType).displayText }}-->  <span [style.font-weight]="row.leaveTypeName ? 'bold' : 'normal'">{{ row.leaveTypeName }}</span>
+             
+           
+           </mat-cell>
+         </ng-container>
+ 
+         <ng-container matColumnDef="leaveTypeName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span >Alert</span>
+                 <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'leaveTypeName')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="leaveTypeName">
+            <span *ngIf="row.leaveTypeAlertNumberDays" [ngStyle]="getValidationAlertMessage(row.startDate, row.leaveTypeAlertNumberDays, row.requestStatus).style">
+              {{ getValidationAlertMessage(row.startDate, row.leaveTypeAlertNumberDays, row.requestStatus).message }}
+            </span>
+          </mat-cell>
+        </ng-container>
+        
+ 
+      
+        <ng-container matColumnDef="requestStatus">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span >Statut </span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'requestStatus')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getStatusColor(row.requestStatus).color" >{{ getStatusColor(row.requestStatus).displayText }}</button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="changeOffereStatus('requestStatus.VALIDATED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Validé</span>
+                </button>
+                <button mat-menu-item (click)="changeOffereStatus('requestStatus.REJECTED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Rejeté</span>
+                </button>
+              </mat-menu>
+          </mat-cell>
+        </ng-container>
+          
+
+      <!--  <ng-container matColumnDef="diffrence">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div class="column-header">
+              <div class="column-name">
+                <span class="centered-text">Différence</span>
+              </div>
+              <div class="filter-input">
+                <mat-form-field>
+                  <input matInput (input)="applyFilterr($event, 'diffrence')" placeholder="Filter">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ getDifferenceInDays(element.startDate) }}</mat-cell>
+        </ng-container>-->
+
+        <ng-container matColumnDef="diffrence">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span >Différence</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'diffrence')" placeholder="Filter">
+                </mat-form-field>
+              </div>
+   
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" [ngStyle]="getDifferenceInDays(element.startDate, element.endDate, element.requestStatus).style">
+            {{ getDifferenceInDays(element.startDate, element.endDate, element.requestStatus).message }}
+          </mat-cell>
+        </ng-container>
+        
+        
+        
+         <ng-container matColumnDef="requestInputDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                 <span class="centered-text">Date Saisie </span>
+                 <mat-form-field style="width:3cm; text-align: center;" >
+                   <input matInput (input)="applyFilterr($event, 'requestInputDate')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="requestInputDate">{{row.requestInputDate | date:'dd-MM-yyyy'}}</mat-cell>
+         </ng-container>
+ 
+     
+    
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+    
+      
+              <button matTooltip="Voir les détails"
+              mat-icon-button
+              routerLink="/timeOffValidation/{{ row.id }}"
+              routerLinkActive="router-link-active"
+              color="basic"
+               >
+            <mat-icon>remove_red_eye </mat-icon>
+          </button>
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+      </mat-card-content>
+    </mat-card>
+ 
+   </div>

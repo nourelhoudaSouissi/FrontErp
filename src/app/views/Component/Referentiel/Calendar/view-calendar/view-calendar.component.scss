@@ -1,0 +1,16 @@
+.info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .info-label {
+    flex-shrink: 0;
+    width: 120px;
+    font-weight: bold;
+  }
+  
+  .info-value {
+    flex-grow: 1;
+  }
+  

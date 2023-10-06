@@ -1,0 +1,94 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+  <mat-form-field style="padding-left: 19px;">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field>
+ 
+     <div style="clear: both;"></div>
+ <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+   <mat-card-content class="p-0">
+     <mat-table [dataSource]="dataSource" matSort>
+       <ng-container matColumnDef="candidate.id">
+         <mat-header-cell *matHeaderCellDef mat-sort-header > ID </mat-header-cell>
+         <mat-cell *matCellDef="let row" data-label="id"> {{row._id}} </mat-cell>
+       </ng-container>
+       <ng-container matColumnDef="name">
+         <mat-header-cell *matHeaderCellDef mat-sort-header > Prénom
+
+          <div>
+            <button [class.transparent-button]="!showInput1" mat-icon-button (click)="toggleInput1()">
+              <mat-icon>search</mat-icon>
+            </button>
+            
+            <mat-form-field *ngIf="showInput1" style="width:1.3cm;">
+              <input matInput (input)="applyFilterr($event, 'name')" placeholder="Filtrer">
+            </mat-form-field>
+          </div>
+           
+           </mat-header-cell>
+         <mat-cell *matCellDef="let row" data-label="name"> {{row.firstName}} </mat-cell>
+       </ng-container>
+
+
+       <ng-container matColumnDef="last name">
+         <mat-header-cell *matHeaderCellDef mat-sort-header>  Nom 
+          <div>
+            <button [class.transparent-button]="!showInput2" mat-icon-button (click)="toggleInput2()">
+              <mat-icon>search</mat-icon>
+            </button>
+            
+            <mat-form-field *ngIf="showInput2" style="width:1.3cm;">
+              <input matInput (input)="applyFilterr($event, 'last name')" placeholder="Filtrer">
+            </mat-form-field>
+          </div>
+         </mat-header-cell>
+         <mat-cell *matCellDef="let row" data-label="age"> {{row.lastName}} </mat-cell>
+       </ng-container>
+
+
+       <ng-container matColumnDef="title" >
+        <mat-header-cell *matHeaderCellDef > Intitulé du poste
+          <div>
+            <button [class.transparent-button]="!showInput3" mat-icon-button (click)="toggleInput3()">
+              <mat-icon>search</mat-icon>
+            </button>
+            
+            <mat-form-field *ngIf="showInput3" style="width:1.3cm;">
+              <input matInput (input)="applyFilterr($event, 'title')" placeholder="Filtrer">
+            </mat-form-field>
+          </div>
+        </mat-header-cell>
+        <mat-cell style="padding-right: 20px;" *matCellDef="let row" data-label="title" [style.color]="row.color"> {{employeeTitleMap[row.title]}} </mat-cell>
+      </ng-container>
+
+       <ng-container matColumnDef="actions">
+         <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+         <mat-cell *matCellDef="let row">
+          
+
+          <button mat-icon-button color="primary" (click)="openpopupp(row)" 
+           matTooltip="Ajouter une évaluation" 
+           matTooltipClass="example-tooltip"
+           class="tooltip-button">
+            <mat-icon>add</mat-icon>
+          </button>
+            <button mat-icon-button style="padding-right: 10px; " color="basic" (click)="viewAllEvaluations(row)"
+           matTooltip="Voir la liste des évaluations" 
+           matTooltipClass="example-tooltip"
+           class="tooltip-button">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+
+           
+          
+          
+
+         </mat-cell>
+       </ng-container>
+       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+     </mat-table>
+     <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+   </mat-card-content>
+ </mat-card>
+ </div>

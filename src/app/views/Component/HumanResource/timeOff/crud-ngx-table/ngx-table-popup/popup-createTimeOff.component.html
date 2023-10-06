@@ -1,0 +1,80 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+  <mat-divider></mat-divider>
+<!--{{"ADD" | translate }} {{"MEMBER" | translate }}-->
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field  class="full-width">
+        <mat-label>Type d'absence</mat-label>
+        <mat-select [disabled]="disableSelect.value">
+          <mat-option value="option1">Option 1</mat-option>
+          <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
+          <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
+      </mat-form-field> 
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="number"
+        step ="0.01"
+        name="nbJours"
+        [formControl]="itemForm.controls['nbJours']"
+        placeholder="Nombre de jours" disabled="true">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="date"
+        name="date"
+        [formControl]="itemForm.controls['datedeb']"
+        placeholder="Date Début">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="date"
+        name="date"
+        [formControl]="itemForm.controls['dateFin']"
+        placeholder="Date Fin">
+      </mat-form-field>
+    </div>
+    
+    <div fxFlex="100"  class="pr-16">
+      <mat-form-field class="full-width">
+      <textarea
+      matInput
+      required
+      placeholder="Commentaire"
+      name="comment"
+      class="inputText"
+      value=""></textarea>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="100"  class="pr-16">
+    <mat-card class="p-0">
+      <mat-card-content class="p-0">
+        <quill-editor 
+        theme="snow"></quill-editor>
+      </mat-card-content>
+    </mat-card>
+    </div>
+    
+
+    <mat-divider></mat-divider>
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" [disabled]="itemForm.invalid">{{"SAVE" | translate }}</button>
+      <span fxFlex></span>
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)">Cancel</button>
+    
+    </div>
+  </div>
+  </form>

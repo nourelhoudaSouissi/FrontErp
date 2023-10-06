@@ -1,0 +1,53 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<!--{{"ADD" | translate }} {{"MEMBER" | translate }}-->
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    
+    
+
+    
+    <div fxFlex="100"  class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]=17>
+        <mat-label>Titre de l'article</mat-label>
+        <input
+        matInput
+        name="articleTitle"
+        [formControl]="itemForm.controls['articleTitle']"
+        placeholder="articleTitle">
+        <mat-error *ngIf="itemForm.controls['articleTitle'].invalid && itemForm.controls['articleTitle'].touched">
+          Le champ titre de l'article est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+   
+    
+    <div fxFlex="100"  class="pr-16">
+      <mat-card class="p-0">
+        <mat-card-content class="p-0">
+          <quill-editor theme="snow" formControlName="description" ></quill-editor>  
+      </mat-card-content>
+      </mat-card>
+      <mat-error *ngIf="itemForm.controls['description'].invalid && itemForm.controls['description'].touched">
+        Le champ description de l'article est requis.
+      </mat-error>
+      </div>
+
+
+
+
+    <div fxFlex="100" class="mt-16">
+
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary">{{"Enregistrer" | translate }}</button>
+    </div>
+  </div>
+  </form>

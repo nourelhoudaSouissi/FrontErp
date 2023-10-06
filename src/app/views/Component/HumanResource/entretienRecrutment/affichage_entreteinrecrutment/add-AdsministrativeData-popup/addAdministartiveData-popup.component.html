@@ -1,0 +1,78 @@
+
+<div class="modal-body px-0">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <mat-card-title style="text-align: left; margin: 24px 0;">Questions administratives</mat-card-title>
+    <button mat-icon-button class="close-button" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  
+  
+        
+        <form [formGroup]="administrativeDataForm"  >
+          <mat-card class="p-0" >
+      
+
+
+                  <mat-card-content class="mt-16">
+                    <div class="container" style="display: flex; flex-direction: column;">
+                      <div class="form-container">
+                      <div class="mini-container" >
+  
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>Type de contrat</mat-label>
+                          <mat-select formControlName="contractTitle">
+                            <mat-option *ngFor="let contract of contractTitle" [value]="contract">{{ContractTitleMap[contract]}}</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="administrativeDataForm.get('contractTitle').hasError('required')">Le champ est requis.</mat-error>
+                        </mat-form-field>
+                        
+                          <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>disponibilité</mat-label>
+                            <mat-select formControlName="availability">
+                              <mat-option *ngFor="let availabilities of availability" [value]="availabilities">{{AvailabilityMap[availabilities]}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="administrativeDataForm.get('availability').hasError('required')">Le champ est requis.</mat-error>
+                          </mat-form-field>
+                      </div>
+
+
+                      <div class="mini-container" >
+                        <div>
+                          <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Date de disponibilité</mat-label>
+                            <input matInput type="date" formControlName="availabilityDate">
+                            <mat-error *ngIf="administrativeDataForm.get('availabilityDate').hasError('required')">Le champ est requis.</mat-error>
+                          </mat-form-field>
+                        </div>
+                        
+                       <div >
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>salaire actuel</mat-label>
+                          <input matInput formControlName="currentSalary" placeholder="Ex.Macron">
+                          <mat-error *ngIf="administrativeDataForm.get('currentSalary').hasError('required')">Le champ est requis.</mat-error>
+                        </mat-form-field>
+                        </div>
+                      </div>
+        
+                       <div class="mini-container" >
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>Salaire souhaité</mat-label>
+                          <input matInput required formControlName="expectedSalary">
+                          <mat-error *ngIf="administrativeDataForm.get('expectedSalary').hasError('required')">Le champ est requis.</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                       
+                  
+                <div fxFlex="100" class="mt-16">
+                  <button mat-raised-button  type="button" color="warn" (click)="dialogRef.close(false)">Annuler</button>
+                  <span fxFlex></span>
+                  <button mat-raised-button color="primary" (click)="submit()" >Enregistrer</button>
+                </div>
+              </div>
+              </mat-card-content>
+            
+        </mat-card>
+        </form>
+  </div>

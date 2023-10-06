@@ -1,0 +1,21 @@
+<div class="modal-body px-0">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <mat-card-title style="text-align: left; margin: 24px 0;">Détails Entretien</mat-card-title>
+    <button mat-icon-button class="close-button" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="interview-details"> 
+    <p> <strong>Type d'Interview : </strong> {{InterviewTypeMap[interview?.interviewType]}}</p>
+    <p> <strong>Mode d'Interview : </strong> {{InterviewModeMap[interview?.interviewMode]}}</p>
+    <p><mat-icon color="primary">event</mat-icon> <strong>Date : </strong> {{ interview?.interviewDate | date:'dd-MM-yyyy'}}</p>
+    <p><mat-icon color="primary">schedule</mat-icon> <strong>Heure : </strong> {{ interview?.interviewTime }}</p>
+    <p><mat-icon color="primary">access_time</mat-icon> <strong>Durée : </strong> {{ interview?.duration }} minutes</p>
+    <p>  <strong>Coefficient : </strong> {{ interview?.coefficient }}</p>
+    <p><mat-icon color="primary">place</mat-icon> <strong>Place : </strong> {{ interview?.interviewPlace }}</p>
+    <p><mat-icon color="primary">person</mat-icon> <strong>Nom d'Interviewer : </strong> {{ interview?.interviewerName }}</p>
+    <p><mat-icon color="primary">email</mat-icon> <strong>Email d'Interviewer :</strong> {{ interview?.interviewerEmail }}</p>
+    <p><mat-icon color="primary">comment</mat-icon> <strong>Commentaire : </strong> {{ interview?.comment }}</p>
+  </div>
+  
+

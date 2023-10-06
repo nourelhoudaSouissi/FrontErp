@@ -1,0 +1,25 @@
+.center-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .circle-container {
+    display: flex;
+  }
+  .icon-container {
+    margin: auto;
+  }
+
+  .circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }

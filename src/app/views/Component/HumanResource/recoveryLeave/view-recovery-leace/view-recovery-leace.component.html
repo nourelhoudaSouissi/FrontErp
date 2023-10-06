@@ -1,0 +1,30 @@
+
+<div fxFlex.gt-md="600px">
+  <mat-card-header>
+    <mat-toolbar matDialogTitle class="mat-primary m-0">
+      <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <h2 style="margin-inline-end: 250px;">Les détails de la demande</h2>
+        <button mat-icon-button class="close-button" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+  </mat-card-header>
+  <mat-card-content class="pt-0">
+    <mat-list>
+      <mat-list-item><strong>Récupération : </strong> {{recoveryLeave.name || '--'}}</mat-list-item>
+      <mat-list-item><strong>recoveryDay : </strong>{{recoveryDaysMap[recoveryLeave.recoveryDay || '--']}}</mat-list-item>
+      <mat-list-item><strong>Date : </strong>{{recoveryLeave.date || '--' | date:'dd-MM-yyyy'}}</mat-list-item>
+      <mat-list-item><strong>weekendDate : </strong>{{recoveryLeave.weekendDate || '--'}}</mat-list-item>
+      <mat-list-item><strong>numberHours : </strong>{{recoveryLeave.numberHours || '--'| date:'dd-MM-yyyy'}}</mat-list-item>
+      <mat-list-item><strong>recoveryHours : </strong>{{recoveryHoursMap[recoveryLeave.recoveryHours || '--']}}</mat-list-item>
+      <mat-list-item><strong>Modalité de récupération: </strong>{{recoveryTypeMap[recoveryLeave.recoveryType || '--']}}</mat-list-item>
+      <mat-list-item><strong>Date de début: </strong>{{recoveryLeave.toTakeStartDate || '--'| date:'dd-MM-yyyy'}}</mat-list-item>
+      <mat-list-item><strong>Date de fin: </strong>{{recoveryLeave.toTakeEndDate || '--'| date:'dd-MM-yyyy'}}</mat-list-item>
+      <mat-list-item><strong>Nombre de jours: </strong>{{recoveryLeave.periodToTake || '--'}}</mat-list-item>
+      <mat-list-item><strong>Date de saisie: </strong>{{recoveryLeave.inputDate || '--'}}</mat-list-item>
+      <mat-list-item><strong>Date de saisie: </strong>{{requestStatusMap[recoveryLeave.requestStatus || '--']}}</mat-list-item>
+      <mat-list-item><strong>Commentaire: </strong>{{recoveryLeave.comment || '--'}}</mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</div>

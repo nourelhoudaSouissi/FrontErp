@@ -1,0 +1,100 @@
+<div class="m-4" [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+  <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)=" openPopUp({},true)"> Nouveau 
+    partenaire </button>
+
+  <mat-form-field  >
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+    </mat-form-field> 
+ 
+</div>
+<mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+  <mat-card-content class="p-0">
+    <mat-table [dataSource]="dataSource" matSort  >
+
+
+
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="name"> {{row.name}} </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="ceoName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom CEO </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="ceoName"> {{row.ceoName}} </mat-cell>
+      </ng-container>
+
+      
+     <ng-container matColumnDef="parentCompany">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom du groupe </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="parentCompany"> {{row.parentCompany}} </mat-cell>
+      </ng-container>
+
+
+
+      
+
+
+      <ng-container matColumnDef="Country">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Pays </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="Country"> {{row.country}} </mat-cell>
+      </ng-container>
+
+      
+
+
+      <ng-container matColumnDef="CompanyStatus">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Statut du partenaire </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="CompanyStatus"> {{row.companyStatus}} </mat-cell>
+      </ng-container>
+
+
+
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          
+         
+
+              <button
+                mat-icon-button
+                routerLink="/partner/{{ row.id }}"
+                routerLinkActive="router-link-active"
+                color="basic"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+
+
+
+          <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button mat-sm-button color="basic" [matMenuTriggerFor]="menu" >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="['/partner/requirements', row.id]"
+            routerLinkActive="router-link-active"
+            color="primary">Besoins</button>
+            <button mat-menu-item [routerLink]="['/partner/contacts', row.id]"
+            routerLinkActive="router-link-active">Contacts</button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,96 @@
+<!------
+<div class="modal-body px-0">
+   
+     <mat-card class="p-0" >
+       <mat-tab-group mat-stretch-tabs>
+          <mat-tab>
+                <ng-template mat-tab-label>
+                <span> Choisissez un questionnaire</span>
+                  <mat-icon style="color: #0077C2;padding-left: 16px;">assignment</mat-icon>
+                </ng-template>
+                 <mat-card-content class="mt-16">
+                    <form [formGroup]="questionnaireForm">
+                       <div class="container" style="display: flex; flex-direction: column;">
+                        <div class="form-container">
+                        <div class="mini-container" > -->
+    
+                           <!-- <mat-form-field class="full-width" appearance="outline">
+                              <mat-label>Catégorie du questionnaire </mat-label>
+                              <mat-select formControlName="interviewMode">
+                                <mat-option *ngFor="let questionTypeName of questionTypeNames" [value]="questionTypeName">{{questionTypeName}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>-->
+
+                         <!----  <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>Niveau du questionnaire</mat-label>
+                                <mat-select formControlName="interviewMode">
+                                  <mat-option></mat-option>
+                                </mat-select>
+                              </mat-form-field>
+
+                              <mat-form-field class="full-width" appearance="outline">
+                                <mat-label> Nom du questionnaire</mat-label>
+                                <mat-select formControlName="interviewMode">
+                                  <mat-option></mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            </div>
+                            </div> 
+                    </form>
+                    
+
+                 </mat-card-content>
+            </mat-tab>
+         </mat-tab-group>
+    </mat-card>--> 
+    <h2 mat-dialog-title>Filter Questions</h2>
+    <mat-dialog-content>
+      <div style="display: flex; flex-direction: column;">
+        <mat-form-field style="width: 10cm;">
+          <mat-label>Selectionnez une catégorie du questionnaire</mat-label>
+          <mat-select [(value)]="selectedQuestionType" (selectionChange)="filterQuestionCategories()">
+            <mat-option *ngFor="let questionType of questionTypes" [value]="questionType">
+              {{ questionType.questionTypeName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <mat-form-field style="width: 10cm;">
+          <mat-label>Selectionnez un domaine du questionnaire</mat-label>
+          <mat-select [(value)]="selectedQuestionCategory">
+            <mat-option *ngFor="let questionCategory of filteredQuestionCategories" [value]="questionCategory">
+              {{ questionCategory.name }} {{questionCategory.level}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    
+    
+
+<mat-dialog-actions align="end">
+  <button mat-button color="warn" (click)="closeDialog()">Fermer</button>
+  <button mat-raised-button color="primary" (click)="applyFilters()">Filtrer</button>
+</mat-dialog-actions>
+
+<mat-dialog-content *ngIf="questions.length > 0">
+  <h3>Questions:</h3>
+  <ul>
+    <li *ngFor="let question of questions">
+      {{ question.question }}
+    </li>
+  </ul>
+  <button mat-raised-button color="primary" (click)="onAddQuestionnaire(selectedQuestionType.id)">ajouter</button>
+</mat-dialog-content>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,170 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+
+
+
+<mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+  <div fxLayout="row wrap" >
+    <div fxFlex="16">
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-green">spellcheck</mat-icon>
+        <h4 class="m-0">{{affectableCount}}</h4>
+        <small class="m-0"> Affectables </small>
+      </div>
+    </div>
+    <div fxFlex="16">
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-blue">timeline</mat-icon>
+        <h4 class="m-0">{{amortizableCount}}</h4>
+        <small class="m-0">Amortissables</small>
+      </div>
+    </div>
+    <div fxFlex="16">
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-purple">timer</mat-icon>
+        <h4 class="m-0">{{ availableCount }}</h4>
+        <small class="m-0"> Disponibles</small>
+      </div>
+    </div>
+    <div fxFlex="16">
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-red">block</mat-icon>
+        <h4 class="m-0">{{ nonAffectableCount }}</h4>
+        <small class="m-0"> Non affectables</small>
+      </div>
+    </div>
+    <div fxFlex="16">
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-black">clear</mat-icon>
+        <h4 class="m-0">{{ nonAmortizableCount }}</h4>
+        <small class="m-0"> Non amortissables</small>
+      </div>
+    </div>
+    <div fxFlex="16">
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-grey">timer_off</mat-icon>
+        <h4 class="m-0">{{ unavailableCount }}</h4>
+        <small class="m-0"> Indisponibles</small>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<div style="display: flex; align-items: center;" >
+  <mat-form-field style="padding-left: 19px;">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field>
+  <button mat-raised-button routerLink="/equipment/equipment-crud" style="margin-left: auto;" color="primary">
+  Liste des affectations <mat-icon>chevron_right</mat-icon>
+  </button>
+  <button mat-raised-button class="mb-8" style="margin-left:5px; margin-top: 5px;" color="primary" (click)="openPopUp({}, true)">
+    {{ "Nouvel " | translate }} Equipement
+  </button>
+</div>
+
+   
+   <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+     <mat-card-content class="p-0">
+       <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="reference">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Référence</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'reference')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell> 
+          <mat-cell *matCellDef="let row" data-label="reference"> {{row.reference}} </mat-cell>
+        </ng-container>
+
+
+       
+         <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Type</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'type')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="type"> {{row.type}} </mat-cell>
+         </ng-container>
+
+ 
+
+         <ng-container matColumnDef="acquisitionDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Date d'acquisition</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'acquisitionDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="acquisitionDate"> {{row.acquisitionDate| date:'dd-MM-yyyy'}} </mat-cell>
+         </ng-container>
+   
+    
+
+
+         <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+              <span>Statut</span>
+              <mat-form-field style="width:3cm; text-align: center;">
+                <input matInput (input)="applyFilterr($event, 'status')" placeholder="Filtrer">
+              </mat-form-field>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="status">
+            <span [ngClass]="getStatusClass(row.status)">{{ getStatusTranslation(row.status) }}</span>
+          </mat-cell>
+        </ng-container>
+        
+         <ng-container matColumnDef="affectable">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+              <span>Affectable</span>
+              <mat-form-field style="width: 3cm; text-align: center;">
+                <input matInput (input)="applyFilterr($event, 'affectable')" placeholder="Filtrer">
+              </mat-form-field>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="affectable" class="center-cell">
+            <div class="circle-container">
+              <div class="circle" [ngClass]="{ 'green': row.affectable, 'red': !row.affectable }">
+                <div class="icon-container">
+                  <mat-icon class="icon" *ngIf="row.affectable">check</mat-icon>
+                  <mat-icon class="icon" *ngIf="!row.affectable">clear</mat-icon>
+                </div>
+              </div>
+            </div>
+          </mat-cell>
+        </ng-container>
+        
+     
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+             <button matTooltip="Modifier l'équipement" mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+               <mat-icon>edit</mat-icon>
+             </button>
+             <button matTooltip="Voir les détails d'un équipement" mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpView(row)">
+               <mat-icon>remove_red_eye </mat-icon>
+             </button>
+             <button matTooltip="Supprimer l'équipement" mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+               <mat-icon>delete</mat-icon>
+             </button>
+           </mat-cell>
+         </ng-container>
+   
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+       <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+   
+     </mat-card-content>
+   </mat-card>
+   </div>

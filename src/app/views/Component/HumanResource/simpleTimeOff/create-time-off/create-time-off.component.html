@@ -1,0 +1,101 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<form [formGroup]="itemForm" (ngSubmit)="submit()" >
+ 
+  <div class="info-card primary" *ngIf="itemForm.get('timeOffPeriod').errors?.exceedsDuration">
+    <div class="description" >            
+      La période de congé dépasse la durée du type de congé sélectionné.
+    </div>
+ </div>
+ 
+      
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+          
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Période à prendre</mat-label>
+        <mat-select formControlName="timeOffPeriodType"  (selectionChange)="onTimeOffPeriodTypeChange($event)">
+          <mat-option *ngFor="let y of timeOffPeriodType " [value]="y">{{timeOffPeriodTypeMap[y]}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+        </div>
+        
+        
+      <div fxFlex="50"  class="pb-16" *ngIf="showTimeOfTimeType">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Quand?</mat-label>
+        <mat-select formControlName="timeOfTimeType"  >
+          <mat-option *ngFor="let x of timeOfTimeType " [value]="x">{{timeOfTimeTypeMap[x]}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+        </div>
+            
+
+
+
+          <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date  début</mat-label>
+            <input type="date" matInput name="startDate" formControlName="startDate" placeholder="Date début" />
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date fin</mat-label>
+            <input type="date" matInput name="endDate" formControlName="endDate"  placeholder="Date fin"/>
+          </mat-form-field>
+          <mat-error *ngIf="itemForm.get('endDate').errors?.min">
+            La date de fin doit être supérieure à la date de début.
+          </mat-error>
+        </div>
+
+
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <input matInput name="timeOffPeriod" type="number" step="0.5" formControlName="timeOffPeriod" placeholder="Nombre de jours" [readonly]="true" />
+          </mat-form-field>
+        </div>
+   
+    
+          <div  fxFlex="50"  class="pr-16" >
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>Type de congé</mat-label>
+                <mat-select  [formControlName]="'leaveTypeNum'">
+                  <mat-option *ngFor="let leaveType of listLeaveTypes" [value]="leaveType.id">{{leaveType.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+    
+    
+          <div class="mini-container" >
+            <mat-form-field [style.width.cm]=21.2 class="example-full-width" appearance="outline">
+             <mat-label>Commentaire</mat-label>
+             <textarea matInput placeholder="Veuillez saisir un commentaire." 
+             [formControl]="itemForm.controls['comment']"></textarea>
+           </mat-form-field>
+         </div>
+      
+
+           <div  fxFlex="50"  class="pr-16">
+              <mat-label>Joindre une justification: </mat-label>
+              <input type="file" (change)="onFileSelected($event)">
+            </div>
+            
+        
+          <div fxFlex="100" class="mt-16">
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+            <span fxFlex></span>
+            <button mat-raised-button color="primary" >Enregistrer</button>
+          </div>
+      </div>
+
+
+</form>

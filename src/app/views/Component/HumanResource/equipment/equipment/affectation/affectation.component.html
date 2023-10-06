@@ -1,0 +1,58 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <h2>Affecter l'équipement</h2>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+
+
+     <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]=17>
+          <mat-label>Sélectionner un employé</mat-label>
+          <mat-select formControlName="employeeNum">
+            <mat-option *ngFor="let employee of employees" [value]="employee.id">
+              {{ employee.lastName }} {{ employee.firstName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>   
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline"  [style.width.cm]=8>
+          <mat-label>Date Début</mat-label>
+          <input
+          matInput
+          type="date"
+          name="startDate"
+          [formControl]="itemForm.controls['startDate']"
+          placeholder="Date Début">
+        </mat-form-field>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline"  [style.width.cm]=8>
+          <mat-label>Date Fin</mat-label>
+          <input
+          matInput
+          type="date"
+          name="endDate"
+          [formControl]="itemForm.controls['endDate']"
+          placeholder="Date Fin">
+        </mat-form-field>
+      </div>
+
+    
+
+
+      <div fxFlex="100" class="mt-16">
+        <div style="display: flex; justify-content: space-between;">
+          <button mat-raised-button color="primary" style="order: 2;">{{"Affecter" | translate }}</button>
+          <button mat-button color="gray" type="button" (click)="dialogRef.close(false)" style="order: 1;">Annuler</button>
+        </div>
+      </div>
+      
+ </div>
+ </form>

@@ -1,0 +1,40 @@
+
+
+
+<div fxFlex.gt-md="600px">
+    <mat-card class="default">
+      <mat-card-header>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="header-content">
+          <mat-card-title >Détails du weekend</mat-card-title>
+          <div fxLayout="row" fxLayoutAlign="end center" >
+            <button style="margin-inline-start:280px;" mat-icon-button class="close-button" (click)="closeDialog()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="pt-0">
+        <mat-list>
+          <mat-list>
+            <mat-list-item>
+              <strong>Référence  &nbsp;:&nbsp;</strong> {{ weekend.reference }}
+            </mat-list-item>
+            <mat-list-item>
+              <strong>Titre  &nbsp;:&nbsp;</strong> {{ weekend.name }}
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon color="primary" class="mr-16">event</mat-icon>
+              <strong>Jour de début  &nbsp;:&nbsp;</strong> {{ dayOfWeekMap[weekend.startDay] }}
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon color="primary" class="mr-16">event</mat-icon>
+              <strong>Jour de fin  &nbsp;:&nbsp;</strong> {{ dayOfWeekMap[weekend.endDay] }}
+            </mat-list-item>
+          </mat-list>
+          
+       
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+ 

@@ -1,0 +1,78 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+
+ <div class="info-card primary" >
+    <div class="description">Here you can put your alerts!!!</div>
+ </div>
+
+ 
+ <div fxLayout="row wrap" fxLayoutAlign="end center">
+ 
+    <button mat-fab color="primary" aria-label="Example icon-button with a calendar icon">
+      <mat-icon>perm_contact_calendar</mat-icon>
+    </button>
+
+</div>
+<mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+  <mat-card-content class="p-0">
+    <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="typeAbs">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > Type </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="typeAbs"> {{row.typeAbs}} </mat-cell>
+      </ng-container>
+      
+
+      <ng-container matColumnDef="nbJours">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > Nombre Jours </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="nbJours"> {{row.nbJours}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dateDeb">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date Début </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="dateDeb"> {{row.dateDeb}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="dateFin">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date Fin </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="dateFin"> {{row.dateFin}} </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="approuve">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date Fin </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="approuve"> {{row.approuve}} </mat-cell>
+      </ng-container>
+
+      
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let row" [style.color]="row.color" data-label="color">
+          <mat-chip mat-sm-chip [color]="'primary'" [selected]="row.isActive">{{row.isActive ? 'active' : 'inactive'}}
+          </mat-chip>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button mat-sm-button  class="mr-16" (click)="openPopUp(row)">
+            <mat-icon>remove_red_eye </mat-icon>
+          </button>
+          <button mat-icon-button mat-sm-button  class="mr-16" style="color: green;">
+            <mat-icon> check </mat-icon>
+          </button>
+          <button mat-icon-button mat-sm-button  class="mr-16" style="color: red;">
+            <mat-icon> clear </mat-icon>
+          </button>
+         
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+  </mat-card-content>
+</mat-card>
+</div>

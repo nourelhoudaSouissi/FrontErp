@@ -1,0 +1,15 @@
+<div class="dashboard">
+  <svg class="progress-circle" width="200" height="200" viewBox="0 0 200 200">
+    <circle class="circle" cx="100" cy="100" r="90"></circle>
+    <circle
+      class="progress"
+      cx="100"
+      cy="100"
+      r="90"
+      [style.stroke-dasharray]="'565.48'"
+      [style.stroke-dashoffset]="getProgressOffset()"
+      [style.stroke]="getStrokeColor()"
+    ></circle>
+  </svg>
+  <div class="value">{{ globalAppreciation }}<!--%--></div>
+</div>

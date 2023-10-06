@@ -1,0 +1,142 @@
+<div class="event-dialog-wrapper">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-16 m-0">
+
+    <form name="eventForm" [formGroup]="eventForm" class="event-form" fxFlex>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+        
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100" formGroupName="color">
+          <mat-form-field fxFlex>
+            <input 
+            matInput 
+            class="color-picker-input" 
+            name="primaryColor" 
+            formControlName="primary" 
+            placeholder="Primary color" 
+            [(colorPicker)]="event.color.primary"
+            [style.background]="event.color.primary" 
+            (colorPickerChange)="eventForm.patchValue({color:{primary: event.color.primary}})"
+            />
+          </mat-form-field>
+          <span fxFlex="16px"></span>
+
+          <mat-form-field fxFlex>
+            <input 
+            matInput 
+            class="color-picker-input" 
+            name="secondaryColor" 
+            formControlName="secondary" 
+            placeholder="Secondary color"
+            [(colorPicker)]="event.color.secondary" 
+            [style.background]="event.color.secondary" 
+            (colorPickerChange)="eventForm.patchValue({color:{secondary: event.color.secondary}})"
+            />
+          </mat-form-field>
+        </div>
+
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100">
+
+        <mat-form-field fxFlex>
+          <mat-label>Type d'absence</mat-label>
+          <mat-select >
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <span fxFlex="16px"></span>
+        <mat-form-field fxFlex>
+          <input 
+            matInput 
+            type="number"
+            name="NbJours" 
+            formControlName="NbJours" 
+            placeholder="Nombre de jours"
+            required>
+        </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100">
+          <mat-form-field fxFlex>
+            <input 
+            matInput 
+            [matDatepicker]="startDateDP" 
+            placeholder="Date Début" 
+            name="startDate" 
+            formControlName="start">
+            <mat-datepicker-toggle matSuffix [for]="startDateDP"></mat-datepicker-toggle>
+            <mat-datepicker #startDateDP></mat-datepicker>
+          </mat-form-field>
+          <span fxFlex="16px"></span>
+
+          <mat-form-field fxFlex>
+            <input 
+            matInput 
+            [matDatepicker]="endDateDP" 
+            placeholder="Date Fin" 
+            name="endDate" 
+            formControlName="end">
+            <mat-datepicker-toggle matSuffix [for]="endDateDP"></mat-datepicker-toggle>
+            <mat-datepicker #endDateDP></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxFlex="100">
+          <mat-form-field formGroupName="meta" class="">
+            <textarea 
+            matInput 
+            formControlName="notes" 
+            placeholder="Commentaire" 
+            max-rows="4">
+            </textarea>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxFlex="100">
+          
+            <mat-card class="p-0">
+              <mat-card-content class="p-0">
+                <quill-editor 
+                theme="snow"></quill-editor>
+              </mat-card-content>
+            </mat-card>
+            </div>
+        
+
+      </div>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+    <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="dialogRef.close({action: 'save', event: eventForm.value})" 
+    [disabled]="eventForm.invalid"
+    aria-label="SAVE">
+    Enregistrer 
+    </button>
+
+    <button 
+    *ngIf="action ==='edit'" 
+    mat-icon-button color="warn" 
+    (click)="dialogRef.close({action: 'delete'})" 
+    aria-label="Delete"
+    matTooltip="Delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+    
+  </div>
+</div>

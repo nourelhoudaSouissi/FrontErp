@@ -1,0 +1,17 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 style="margin: 0;">Calendrier d'indisponibilité</h2>
+  <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div>
+  <mwl-calendar-month-view
+    [viewDate]="dateCourante"
+    [events]="evenements"
+    *ngIf="view === CalendarView.Month"
+    [view]="view"
+    [viewTitle]="viewTitle"
+    [refresh]="refresh"
+  ></mwl-calendar-month-view>
+</div>

@@ -1,0 +1,91 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+   
+  
+   
+   
+  </div>
+  <mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+    <mat-card-content class="p-0">
+      <mat-table [dataSource]="dataSource" matSort  >
+  
+  
+    
+  
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> title </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="title"> {{row.title}} </mat-cell>
+        </ng-container>
+  
+  
+  
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> description </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="description"> {{row.description}} </mat-cell>
+        </ng-container>
+  
+        
+       <ng-container matColumnDef="Criteria">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Criteria </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="Criteria"> {{row.criteria}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="plannedBudget">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> plannedBudget </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="plannedBudget"> {{row.plannedBudget}} </mat-cell>
+          </ng-container>
+
+        
+
+          
+
+
+          
+          <ng-container matColumnDef="totalCandidateNumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> totalCandidateNumber </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="totalCandidateNumber"> {{row.totalCandidateNumber}} </mat-cell>
+          </ng-container>
+
+                    
+          <ng-container matColumnDef="requirementType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> requirementType </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="requirementType"> {{row.requirementType}} </mat-cell>
+          </ng-container>
+
+                    
+          <ng-container matColumnDef="requirementStatus">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> requirementStatus </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="requirementStatus"> {{row.requirementStatus}} </mat-cell>
+          </ng-container>
+
+                    
+          <ng-container matColumnDef="workField">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> workField </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="workField"> {{row.workField}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="availability">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> availability </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="availability"> {{row.availability}} </mat-cell>
+          </ng-container>
+  
+  
+        
+  
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            
+           
+  
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      
+  
+    </mat-card-content>
+  </mat-card>

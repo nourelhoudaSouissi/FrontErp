@@ -1,0 +1,176 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+
+  <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <div fxLayout="row wrap">
+      <div fxFlex="50" fxFlex.gt-sm="20" fxFlex.sm="50" >
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-black">pending</mat-icon>
+          <h4 class="m-0">{{pendingCount}}</h4>
+          <small class="m-0">Avenants en cours </small>
+        </div>
+      </div>
+      <div fxFlex="50" fxFlex.gt-sm="20" fxFlex.sm="50" >
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-blue">send</mat-icon>
+          <h4 class="m-0">{{sentCount}}</h4>
+          <small class="m-0">Avenants Envoyés</small>
+        </div>
+      </div>
+      <div fxFlex="50" fxFlex.gt-sm="20" fxFlex.sm="50" >
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-red">highlight_off</mat-icon>
+          <h4 class="m-0">{{refusedCount}}</h4>
+          <small class="m-0">Avenants Refusés</small>
+        </div>
+      </div>
+      <div fxFlex="50" fxFlex.gt-sm="20" fxFlex.sm="50" >
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-green">done_all</mat-icon>
+          <h4 class="m-0">{{ acceptedCount }}</h4>
+          <small class="m-0">Avenants Acceptés</small>
+        </div>
+      </div>
+      <div fxFlex="50" fxFlex.gt-sm="20" fxFlex.sm="50" >
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-purple">schedule</mat-icon>
+          <h4 class="m-0">{{ expiredCount }}</h4>
+          <small class="m-0">Avenants Expirés</small>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+    
+  <mat-form-field style="padding-left: 19px;">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field>
+    
+       <button mat-raised-button class="mb-8" style="float: right;" color="primary"  (click)="openPopUp({}, true)">{{"Ajouter " | translate }}
+        Avenant</button>
+       <div style="clear: both;"></div>
+   
+   
+   <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+     <mat-card-content class="p-0">
+       <mat-table [dataSource]="dataSource" matSort>
+         
+        <ng-container matColumnDef="reference">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Référence</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'reference')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="reference"> {{row.reference}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Titre</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'contractDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="title"> {{row.title}} </mat-cell>
+         </ng-container>
+   
+         <ng-container matColumnDef="endorsementDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Date avenant</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'contractDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="endorsementDate"> {{row.endorsementDate | date:'dd-MM-yyyy'}} </mat-cell>
+         </ng-container>
+     
+         <ng-container matColumnDef="validityDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Date validité</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'validityDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="validityDate"> {{row.validityDate | date:'dd-MM-yyyy'}} </mat-cell>
+         </ng-container>
+     
+         <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Statut</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'status')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>  </mat-header-cell>
+          <mat-cell *matCellDef="let row" >
+            <mat-chip mat-sm-chip
+             [color]="getStatusColor(row.status).color">
+              {{ getStatusColor(row.status).displayText }}
+            </mat-chip>
+          </mat-cell>
+        </ng-container>
+   
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+             <button matTooltip="Modifier l'avenant"  mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)" *ngIf="row.status === 'STILL_PENDING' || row.status === 'SENT' || row.status==='EXPIRED'"  >
+               <mat-icon>edit</mat-icon>
+             </button>
+             <button matTooltip="Voir les détails de l'avenant" 
+             mat-icon-button
+             routerLink="/ficheEndorsement/{{ row.id }}"
+             routerLinkActive="router-link-active"
+             color="basic" 
+           >
+               <mat-icon>remove_red_eye </mat-icon>
+             </button>
+             <button matTooltip="Supprimer l'avenant"  mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+               <mat-icon>delete</mat-icon>
+             </button>
+    
+             <button matTooltip="Changer le statut de l'avenant" 
+             class="card-control"
+             mat-icon-button
+             *ngIf="row.status === 'STILL_PENDING'|| row.status === 'SENT' || row.status==='EXPIRED'"
+             [matMenuTriggerFor]="menu2">
+                  <mat-icon class="text-muted text-18">more_vert</mat-icon>
+                </button>
+                <mat-menu #menu2="matMenu">
+                  <button mat-menu-item (click)="changeStatus('Status.SENT', row.id)">
+                    <mat-icon>send</mat-icon>
+                    <span>Envoyé</span>
+                  </button>
+                  <button mat-menu-item (click)="changeStatus('Status.ACCEPTED', row.id)">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Accepté</span>
+                  </button>
+                  <button mat-menu-item (click)="changeStatus('Status.REFUSED', row.id)">
+                    <mat-icon>cancel</mat-icon>
+                    <span>Refusé</span>
+                  </button>
+                  <button mat-menu-item (click)="changeStatus('Status.EXPIRED', row.id)">
+                    <mat-icon>schedule</mat-icon>
+                    <span>Expiré</span>
+                  </button>
+                </mat-menu>
+           
+              <mat-divider></mat-divider>
+         
+           </mat-cell>
+         </ng-container>
+   
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+       <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+   
+     </mat-card-content>
+   </mat-card>
+   </div>

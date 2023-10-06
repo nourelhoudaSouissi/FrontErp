@@ -1,0 +1,98 @@
+<div class="popup-container">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">Ajouter une indisponibilité</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+      <div fxFlex="100" class="pr-16" style="text-align: center; margin-top:20px;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Date de début</mat-label>
+          <input
+            matInput
+            type="date"
+            name="startDate"
+            [formControl]="itemForm.controls['startDate']"
+            placeholder="Date de début"
+            (change)="calculatePeriod()"
+          />
+          <mat-error *ngIf="itemForm.controls['startDate'].invalid && itemForm.controls['startDate'].touched">
+            Le champ date de début est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Date de fin</mat-label>
+          <input
+            matInput
+            type="date"
+            name="endDate"
+            [formControl]="itemForm.controls['endDate']"
+            placeholder="Date de fin"
+            (change)="calculatePeriod()"
+          />
+          <mat-error *ngIf="itemForm.controls['endDate'].invalid && itemForm.controls['endDate'].touched">
+            Le champ date de fin est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Période</mat-label>
+          <input
+            matInput
+            name="period"
+            [formControl]="itemForm.controls['period']"
+            placeholder="Période"
+            [disabled]="true"
+          >
+          <mat-error *ngIf="itemForm.controls['period'].invalid && itemForm.controls['period'].touched">
+            Le champ période est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+             <mat-label>Motif d'indisponibilité</mat-label>
+             <mat-select formControlName="motifUnavailability" aria-placeholder="Motif d'indisponibilité">
+              <mat-option *ngFor="let motifUnavailability of MotifUnavailability" [value]="motifUnavailability">{{MotifUnavailabilityMap[motifUnavailability] }}</mat-option>
+             </mat-select>
+             <mat-error *ngIf="itemForm.controls['motifUnavailability'].invalid && itemForm.controls['motifUnavailability'].touched">
+              Le champ cause est requis.
+            </mat-error>
+         </mat-form-field>
+     </div>
+
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Commentaire</mat-label>
+          <textarea
+            matInput
+            formControlName="comment" 
+            placeholder="Commentaire"
+            rows="4"
+          ></textarea>
+     
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="mt-16">
+        <div style="display: flex; justify-content: space-between;">
+          <button mat-button color="gray" type="button" (click)="dialogRef.close(false)" style="order: 1;">Annuler</button>
+          <button mat-raised-button color="primary" style="order: 2;">{{"Ajouter" | translate }}</button>
+         
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

@@ -1,0 +1,156 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+  <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <div fxLayout="row wrap" >
+      <div fxFlex="30">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-black">timer</mat-icon>
+          <h4 class="m-0">{{ pendingCount }}</h4>
+          <small class="m-0"> Demandes en cours</small>
+        </div>
+      </div>
+
+      <div fxFlex="30">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-green">check</mat-icon>
+          <h4 class="m-0">{{ validatedCount }}</h4>
+          <small class="m-0"> Demandes validées</small>
+        </div>
+      </div>
+
+      <div fxFlex="30">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-red">block</mat-icon>
+          <h4 class="m-0">{{ rejectedCount }}</h4>
+          <small class="m-0"> Demandes rejetées</small>
+        </div>
+      </div>
+      
+     
+    </div>
+  </mat-card>
+       
+     <div style="clear: both;"></div>
+    
+    <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+
+    
+
+
+         
+          <ng-container matColumnDef="employeeName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span>Employé</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilter($event, 'employeeName')" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.employeeFirstName }} {{ element.employeeLastName }}</mat-cell>
+          </ng-container>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                      <span>Récupération</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                        <input matInput (input)="applyFilterr($event, 'name')" placeholder="Filtrer">
+                      </mat-form-field>
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="name">{{row.name}}</mat-cell>
+              </ng-container>
+     
+
+          <ng-container matColumnDef="recoveryType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span>forme récupérer </span>
+                  <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilterr($event, 'recoveryType')" placeholder="Filtrer">
+                  </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ getRecoveryType(row.recoveryType).displayText }}       
+            </mat-cell>
+          </ng-container>
+
+         
+
+          <ng-container matColumnDef="recoveryDay">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span>Récupéré</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilterr($event, 'recoveryDay')" placeholder="Filtrer">
+                  </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ getRecoveryDay(row.recoveryDay).displayText }}       
+            </mat-cell>
+          </ng-container>
+ 
+         <ng-container matColumnDef="inputDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                 <span class="centered-text">Date Saisie </span>
+                 <mat-form-field style="width:3cm; text-align: center;" >
+                   <input matInput (input)="applyFilterr($event, 'inputDate')" placeholder="Filtrer">
+                 </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="inputDate">{{row.inputDate | date:'dd-MM-yyyy'}}</mat-cell>
+         </ng-container>
+ 
+
+        
+
+         <ng-container matColumnDef="requestStatus" >
+          <mat-header-cell *matHeaderCellDef style="padding-left: 2cm;"> requestStatus
+           
+              </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getStatusColor(row.requestStatus).color" >{{ getStatusColor(row.requestStatus).displayText }}</button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="changeOffereStatus('requestStatus.VALIDATED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Validé</span>
+                </button>
+                <button mat-menu-item (click)="changeOffereStatus('requestStatus.REJECTED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Rejeté</span>
+                </button>
+              </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+
+
+     
+    
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              
+              <button   matTooltip="Voir les détails"  mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpView(row)">
+                <mat-icon>remove_red_eye </mat-icon>
+              </button>
+              
+              
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+      </mat-card-content>
+    </mat-card>
+ 
+   </div>

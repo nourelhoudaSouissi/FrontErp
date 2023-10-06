@@ -1,0 +1,200 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+{{"ADD" | translate }} {{"Partner" | translate }}
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="name"
+        [formControlName]="'name'"
+        placeholder="Name">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="staffNumber"
+        type="number"
+        [formControlName]="'staffNumber'"
+        placeholder="staffNumber">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="parentCompany"
+        [formControlName]="'parentCompany'"
+        placeholder="parentCompany">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="ceoName"
+        [formControlName]="'ceoName'"
+        placeholder="ceoName">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="number"
+        name="postCode"
+        [formControlName]="'postCode'"
+        placeholder="postCode">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        
+        <input matInput ng2TelInput [formControlName]="'phoneNumber'">
+        
+      </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+            <mat-label>phoneNumberTwo</mat-label>
+            <input matInput formControlName="phoneNumberTwo" placeholder="+1 1234567890">
+            <mat-error *ngIf="itemForm.get('phoneNumberTwo').invalid && itemForm.get('phoneNumberTwo').touched">
+              <div *ngIf="itemForm.get('phoneNumberTwo').errors.required">Phone number is required</div>
+              <div *ngIf="itemForm.get('phoneNumberTwo').errors.pattern">Invalid phone number format</div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16">
+          <mat-form-field class="full-width">
+              <mat-label>RefPhoneNumber</mat-label>
+              <input matInput formControlName="refPhoneNumber" placeholder="+1 1234567890">
+              <mat-error *ngIf="itemForm.get('refPhoneNumber').invalid && itemForm.get('refPhoneNumber').touched">
+                <div *ngIf="itemForm.get('refPhoneNumber').errors.required">Phone number is required</div>
+                <div *ngIf="itemForm.get('refPhoneNumber').errors.pattern">Invalid phone number format</div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width">
+              <input
+              matInput
+              name="description"
+              type="text"
+              [formControlName]="'description'"
+              placeholder="description">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50"  class="pr-16">
+
+            <mat-form-field class="full-width">
+              <mat-label>WorkField</mat-label>
+              <mat-select  [formControlName]="'workField'">
+                <mat-option *ngFor="let x of WorkField" [value]="x">{{ x }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16">
+
+          <mat-form-field class="full-width">
+            <mat-label>LegalStatus</mat-label>
+            <mat-select  [formControlName]="'legalStatus'">
+              <mat-option *ngFor="let legalStatuss of LegalStatus" [value]="legalStatuss">{{ legalStatuss }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>Provenance</mat-label>
+          <mat-select  [formControlName]="'provenance'">
+            <mat-option *ngFor="let provenances of Provenance" [value]="provenances">{{provenances }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>CompanyStatus</mat-label>
+          <mat-select  [formControlName]="'companyStatus'">
+            <mat-option *ngFor="let companyStatuss of CompanyStatus" [value]="companyStatuss">{{ companyStatuss }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>Country</mat-label>
+          <mat-select  [formControlName]="'country'">
+            <mat-option *ngFor="let country of countries" [value]="country.shortName">{{ country.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+
+      <mat-form-field class="full-width">
+        <mat-label>state</mat-label>
+        <mat-select  [formControlName]="'city'">
+          <mat-option *ngFor="let state of states" [value]="state">{{ state }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      </div>
+
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="activityStartDate"
+            matInput
+            [matDatepicker]="picker"
+            placeholder="activity Start Date"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="partnerShipDate"
+            matInput
+            [matDatepicker]="picker2"
+            placeholder="partner Ship Date"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+        
+
+
+  
+
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" >{{"SAVE" | translate }}</button>
+      <span fxFlex></span>
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Cancel</button>
+    </div>
+  </div>
+  </form>
+

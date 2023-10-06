@@ -1,0 +1,58 @@
+<mat-card class="p-0">
+    <mat-card-title class="cardColor">
+      <div class="card-title-text">Informations Générales</div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="flex-container">
+        <div class="flex-item" >
+          <mat-icon color="primary" class="mr-16" >event</mat-icon>
+          <strong style="padding-right: 10px;">Date de Facturation  : </strong>{{ expenseReport.billingDate | date: 'dd/MM/yyyy' }}
+        
+          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">event</mat-icon>
+          <strong style="padding-right: 10px;">Type de Frais : </strong>{{ feeTypeMap[expenseReport.feeType] }}
+          
+      
+          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">event</mat-icon>
+          <strong style="padding-right: 10px;">Date de création : </strong>{{ expenseReport.createDate | date: 'dd/MM/yyyy'}}
+        </div>
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16" >date_range</mat-icon>
+          <strong style="padding-right: 10px;">Facturation Client: </strong>
+          {{expenseReport.customerBilling ? 'oui' : 'non' }}
+       
+          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">date_range</mat-icon>
+          <strong style="padding-right: 10px;">Montant : </strong>{{ expenseReport.amount }} {{currencyMap[expenseReport.currency]}}
+        
+        
+            <mat-icon color="primary" class="mr-16" style="padding-left: 150px;" >pending</mat-icon>
+            <strong style="padding-right: 10px;">Status : </strong>{{requestStatusMap[expenseReport.requestStatus]}}
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card class="p-0">
+    <mat-card-title class="cardColor">
+      <div class="card-title-text">Justification</div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+
+      <div class="flex-container">
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">description</mat-icon>
+          <strong style="padding-right: 10px;">Commentaire: </strong>
+          {{ expenseReport.comment }}
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="flex-container">
+        <div class="propic text-center">
+          <img *ngIf="expenseReport.justificationDoc" [src]="expenseReport.justificationDoc" alt="" style="width: 1000px; height: 500px;">
+          <span *ngIf="!expenseReport.justificationDoc">Pas de document</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>

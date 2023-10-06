@@ -1,0 +1,37 @@
+<h2 mat-dialog-title></h2>
+<mat-toolbar matDialogTitle>
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<div mat-dialog-content>Ajoutez le niveau d'expérience et la date d'application</div>
+<div  style="margin:20px">
+    <form [formGroup]="offerCandidatForm" >
+            <div class="pb-16">
+                <mat-form-field appearance="outline" [style.width.cm]=10>
+                    <mat-label>Niveau d'experience</mat-label>
+                    <mat-select formControlName="experienceLevel" >
+                      <mat-option *ngFor="let ExperienceLevels of ExperienceLevel " [value]="ExperienceLevels">{{ ExperienceLevelMap[ExperienceLevels]}}</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+            </div>
+
+
+            <div class="pb-16">
+              <mat-form-field appearance="outline" [style.width.cm]="10">
+                <mat-label>Date d'application</mat-label>
+                <input matInput type="date"  formControlName="applicationDate" placeholder="">
+              </mat-form-field>
+            </div>
+
+            <mat-dialog-actions align="end">
+              <button mat-button mat-dialog-close>Fermer</button>
+              <button mat-button  color="primary"   [mat-dialog-close]="true" cdkFocusInitial (click)="submit()">Ajouter</button>
+            </mat-dialog-actions>
+
+      </form>
+    </div>
+   

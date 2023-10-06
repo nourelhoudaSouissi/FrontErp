@@ -1,0 +1,106 @@
+<mat-card>
+  <ng-template matStepLabel></ng-template>
+  <mat-card-title class="title">
+      <div >
+          <div class="card-title-text"><strong> Veuillez ajouter un domaine et des questions selon la catégorie choisie </strong> </div>
+      </div>
+      </mat-card-title>
+      <div class="border-bottom"></div>
+
+      <mat-card-content>
+        <div class="container">
+
+        <mat-accordion>
+        
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header  class="exp">
+              <mat-panel-title style="color:#0081FF;">
+                Domaine du questionnaire
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+                <div class="mini-container1">
+                   <form [formGroup]="form" >
+
+                    <mat-form-field class="i-need-padding" appearance="outline">
+                      <mat-label>Destiné à qui</mat-label>
+                      <mat-select formControlName="questionnaireType">
+                        <mat-option *ngFor="let qt of questionnaireType" [value]="qt">{{QuestionnaireTypeMap[qt]}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="i-need-padding" appearance="outline">
+                      <mat-label>Domaine du questionnaire</mat-label>
+                      <input matInput formControlName="name" type="text">
+                    </mat-form-field>
+
+                  <mat-form-field class="i-need-padding" appearance="outline">
+                    <mat-label>Niveau d'expérience</mat-label>
+                    <mat-select formControlName="level">
+                      <mat-option *ngFor="let levels of level" [value]="levels">{{ExperienceLevelMap[levels]}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <button mat-icon-button color="primary" type="button" (click)="saveCatQuestion()">
+                    <mat-icon>done_all</mat-icon>
+                  </button>
+                </form>
+                </div>
+              
+            
+          </mat-expansion-panel>
+
+          <mat-expansion-panel >
+            <mat-expansion-panel-header  class="exp">
+              <mat-panel-title style="color:#0081FF;">
+                Questions
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="mini-container1">
+             <div *ngIf="showSecondForm">
+      <form [formGroup]="questionForm">
+        <div class="card-body" formArrayName="value"  >
+          <div class="row" >
+            <div class="repeater-default">
+              <div fxLayout="row"  *ngFor="let val of getQuestion; let i = index"  [formGroupName]="i"  >
+              <div>
+
+                <div class="align">
+                  <!-----Liste des questions --->
+                <mat-form-field [style.width.cm]=15 class="example-full-width"  style="margin-right: 20px;" appearance="outline">
+                  <mat-label>Question</mat-label>
+                  <textarea matInput  formControlName="question"></textarea>
+                </mat-form-field>
+                </div>
+
+
+                 <div class="align">
+                  <button mat-icon-button color="primary" type="button" (click)="saveQuestion(i)">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                </div>
+              </div>
+             </div>
+           </div>
+         </div>
+       </div>
+        
+      </form>
+    </div>
+              </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+   
+     
+
+       
+    
+
+    
+</div>
+</mat-card-content>
+</mat-card>
+

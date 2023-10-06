@@ -1,0 +1,154 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<!--{{"ADD" | translate }} {{"MEMBER" | translate }}-->
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+   
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]=10 >
+        <mat-label>Récupération</mat-label>
+        <input
+        matInput
+        name="name"
+        [formControl]="itemForm.controls['name']"
+        placeholder="Récupération">
+      </mat-form-field>
+    </div>
+  
+    <div fxFlex="50"  class="pb-16">
+      <mat-form-field appearance="outline" [style.width.cm]=10>
+      <mat-label>Récupérer</mat-label>
+      <mat-select formControlName="recoveryDay"  (selectionChange)="onRecoveryDaysChange($event)">
+        <mat-option *ngFor="let x of recoveryDay " [value]="x">{{recoveryDaysMap[x]}}</mat-option>
+      </mat-select>
+      </mat-form-field>
+      </div>
+      
+
+      <div  fxFlex="50"  class="pr-16" *ngIf="showHolidays">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Jours Fériers</mat-label>
+            <mat-select  [formControlName]="'holidayNum'">
+              <mat-option *ngFor="let holiday of listHolidays" [value]="holiday.id">{{holiday.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+
+      
+      <div fxFlex="50"  class="pb-16" *ngIf="showRecoveryHours">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Heures</mat-label>
+        <mat-select formControlName="recoveryHours" >
+          <mat-option *ngFor="let z of recoveryHours " [value]="z">{{recoveryHoursMap[z]}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+        </div>
+      <div fxFlex="50"  class="pr-16" *ngIf="showDate" >
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Date</mat-label>
+          <input
+          matInput
+          type="date"
+          name="date"
+          [formControl]="itemForm.controls['date']">
+        </mat-form-field>
+      </div>
+      
+    
+      <div fxFlex="50"  class="pr-16" *ngIf="showNumberHours">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Nombre d'heures</mat-label>
+          <input
+          matInput
+          name="numberHours"
+          [formControl]="itemForm.controls['numberHours']"
+          placeholder="Saisir le nombre d'heures">
+        </mat-form-field>
+      </div>
+      
+      <div fxFlex="50"  class="pr-16" *ngIf="showWeekendDates">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Date weekend</mat-label>
+          <input
+          matInput
+          type="date"
+          name="weekendDate"
+          [formControl]="itemForm.controls['weekendDate']"
+          placeholder="^^">
+        </mat-form-field>
+      </div>
+     
+
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Forme récupérer</mat-label>
+        <mat-select formControlName="recoveryType"  (selectionChange)="onRecoveryTypesChange($event)">
+          <mat-option *ngFor="let y of recoveryType " [value]="y">{{recoveryTypeMap[y]}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+        </div>
+            
+        
+       
+        <div fxFlex="50"  class="pr-16" *ngIf="showToTakeStartDate">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date début</mat-label>
+            <input
+            matInput
+            type="date"
+            name="toTakeStartDate"
+            [formControl]="itemForm.controls['toTakeStartDate']"
+            placeholder="^^">
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16" *ngIf="showToTakeEndDate">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date fin</mat-label>
+            <input
+            matInput
+            type="date"
+            name="toTakeEndDate"
+            [formControl]="itemForm.controls['toTakeEndDate']"
+            placeholder="^^">
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16" *ngIf="showPeriodeToTake">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Période à récupérer</mat-label>
+            <input
+            matInput
+            name="periodToTake"
+            [formControl]="itemForm.controls['periodToTake']"
+            placeholder="Période"
+            [readonly]="true">
+          </mat-form-field>
+        </div>
+
+
+        <div class="mini-container" >
+          <mat-form-field [style.width.cm]=22 class="example-full-width" appearance="outline">
+           <mat-label>Commentaire</mat-label>
+           <textarea matInput placeholder="Veuillez saisir un commentaire." 
+           [formControl]="itemForm.controls['comment']"></textarea>
+         </mat-form-field>
+       </div>
+    
+      
+    <div fxFlex="100" class="mt-16">
+     
+     
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
+    </div>
+  </div>
+  </form>
+  

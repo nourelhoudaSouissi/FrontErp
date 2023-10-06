@@ -1,0 +1,90 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+    <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">Nouveau
+     besoin</button>
+  
+    <mat-form-field  >
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+      </mat-form-field> 
+   
+  </div>
+  <mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+    <mat-card-content class="p-0">
+      <mat-table [dataSource]="dataSource" matSort  >
+  
+  
+    
+  
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Titre </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="title"> {{row.title}} </mat-cell>
+        </ng-container>
+  
+  
+  
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="description"> {{row.description}} </mat-cell>
+        </ng-container>
+  
+        
+       <ng-container matColumnDef="Criteria">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Critère </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="Criteria"> {{row.criteria}} </mat-cell>
+        </ng-container>
+
+                    
+          <ng-container matColumnDef="requirementType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Type besoin </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="requirementType"> {{row.requirementType}} </mat-cell>
+          </ng-container>
+
+                    
+          <ng-container matColumnDef="requirementStatus">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Etat besoin </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="requirementStatus"> {{row.requirementStatus}} </mat-cell>
+          </ng-container>
+
+                    
+          <ng-container matColumnDef="workField">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Secteur d'activité </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="workField"> {{row.workField}} </mat-cell>
+          </ng-container>
+  
+  
+        
+  
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            
+           
+  
+                <button
+                  mat-icon-button
+                  routerLink="/gg/{{ row.id }}"
+                  routerLinkActive="router-link-active"
+                  color="primary"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+  
+  
+  
+            <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  
+    </mat-card-content>
+  </mat-card>

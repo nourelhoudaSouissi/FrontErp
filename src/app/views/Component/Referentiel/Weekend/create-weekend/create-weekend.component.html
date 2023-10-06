@@ -1,0 +1,79 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<form [formGroup]="itemForm" (ngSubmit)="submit()" >
+ 
+  
+ 
+      
+ <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <input matInput 
+          name="reference" 
+          type="text"  
+          formControlName="reference" 
+          placeholder="Référence"  />
+          <mat-error *ngIf="itemForm.controls['reference'].invalid && itemForm.controls['reference'].touched">
+            Le champ référence est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <input matInput 
+          name="name" 
+          type="text"  
+          formControlName="name" 
+          placeholder="Titre"  />
+          <mat-error *ngIf="itemForm.controls['name'].invalid && itemForm.controls['name'].touched">
+            Le champ titre est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+     
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Jour de début</mat-label>
+        <mat-select formControlName="startDay" >
+          <mat-option *ngFor="let x of dayOfWeek " [value]="x">{{dayOfWeekMap[x]}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['startDay'].invalid && itemForm.controls['startDay'].touched">
+          Le champ jour de début  est requis.
+        </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Jour de fin</mat-label>
+        <mat-select formControlName="endDay" >
+          <mat-option *ngFor="let y of dayOfWeek " [value]="y">{{dayOfWeekMap[y]}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['endDay'].invalid && itemForm.controls['endDay'].touched">
+          Le champ jour de fin est requis.
+        </mat-error>
+        </mat-form-field>
+      </div>
+   
+        
+   
+        
+          <div fxFlex="100" class="mt-16">
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+            <span fxFlex></span>
+            <button mat-raised-button color="primary" >Enregistrer</button>
+          </div>
+      </div>
+
+
+</form>

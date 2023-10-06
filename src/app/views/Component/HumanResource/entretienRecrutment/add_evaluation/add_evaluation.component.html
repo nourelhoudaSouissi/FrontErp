@@ -1,0 +1,121 @@
+
+<div class="">
+    <mat-card class="p-24">
+        <div fxLayout="row wrap">
+          <div fxFlex="70">
+            <mat-card-title>information candidat</mat-card-title>
+            <p class="text-small">
+              nom,prenom,offre/ / / /la note globale est:<span class="font-weight-bold">52</span>
+            </p>
+          </div>
+          <div fxFlex="30">
+            
+            
+          </div>
+        </div>
+      </mat-card>
+      </div>
+
+    
+            -----------entretien RH---------------
+            <mat-accordion>
+              <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                   Entretien
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="mat-heading-label" [style.padding-left.px]=24>
+                  Slider configuration
+                </div>
+                <mat-divider></mat-divider>
+
+                  <div style="padding-right: 3cm; width: 5cm;">
+                      <div class="d-flex">
+                          <section class="example-section">
+                              <mat-form-field class="example-margin">
+                              <input #input matInput type="number" placeholder="Value" [(ngModel)]="value">
+                              </mat-form-field>
+                          </section>
+                      </div>
+
+                  <div>
+                    <h2 class="example-h2">Result</h2>
+                    <mat-slider #slider
+                        class="example-margin"
+                        [(ngModel)]="value">
+                    </mat-slider>  
+                  </div>
+                  <section class="example-section">
+                      <button  mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary"  (click)="save()">
+                          Enregistrer</button>
+                          <button  mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary"  (click)="modify()">
+                              Modifier</button>
+                  </section>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>        
+                
+
+            <mat-accordion>
+              <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Entretien Technique
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="input-slider-container">
+                  <mat-form-field appearance="outline" style="margin-right: 0.5cm;">
+                    <mat-label>Score</mat-label>
+                    <input #input matInput type="number" min="0" max="10" placeholder="Value" [(ngModel)]="value">
+                  </mat-form-field>
+            
+                  <mat-slider #slider [(ngModel)]="value" min="0" max="10" step="1" color="primary" [style.width.px]="500"></mat-slider>
+            
+                  <button mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary" (click)="save()">
+                    Enregistrer</button>
+                  <button mat-raised-button class="mb-8 mr-16" style="float: right;" color="primary" (click)="modify()">
+                    Modifier</button>
+                </div>
+              </mat-expansion-panel>
+              <!----------------------------->
+
+            </mat-accordion>
+            
+            
+
+
+
+
+
+
+                
+             
+                
+       
+     
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

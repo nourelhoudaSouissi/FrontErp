@@ -1,0 +1,146 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+ 
+
+  
+    
+   <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">Nouveau
+    Congé</button>
+      
+         
+    <mat-form-field style="padding-left: 19px;">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+    </mat-form-field>
+      
+       <div style="clear: both;"></div>
+   
+   <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+     <mat-card-content class="p-0">
+       <mat-table [dataSource]="dataSource" matSort>
+      
+       
+
+        <ng-container matColumnDef="employeeName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span >Nom Employé</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilter($event, 'employeeName')" placeholder="Filter">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.employeeFirstName }} {{ element.employeeLastName }}</mat-cell>
+        </ng-container>
+        
+
+
+        <ng-container matColumnDef="leaveTypeName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span >Congé</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'leaveTypeName')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="leaveTypeName">{{row.leaveTypeName}}</mat-cell>
+        </ng-container>
+        
+         
+    
+       
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span >Type de congé</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'leaveType')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+          
+              {{ getLeaveType(row.timeOffType).displayText }}
+            
+          
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dates">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span >Début/ Fin</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilter($event, 'dates')" placeholder="Filter">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+         <!--<mat-cell *matCellDef="let element">{{ formatDate(element.startDate)}} / {{formatDate(element.endDate) }}</mat-cell>--> 
+          <mat-cell *matCellDef="let element">{{ element.startDate | date: 'dd/MM/yyyy'}} / {{element.endDate | date: 'dd/MM/yyyy' }}</mat-cell>
+
+        </ng-container>
+
+       
+
+        <ng-container matColumnDef="requestStatus">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span >Statut </span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'requestStatus')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-chip mat-sm-chip [color]="getStatusColor(row.requestStatus).color">
+              {{ getStatusColor(row.requestStatus).displayText }}
+            </mat-chip>
+          
+          </mat-cell>
+        </ng-container>
+         
+        <ng-container matColumnDef="requestInputDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span >Date Saisie</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'requestInputDate')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="requestInputDate">{{row.requestInputDate | date: 'dd/MM/yyyy'}}</mat-cell>
+        </ng-container>
+
+    
+   
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+             <button matTooltip="Modifier le congé" mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+               <mat-icon>edit</mat-icon>
+             </button>
+            
+             <button matTooltip="Voir les détails"
+               mat-icon-button
+               routerLink="/simpleTimeOff/{{ row.id }}"
+               routerLinkActive="router-link-active"
+               color="basic"
+             >
+               <mat-icon>remove_red_eye </mat-icon>
+             </button>
+             <button matTooltip="Supprimer le congé" mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+               <mat-icon>delete</mat-icon>
+             </button>
+           </mat-cell>
+         </ng-container>
+   
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+       <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+   
+     </mat-card-content>
+   </mat-card>
+
+  </div>

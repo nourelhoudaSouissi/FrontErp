@@ -1,0 +1,25 @@
+<form [formGroup]="languageForm" (ngSubmit)="submit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Language</mat-label>
+     <mat-select  placeholder="Ex. Français" formControlName="language">
+     <mat-option *ngFor="let Language of Languages" [value]="Language">{{Language}}</mat-option>
+      </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Niveau</mat-label>
+    <mat-select  placeholder="Ex. Courant" formControlName="languageLevel">
+      <mat-option *ngFor="let LanguageLevels of LanguageLevel" [value]="LanguageLevels">{{LanguageLevelMap[LanguageLevels]}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Informations supplémentaires</mat-label>
+    <textarea matInput placeholder="Listez ici les technologies utilisées." formControlName="additionalInformation"></textarea>
+  </mat-form-field>
+  
+  <div fxLayout="row" fxLayoutAlign="end center" class="mt-16">
+    <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Ignorer</button>
+    <button mat-raised-button color="primary" >Enregistrer</button>
+  </div>
+</form>

@@ -1,0 +1,368 @@
+
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<form [formGroup]="itemForm"  >
+      
+ <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+  
+
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <input matInput 
+          name="name" 
+          type="text"  
+          formControlName="name" 
+          placeholder="Titre"  />
+       
+        </mat-form-field>
+    </div>
+
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Date  début</mat-label>
+        <input type="date" matInput name="startDate" formControlName="startDate" placeholder="Date début"  />   
+    </mat-form-field>
+    </div>
+
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Date fin</mat-label>
+        <input  type="date" matInput name="endDate" formControlName="endDate"  placeholder="Date fin" />
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]=10>
+        <input matInput 
+        name="accountingPeriod" 
+        type="number"  
+        formControlName="accountingPeriod" 
+        placeholder="Exercice Comptable"  />
+      </mat-form-field>
+  </div>
+    
+    <div class="mini-container" >
+        <mat-form-field [style.width.cm]=22.2 class="example-full-width" appearance="outline">
+         <mat-label>Commentaire</mat-label>
+         <textarea matInput placeholder="Veuillez saisir un commentaire." 
+         [formControl]="itemForm.controls['description']"></textarea>
+       </mat-form-field>
+     </div>
+    
+   
+        
+
+
+
+
+
+
+
+
+                <mat-card class="custom-card">
+
+                  <mat-card-title>
+                    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px">
+                      <span>Ajouter Les Mois pour le calendrier</span>
+                      <button mat-icon-button (click)="toggleMonthsForm()">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      
+                    </div>
+                  </mat-card-title>
+      
+      
+                  <div formArrayName="calendarMonths" *ngIf="showCalendarMonthsForm">
+                    <div *ngFor="let month of itemForm.get('calendarMonths')?.controls; let i = index" [formGroupName]="i">
+      
+                   <div fxLayout="row wrap"   >
+                     
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <input matInput 
+                        name="name" 
+                        type="text"  
+                        formControlName="name" 
+                        placeholder="Titre"  />
+                       
+                      </mat-form-field>
+                    </div>
+
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <input matInput 
+                        name="ordre" 
+                        type="number"  
+                        formControlName="ordre" 
+                        placeholder="Numéro" readonly  />
+                       
+                      </mat-form-field>
+                    </div>
+
+   
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <input matInput 
+                        name="duration" 
+                        type="number"  
+                        formControlName="duration" 
+                        placeholder="Nombre de jour"  />
+                      </mat-form-field>
+                    </div>
+              
+                    </div>
+      
+                        <div class="button-container">
+      
+                          <div>
+                            <button class="left-button" mat-icon-button (click)="removeMonthFormGroup(i)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+      
+                          <div>
+                            <button class="right-button" mat-icon-button (click)="addMonthFormGroup(i)">
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+      
+                        </div>
+      
+                        
+                 </div>
+                
+              </div>
+                      </mat-card>
+
+
+
+
+
+
+
+
+
+                <mat-card class="custom-card">
+
+                  <mat-card-title>
+                    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px">
+                      <span>Ajouter Les Weekends pour le calendrier</span>
+                      <button mat-icon-button (click)="toggleWeekendForm()">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      
+                    </div>
+                  </mat-card-title>
+      
+      
+                  <div formArrayName="weekendUpdateds" *ngIf="showWeekendsForm">
+                    <div *ngFor="let weekend of itemForm.get('weekendUpdateds')?.controls; let i = index" [formGroupName]="i">
+                   
+                      <mat-error *ngIf="weekend.hasError('dateRangesIntersect')">
+                        Date ranges intersect with other weekends.</mat-error>
+
+
+                   <div fxLayout="row wrap" >
+
+              
+
+                    <div  fxFlex="50"  class="pr-16" >
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <mat-label>Weekend</mat-label>
+                          <mat-select formControlName="name" aria-placeholder="Titre du Weekend" (selectionChange)="onWeekendSelectedChange($event.value, i)">
+                            <mat-option *ngFor="let weekend of Weekend" [value]="weekend.name">{{weekend.name}}</mat-option>
+                          </mat-select>
+                          
+                      </mat-form-field>
+                    </div>
+              
+                     
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <input matInput 
+                        name="reference" 
+                        type="text"  
+                        formControlName="reference" 
+                        placeholder="Référence"
+                        [readonly]="true"  />
+                      </mat-form-field>
+                    </div>
+
+      
+                    <div fxFlex="50"  class="pb-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10  >
+                      <mat-label>Jour de début</mat-label>
+                      <mat-select formControlName="startDay"  [disabled]="true">
+                        <mat-option *ngFor="let x of dayOfWeek " [value]="x" >{{dayOfWeekMap[x]}}</mat-option>
+                      </mat-select>
+                      </mat-form-field>
+                    </div>
+                    
+                    <div fxFlex="50"  class="pb-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                      <mat-label>Jour de fin</mat-label>
+                      <mat-select formControlName="endDay"   [disabled]="true">
+                        <mat-option *ngFor="let y of dayOfWeek " [value]="y">{{dayOfWeekMap[y]}}</mat-option>
+                      </mat-select>
+                      </mat-form-field>
+                    </div>
+                 
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <mat-label>Date de début</mat-label>
+                        <input type="date" matInput name="activationStartDate" formControlName="activationStartDate" placeholder="Date de début" />
+                      </mat-form-field>
+                    </div>
+      
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <mat-label>Date de fin</mat-label>
+                        <input type="date" matInput name="activationEndDate" formControlName="activationEndDate"  placeholder="Date de fin"/>
+                      
+                       <mat-error *ngIf="weekend.get('activationEndDate').hasError('invalidDate')">
+                          La date ne peut pas dépasser la date de fin du calendrier.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+              
+                   
+              
+                    </div>
+      
+                        <div class="button-container">
+      
+                          <div>
+                            <button class="left-button" mat-icon-button (click)="removeWeekendFormGroup(i)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+      
+                          <div>
+                            <button class="right-button" mat-icon-button (click)="addWeekendFormGroup(i)">
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+      
+                        </div>
+      
+                        
+                 </div>
+                
+              </div>
+                      </mat-card>
+
+
+
+
+
+
+
+
+                      <mat-card class="custom-card">
+
+                        <mat-card-title>
+                          <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px">
+                            <span>Ajouter Les Jours fériés pour le calendrier</span>
+                            <button mat-icon-button (click)="toggleHolidaysForm()">
+                              <mat-icon>add</mat-icon>
+                            </button>
+                            
+                          </div>
+                        </mat-card-title>
+            
+            
+                        <div formArrayName="holidays" *ngIf="showHolidaysForm">
+                          <div *ngFor="let holiday of itemForm.get('holidays')?.controls; let i = index" [formGroupName]="i">
+            
+                         <div fxLayout="row wrap"   >
+                           
+                          <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="outline" [style.width.cm]=10>
+                              <input matInput 
+                              name="name" 
+                              type="text"  
+                              formControlName="name" 
+                              placeholder="Titre"  />
+                             
+                            </mat-form-field>
+                          </div>
+            
+                          <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="outline" [style.width.cm]=10>
+                              <mat-label>Date  début</mat-label>
+                              <input type="date" matInput name="startDate" formControlName="startDate" placeholder="Date début"  />
+                          
+                          </mat-form-field>
+                          </div>
+            
+                          <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="outline" [style.width.cm]=10>
+                              <mat-label>Date fin</mat-label>
+                              <input  type="date" matInput name="endDate" formControlName="endDate"  placeholder="Date fin" />
+                            <mat-error *ngIf="holiday.get('endDate').hasError('invalidDate')">
+                                La date ne peut pas dépasser la date de fin du calendrier.
+                              </mat-error>
+                            </mat-form-field>
+                            
+                          </div>
+                    
+                          <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="outline" [style.width.cm]=10>
+                              <input matInput 
+                              name="duration" 
+                              type="number"  
+                              formControlName="duration" 
+                              placeholder="Durée"  />
+            
+                            </mat-form-field>
+                          </div>
+                    
+                          </div>
+            
+                              <div class="button-container">
+            
+                                <div>
+                                  <button class="left-button" mat-icon-button (click)="removeHolidayFormGroup(i)">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                </div>
+            
+                                <div>
+                                  <button class="right-button" mat-icon-button (click)="addHolidayFormGroup(i)">
+                                    <mat-icon>add</mat-icon>
+                                  </button>
+                                </div>
+            
+                              </div>
+            
+                              
+                       </div>
+                      
+                    </div>
+                            </mat-card>
+
+
+
+
+
+                  
+                <div fxFlex="100" class="mt-16">
+                  
+                  
+                  <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+                  <span fxFlex></span>
+                  <button mat-raised-button color="primary"  (click)="submit()">Enregistrer</button>
+                </div>
+
+      </div>
+
+
+</form>

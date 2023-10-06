@@ -1,0 +1,71 @@
+<mat-card>
+  <form [formGroup]="experienceForm" (ngSubmit)="submit()">
+    <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="experienceStartDate" placeholder=" ">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="experienceEndDate" placeholder=" ">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-checkbox color="primary" formControlName="actualEmployment">Actual Employment</mat-checkbox>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Company</mat-label>
+            <input matInput name="experienceCompany" formControlName="experienceCompany" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Role</mat-label>
+            <input matInput name="experienceRole" formControlName="experienceRole" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Technology</mat-label>
+            <input matInput name="technology" formControlName="technology" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Title</mat-label>
+            <input matInput name="experienceTitle" formControlName="experienceTitle" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>Post</mat-label>
+            <input matInput name="experiencePost" formControlName="experiencePost" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div class="pt-16">
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Ignorer</button>
+      <button mat-raised-button color="primary" >Enregistrer</button>
+    </div>
+  </form>
+</mat-card>

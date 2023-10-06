@@ -1,0 +1,30 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1cm;
+    padding-bottom: 1cm;
+  }
+  .left-button {
+    background-color: #AAA4A3; /* Set a custom background color */
+    color: #FFFFFF; /* Set a custom text color */
+  }
+  .left-button:hover {
+    background-color: #35E578; /* Set a custom background color on hover */
+  }
+  .right-button {
+    background-color: #AAA4A3; /* Set a custom background color */
+    color: #FFFFFF; /* Set a custom text color */
+    margin-left: auto; /* Add this line to push the button to the right */
+  }
+  .right-button:hover {
+    background-color: #35E578; /* Set a custom background color on hover */
+  }
+  .left-button {
+    background-color: #AAA4A3; /* Set a custom background color */
+    color: #FFFFFF; /* Set a custom text color */
+    margin-left: auto; /* Add this line to push the button to the right */
+  }
+  .left-button:hover {
+    background-color: #FF0000; /* Set a custom background color on hover */
+  }

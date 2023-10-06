@@ -1,0 +1,14 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+    padding-top: 25px;
+  }
+  .container{margin: 1cm;
+}
+  .mini-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+  }

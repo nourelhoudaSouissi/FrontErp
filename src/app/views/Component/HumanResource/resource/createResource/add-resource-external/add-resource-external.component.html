@@ -1,0 +1,357 @@
+<mat-card class="p-0">
+  <mat-tab-group mat-stretch-tabs  #tabGroup>
+    
+    <form [formGroup]="myForm">
+<!-- tab des informations générales-->
+    <mat-tab>
+         <ng-template mat-tab-label>
+           <mat-icon style="color: #0077C2;">account_circle</mat-icon>
+           <span class="tab-label" style="color: #0077C2;">Informations générales</span>
+         </ng-template>
+      <mat-card-content class="mt-16">
+        <mat-card-title class=""> </mat-card-title>
+          <mat-card-content> 
+            <div fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-xs="50" >
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Nom </mat-label>
+                    <input matInput name="lastName" formControlName="lastName" placeholder="Nom" />
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Email 1 </mat-label>
+                    <input matInput type="email" name="emailOne" formControlName="emailOne" placeholder="Email 1" />
+                    <mat-icon matPrefix>email</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Téléphone 1 </mat-label>
+                    <input matInput name="phoneNumberOne" formControlName="phoneNumberOne" placeholder=" Téléphone 1" />
+                    <mat-icon matPrefix>call</mat-icon>
+                  </mat-form-field>
+                </div>      
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Date de naissance </mat-label>
+                    <input matInput name="birthDate" formControlName="birthDate" placeholder="Date de naissance" [matDatepicker]="appDatepicker" />
+                    <mat-datepicker-toggle matSuffix [for]="appDatepicker"></mat-datepicker-toggle>
+                  </mat-form-field>
+                    <mat-datepicker #appDatepicker></mat-datepicker>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Situation familiale </mat-label>
+                    <mat-select formControlName="maritalSituation">
+                      <mat-option *ngFor="let maritalSituation of MaritalSituation" [value]="maritalSituation">{{ maritalSituation }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Pays </mat-label>
+                    <mat-select formControlName="country">
+                      <mat-option *ngFor="let country of countries" [value]="country.shortName">{{country.name}}</mat-option>
+                     </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Code postal </mat-label>
+                    <input matInput name="postCode" formControlName="postCode" placeholder="Code Postale" />
+                  </mat-form-field>
+                </div>
+                
+              </div>
+             
+                <!-- Partie 2 du formulaire -->
+                  
+              <div fxFlex="100" fxFlex.gt-xs="50">
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Prénom </mat-label>
+                    <input
+                      matInput
+                      name="firstName"
+                      formControlName="firstName"
+                      placeholder="Prénom"/>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Email 2 </mat-label>
+                      <input
+                        matInput
+                        type="email"
+                        name="emailTwo"
+                        formControlName="emailTwo"
+                        placeholder="Email 2"/>
+                        <mat-icon matPrefix>email</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Téléphone 2 </mat-label>
+                      <input
+                        matInput
+                        name="phoneNumberTwo"
+                        formControlName="phoneNumberTwo"
+                        placeholder=" Téléphone "/>
+                        <mat-icon matPrefix>call</mat-icon>
+                  </mat-form-field>
+                </div>   
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                     <mat-label>Civilité</mat-label>
+                      <mat-select [formControlName]="'civility'">
+                        <mat-option *ngFor="let civility of civilities" [value]="civility">{{ civility }}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Adresse </mat-label>
+                      <input
+                         matInput
+                         name="address"
+                         formControlName="address"
+                         placeholder=" Adresse " />
+                   </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Ville </mat-label>
+                    <mat-select required formControlName="city" placeholder="Ex.Lyon" >
+                      <mat-option *ngFor="let state of states"  [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                 <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Titre</mat-label>
+                      <mat-select [formControlName]="'title'">
+                        <mat-option *ngFor="let title of Title" [value]="title">{{ title }}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div  fxFlex="50"  class="pr-16">
+                <mat-label>Photo</mat-label>
+                <input type="file" (change)="onFileSelected($event)">
+              </div>       
+            </div>           
+           <div>      
+            <button mat-raised-button color="primary"  style="margin-left: auto;" style="float: right"  (click)="nextTab(tabGroup)">Suivant</button>
+          </div>  
+          </mat-card-content>
+        </mat-card-content>
+      </mat-tab>
+
+
+
+<!-- tab des informations administratives-->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="color: #0077C2;">work</mat-icon>
+          <span class="tab-label" style="color: #0077C2;">Informations Administratives</span>
+        </ng-template>
+        <mat-card-content>
+          <mat-card-title class="">   </mat-card-title>
+        <div fxLayout="row wrap">
+          <div fxFlex="100" fxFlex.gt-xs="50" >
+           <!-- <div class="form-group mb-1 col-sm-12 col-md-3">
+                <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                  <mat-label>Matricule</mat-label>
+                <input matInput name="serialNumber" formControlName="serialNumber" placeholder="Matricule" />
+              </mat-form-field>
+          </div>-->
+          <div class="form-group mb-1 col-sm-12 col-md-3">
+            <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+              <mat-label>Local </mat-label>
+                <mat-select formControlName="workLocation" (selectionChange)="onFraisTypeSelectionChange($event)">
+                  <mat-option *ngFor="let worklocation of WorkLocation" [value]="worklocation">{{ worklocation }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-group mb-1 col-sm-12 col-md-3">
+            <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+              <mat-label>Département </mat-label>
+                <mat-select formControlName="departement">
+                  <mat-option *ngFor="let departement of Departement" [value]="departement">{{ departement }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+         </div>
+        <div fxFlex="100" fxFlex.gt-xs="50">
+          <div class="form-group mb-1 col-sm-12 col-md-3">
+            <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+              <mat-label>Numéro CNSS </mat-label>
+              <input matInput type="socialSecurityNumber" name="socialSecurityNumber" formControlName="socialSecurityNumber" placeholder="Numéro CNSS" />
+            </mat-form-field>
+          </div>
+          <div class="form-group mb-1 col-sm-12 col-md-3"  *ngIf="showLocationName" >
+            <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+              <mat-label>Nom du local </mat-label>
+              <input matInput type="locationName" name="locationName" formControlName="locationName" placeholder="Nom du local" />
+            </mat-form-field>
+          </div>
+        </div>
+       </div>
+       <div>
+        <button mat-raised-button color="primary" style="margin-right: auto;" style="float:left" (click)="previousTab(tabGroup)">Précédent</button>
+      
+ 
+        <button  mat-raised-button color="primary"   style="float: right"  (click)="addExternalResource()">Enregistrer</button>
+      
+ 
+
+      </div>
+     </mat-card-content>
+  </mat-tab>
+  </form>
+
+  <!--tab des documents-->
+    <!-- <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="color: #0077C2;">attachment</mat-icon>
+          <span class="tab-label" style="color: #0077C2;">Documents</span>
+        </ng-template>
+        <mat-card-content>
+        
+          <mat-card-title class="">
+            <div class="card-title-text">Téléchargement de documents</div>
+            <mat-divider></mat-divider>
+            </mat-card-title>
+       
+          <div class="mb-16">
+            <p>Sélection multiple</p>
+            <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+    
+            <p>Sélection unique</p>
+            <input type="file" ng2FileSelect [uploader]="uploader" />
+          </div>
+    
+          <div class="mb-16">
+            <div ng2FileDrop
+            [ngClass]="{'dz-file-over': hasBaseDropZoneOver}"
+            (fileOver)="fileOverBase($event)"
+            [uploader]="uploader"
+            class="fileupload-drop-zone mb-24">
+            Déposer le fichier ici
+            </div>
+          </div>
+    
+          <table class="default-table mat-box-shadow mb-24" style="width: 100%">
+            <thead>
+            <tr>
+                <th width="30%">Nom du fichier</th>
+                <th>Taille</th>
+                <th>Progrès</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="uploader.queue.length; else tableNoData">
+            <tr *ngFor="let item of uploader.queue">
+                <td>{{ item?.file?.name }}</td>
+                <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <td>
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                        <mat-progress-bar
+                          class=""
+                          color="primary"
+                          mode="determinate"
+                          [value]="item.progress">
+                        </mat-progress-bar>
+                    </div>
+                </td>
+                <td class="">
+                    <mat-icon *ngIf="item.isSuccess" color="primary">check</mat-icon>
+                    <mat-icon *ngIf="item.isCancel" color="accent">cancel</mat-icon>
+                    <mat-icon *ngIf="item.isError" color="warn">error</mat-icon>
+                </td>
+                <td nowrap>
+                    <button 
+                    mat-raised-button
+                    color="primary"
+                    class="mx-4"
+                    (click)="item.upload()"
+                    [disabled]="item.isReady || item.isUploading || item.isSuccess">Télécharger</button>
+                    <button 
+                    mat-raised-button
+                    color="accent"
+                    class="mx-4"
+                    (click)="item.cancel()"
+                    [disabled]="!item.isUploading">Annuler</button>
+    
+                    <button 
+                    mat-raised-button
+                    color="warn"
+                    class="mx-4"
+                    (click)="item.remove()">Supprimer</button>
+                </td>
+            </tr>
+            </tbody>
+            <ng-template #tableNoData>
+              <p [ngStyle]="{padding: '0 1.2rem'}">file d'attente vide !</p>
+            </ng-template>
+        </table>
+    
+    
+          <div>
+            <p>Progression de la file d'attente :</p>
+            <div class="progress mb-16" >
+                <mat-progress-bar
+                  class=""
+                  color="primary"
+                  mode="determinate"
+                  [value]="uploader.progress">
+                </mat-progress-bar>
+            </div>
+            <button mat-raised-button color="primary" style="margin-right: auto;" style="float:left" (click)="previousTab(tabGroup)">Précédent</button>
+          <button 
+          mat-raised-button
+          color="primary"
+          class="mx-4"
+          (click)="uploader.uploadAll()"
+          [disabled]="!uploader.getNotUploadedItems().length">Télécharger tous</button>
+    
+          <button 
+          mat-raised-button
+          color="accent"
+          class="mx-4"
+          (click)="uploader.cancelAll()"
+          [disabled]="!uploader.isUploading">Annuler tous</button>
+    
+          <button 
+          mat-raised-button
+          color="warn"
+          class="mx-4"
+          (click)="uploader.clearQueue()"
+          [disabled]="!uploader.queue.length">Supprimer tous</button>
+
+          <button  mat-raised-button color="primary"   style="float: right"  >Enregistrer</button>
+    
+        </div>-
+          
+              
+        </mat-card-content>
+      </mat-tab>-->
+    
+    
+      
+    </mat-tab-group>
+
+  </mat-card>
+
+
+
+
+  
+
+
+
+

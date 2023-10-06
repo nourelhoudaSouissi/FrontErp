@@ -1,0 +1,90 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{ data.title }}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<!--{{"ADD" | translate }} {{"MEMBER" | translate }}-->
+<form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]="8">
+        <mat-label>Titre de l'avenant</mat-label>
+        <input matInput name="title" formControlName="title" placeholder="Titre">
+        <mat-error *ngIf="itemForm.controls['title'].hasError('required')">
+          Le titre est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]="8">
+        <mat-label>Date de l'avenant</mat-label>
+        <input
+          type="date"
+          matInput
+          name="endorsementDate"
+          formControlName="endorsementDate"
+          placeholder="Date avenanat"
+        >
+        <mat-error *ngIf="itemForm.controls['endorsementDate'].hasError('required')">
+          La date de l'avenant est requise
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]="8">
+        <mat-label>Sélectionner un contrat</mat-label>
+        <mat-select formControlName="contractNum" required>
+          <mat-option *ngFor="let contract of contracts" [value]="contract.id">
+            {{ contract.reference }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['contractNum'].hasError('required')">
+          Sélectionner un contrat est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]="8">
+        <mat-label>Date de validité</mat-label>
+        <input
+          type="date"
+          matInput
+          name="validityDate"
+          formControlName="validityDate"
+          placeholder="Date validité"
+        >
+        <mat-error *ngIf="itemForm.controls['validityDate'].hasError('required')">
+          La date de validité est requise
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="100" class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]="16.5">
+        <mat-label>Objet</mat-label>
+        <input matInput name="object" formControlName="object" placeholder="Objet">
+        <mat-error *ngIf="itemForm.controls['object'].hasError('required')">
+          L'objet est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="100" class="pr-16">
+      <mat-card class="p-0">
+        <mat-card-content class="p-0">
+          <quill-editor theme="snow" formControlName="note"></quill-editor>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-button color="gray" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary">{{ "Enregistrer" | translate }}</button>
+    </div>
+  </div>
+</form>

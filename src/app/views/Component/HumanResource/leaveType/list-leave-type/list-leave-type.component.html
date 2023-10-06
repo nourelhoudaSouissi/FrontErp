@@ -1,0 +1,124 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+  <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">
+    Nouveau Type de congé 
+  </button>
+    <mat-form-field style="padding-left: 19px;">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+    </mat-form-field>
+   
+   
+
+  
+   
+    
+
+     <div style="clear: both;"></div>
+    
+    <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+         
+ 
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                    <span>Nom</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'name')" placeholder="Filtrer">
+                   </mat-form-field>
+                   </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="name">{{row.name}}</mat-cell>
+            </ng-container>
+            
+
+     
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                    <span>Description</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'description')" placeholder="Filtrer">
+                   </mat-form-field>
+                   </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="description">{{row.description}}</mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="duration">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                      <span>Nombre de jours</span>
+                      <mat-form-field style="width:3cm; text-align: center;" >
+                        <input matInput (input)="applyFilterr($event, 'duration')" placeholder="Filtrer">
+                      </mat-form-field>
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="duration" class="mat-column-centered">{{ row.duration }}</mat-cell>
+
+            </ng-container>
+
+            <ng-container matColumnDef="alertNumberDays">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                      <span>Alerte avant </span>
+                      <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'alertNumberDays')" placeholder="Filtrer">
+                    </mat-form-field>
+                  </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="alertNumberDays">{{row.alertNumberDays}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="timeOffType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span>Type de congé</span>
+                  <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilterr($event, 'timeOffType')" placeholder="Filtrer">
+                  </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ getTimeOffType(row.timeOffType).displayText }}       
+            </mat-cell>
+          </ng-container>
+
+         
+
+      
+ 
+
+       
+
+     
+    
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button matTooltip="Modifier le type de congé" mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button  matTooltip="Voir les détails du type de congé" mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpView(row)">
+                <mat-icon>remove_red_eye </mat-icon>
+              </button>
+              
+              <button matTooltip="Supprimer le type de congé" mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+      </mat-card-content>
+    </mat-card>
+ 
+   </div>

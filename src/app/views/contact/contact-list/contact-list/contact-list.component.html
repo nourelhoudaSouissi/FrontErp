@@ -1,0 +1,100 @@
+<div class="m-4" [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+    <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" >{{"ADD" | translate }}
+      Customer</button>
+  
+    <mat-form-field  >
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+      </mat-form-field> 
+   
+  </div>
+  <mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+    <mat-card-content class="p-0">
+      <mat-table [dataSource]="dataSource" matSort  >
+  
+  
+  
+  
+        <ng-container matColumnDef="firstName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> firstName </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="firstName"> {{row.firstName}} </mat-cell>
+        </ng-container>
+  
+  
+  
+        <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> lastName </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="lastName"> {{row.lastName}} </mat-cell>
+        </ng-container>
+  
+        
+       <ng-container matColumnDef="function">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> function </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="function"> {{row.function}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="emailOne">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> emailOne </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="emailOne"> {{row.emailOne}} </mat-cell>
+        </ng-container>
+  
+  
+  
+        
+  
+  
+        <ng-container matColumnDef="emailTwo">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> emailTwo </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="emailTwo"> {{row.emailTwo}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="phoneNumberOne">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> phoneNumberOne </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="phoneNumberOne"> {{row.phoneNumberOne}} </mat-cell>
+        </ng-container>
+  
+        
+  
+  
+        <ng-container matColumnDef="phoneNumberTwo">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> phoneNumberTwo </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="phoneNumberTwo"> {{row.phoneNumberTwo}} </mat-cell>
+        </ng-container>
+  
+  
+  
+  
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            
+           
+  
+                <button
+                  mat-icon-button
+                  routerLink="/gg/{{ row.id }}"
+                  routerLinkActive="router-link-active"
+                  color="primary"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+  
+  
+  
+            <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  
+    </mat-card-content>
+  </mat-card>

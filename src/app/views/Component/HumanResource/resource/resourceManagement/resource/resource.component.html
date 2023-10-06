@@ -1,0 +1,84 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+
+  
+ 
+ <mat-form-field style="padding-left: 19px;">
+  <mat-icon matPrefix>search</mat-icon>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+</mat-form-field>
+
+    
+ 
+ 
+ <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+   <mat-card-content class="p-0">
+     <mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="photo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Photo</mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="photo">
+          <div class="avatar">
+            <img [src]="row.photoUrl" alt="Photo" style="width: 50px !important;">
+          </div>
+        </mat-cell>
+      </ng-container>
+       <ng-container matColumnDef="serialNumber">
+         <mat-header-cell *matHeaderCellDef mat-sort-header > Matricule </mat-header-cell>
+         <mat-cell *matCellDef="let row" data-label="serialNumber"> {{row.serialNumber}} </mat-cell>
+       </ng-container>
+ 
+       <ng-container matColumnDef="firstName">
+         <mat-header-cell *matHeaderCellDef mat-sort-header> Nom & Prénom </mat-header-cell>
+         <mat-cell *matCellDef="let row" data-label="firstName"> {{row.firstName}} {{row.lastName}} </mat-cell>
+       </ng-container>
+ 
+
+ 
+       <ng-container matColumnDef="title">
+         <mat-header-cell *matHeaderCellDef mat-sort-header> Titre </mat-header-cell>
+         <mat-cell *matCellDef="let row" data-label="title"> {{employeeTitleMap[row.title]}} </mat-cell>
+       </ng-container>
+
+       <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type de ressource </mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngStyle]="{'color': row.resourceType === 'INTERNAL_RESOURCE' ? 'green' : 'blue'}" data-label="color">
+          {{ row.resourceType === 'INTERNAL_RESOURCE' ? 'Interne' : (row.resourceType === 'BACKOFFICE_RESOURCE' ? 'BackOffice' : 'Autre') }}
+        </mat-cell>
+      </ng-container>
+      
+      
+  
+    
+       <ng-container matColumnDef="actions">
+         <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+         <mat-cell *matCellDef="let row">
+        <!-- <button  matTooltip="Modifier la ressource" mat-sm-button color="primary" class="mr-16"   (click)="openPopUpEmployee(row)">
+             <mat-icon>edit</mat-icon>
+           </button>-->
+           <button matTooltip="Voir les détails de la  ressource" 
+             mat-icon-button
+             routerLink="/ficheResource/{{ row.id }}"
+             routerLinkActive="router-link-active"
+             color="basic"
+           >
+             <mat-icon>remove_red_eye </mat-icon>
+           </button>
+           <button matTooltip="Supprimer la ressource"  mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+             <mat-icon>delete</mat-icon>
+           </button>
+           <button *ngIf="row.resourceType === 'INTERNAL_RESOURCE'" matTooltip="Ajouter une indisponibilité à la ressource" mat-icon-button mat-sm-button color="primary" (click)="onAvailability(row)">
+            <mat-icon>av_timer</mat-icon>
+          </button>
+          <button matTooltip="Ajouter un supérieur hiérarchique" mat-icon-button mat-sm-button color="primary" (click)="onSuperior(row)">
+            <mat-icon>add</mat-icon>
+          </button>
+         </mat-cell>
+       </ng-container>
+ 
+       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+     </mat-table>
+     <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+ 
+   </mat-card-content>
+ </mat-card>
+ </div>

@@ -1,0 +1,168 @@
+
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
+    <mat-card class="contracts-card" >
+      <h2 class="mx-16 my-24">
+        <mat-icon class="mr-8" color="primary">info</mat-icon>
+        Informations générales
+      </h2>
+      <mat-card-content class="pt-0">
+        <div class="info-row">
+          <div class="info-label"><strong>Référence&nbsp;:&nbsp; </strong></div>
+          <div class="info-value">{{calendar.reference}}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label"><strong>Titre &nbsp;:&nbsp; </strong></div>
+          <div class="info-value">{{ calendar.name }}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label"><strong>Date de début&nbsp;:&nbsp; </strong></div>
+          <div class="info-value">{{calendar.startDate}}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label"><strong>Date de fin&nbsp;:&nbsp; </strong></div>
+          <div class="info-value">{{calendar.endDate}}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label"><strong>Exercide Comptable&nbsp;:&nbsp; </strong></div>
+          <div class="info-value">{{calendar.accountingPeriod}}</div>
+        </div>
+        <div class="info-row">
+          <mat-icon color="primary" class="mr-16">description</mat-icon>
+          <div class="info-label"><strong>Description &nbsp;:&nbsp; </strong></div>
+          <div class="info-value">{{ calendar.description }}</div>
+        </div>
+        
+      </mat-card-content>
+      
+    </mat-card>
+</div>
+</div>
+
+
+    <!-- Card Months-->
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
+        <mat-card class="contracts-card">
+          <h2 class="mx-16 my-24" >Liste des Mois</h2>
+          <mat-card-content>
+            <div class="item-table">
+              <mat-table [dataSource]="dataSourceMonths" class="mat-elevation-z4" #table>
+                <!-- Number Column -->
+                <ng-container matColumnDef="number">
+                  <mat-header-cell *matHeaderCellDef>Numéro</mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+                </ng-container>
+                <!-- Ordre Column -->
+                   <ng-container matColumnDef="ordre">
+                    <mat-header-cell *matHeaderCellDef>Mois num</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.ordre }}</mat-cell>
+                  </ng-container>
+                <!-- name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef>Titre</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+                </ng-container>
+                <!-- duration  Column -->
+                <ng-container matColumnDef="duration">
+                  <mat-header-cell *matHeaderCellDef>Durée</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{ element.duration }}</mat-cell>
+                </ng-container>
+               
+                <mat-header-row *matHeaderRowDef="displayedColumnsMonths"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: displayedColumnsMonths;"></mat-row>
+              </mat-table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+
+ <!-- Card Weekends -->
+ <div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
+    <mat-card class="contracts-card">
+      <h2 class="mx-16 my-24" >Liste des Weekends</h2>
+      <mat-card-content>
+        <div class="item-table">
+          <mat-table [dataSource]="dataSourceWeekends" class="mat-elevation-z4" #table>
+            <!-- Number Column -->
+            <ng-container matColumnDef="number">
+              <mat-header-cell *matHeaderCellDef>Numéro</mat-header-cell>
+              <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+            </ng-container>
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+            </ng-container>
+            <!-- startDay Column -->
+            <ng-container matColumnDef="startDay">
+              <mat-header-cell *matHeaderCellDef>Jour de début</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ dayOfWeekMap[element.startDay] }}</mat-cell>
+            </ng-container>
+             <!-- startDay Column -->
+             <ng-container matColumnDef="endDay">
+              <mat-header-cell *matHeaderCellDef>Jour de fin</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ dayOfWeekMap[element.endDay]}}</mat-cell>
+            </ng-container>
+             <!-- Unit name Column -->
+             <ng-container matColumnDef="activationStartDate">
+              <mat-header-cell *matHeaderCellDef>Date de début</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.activationStartDate| date:'dd-MM-yyyy' }}</mat-cell>
+            </ng-container>
+            <!-- Description Column -->
+            <ng-container matColumnDef="activationEndDate">
+              <mat-header-cell *matHeaderCellDef>Date de fin</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.activationEndDate| date:'dd-MM-yyyy'}}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsWeekends"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: displayedColumnsWeekends;"></mat-row>
+          </mat-table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+     <!-- Card Holidays -->
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
+    <mat-card class="contracts-card">
+      <h2 class="mx-16 my-24" >Liste des Jours Fériés</h2>
+      <mat-card-content>
+        <div class="item-table">
+          <mat-table [dataSource]="dataSourceHolidays" class="mat-elevation-z4" #table>
+            <!-- Number Column -->
+            <ng-container matColumnDef="number">
+              <mat-header-cell *matHeaderCellDef>Numéro</mat-header-cell>
+              <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+            </ng-container>
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+            </ng-container>
+            <!-- Unit name Column -->
+            <ng-container matColumnDef="startDate">
+              <mat-header-cell *matHeaderCellDef>Date de début</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.startDate| date:'dd-MM-yyyy' }}</mat-cell>
+            </ng-container>
+            <!-- Description Column -->
+            <ng-container matColumnDef="endDate">
+              <mat-header-cell *matHeaderCellDef>Date de fin</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.endDate| date:'dd-MM-yyyy'}}</mat-cell>
+            </ng-container>
+             <!-- Description Column -->
+             <ng-container matColumnDef="duration">
+              <mat-header-cell *matHeaderCellDef>Période</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{element.duration}}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsHolidays"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: displayedColumnsHolidays;"></mat-row>
+          </mat-table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

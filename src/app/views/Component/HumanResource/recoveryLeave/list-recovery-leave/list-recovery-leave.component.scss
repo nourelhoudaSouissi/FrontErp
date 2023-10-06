@@ -1,0 +1,20 @@
+.column-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .column-name {
+    padding-top: 10px;
+  }
+  
+  .filter-input {
+    margin-top: 10px;
+    margin-left: 10px;  /* Add left margin */
+    margin-right: 10px; /* Add right margin */
+  }
+  .centered-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

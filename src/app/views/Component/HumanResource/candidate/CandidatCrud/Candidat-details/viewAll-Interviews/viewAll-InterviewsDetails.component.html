@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Les Entretiens</h2>
+<mat-dialog-content class="mat-typography">
+  
+      <mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+        <mat-card-content class="p-0">
+          <mat-table [dataSource]="dataSource" matSort  >
+        
+      
+        <ng-container ntainer matColumnDef="evaluationDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Evaluation
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="evaluationDate" [style.color]="row.color"> {{ row.evaluationDate}} </mat-cell>
+        </ng-container>
+      
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+             <button mat-icon-button mat-sm-button  class=" mr-16 "  (click)="viewEv(row.id)">
+               <mat-icon>remove_red_eye </mat-icon>
+             </button>
+             <button mat-icon-button mat-sm-button  (click)="deleteEvaluation(row.id)">
+               <mat-icon>delete</mat-icon>
+             </button>
+           </mat-cell>
+         </ng-container>
+      
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+      
+      </mat-card-content>
+      </mat-card>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="warn" mat-dialog-close>Fermer</button>
+</mat-dialog-actions>

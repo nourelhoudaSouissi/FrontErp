@@ -1,0 +1,95 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<form [formGroup]="itemForm" (ngSubmit)="submit()" >
+ 
+  
+ 
+      
+ <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Titre</mat-label>
+          <input matInput 
+          name="name" 
+          type="text"  
+          formControlName="name" 
+          placeholder="Titre"  />
+          <mat-error *ngIf="itemForm.controls['name'].invalid && itemForm.controls['name'].touched">
+            Le champ titre est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+     
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Type de congé</mat-label>
+        <mat-select formControlName="timeOffType" >
+          <mat-option *ngFor="let x of timeOffType " [value]="x">{{timeOffTypeMap[x]}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="itemForm.controls['timeOffType'].invalid && itemForm.controls['timeOffType'].touched">
+          Le champ type de congé est requis.
+        </mat-error>
+        </mat-form-field>
+      </div>
+
+     
+
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Nombre de jours</mat-label>
+          <input matInput 
+          name="duration" 
+          type="number"  
+          formControlName="duration" 
+          placeholder="Nombre de jour"  />
+          <mat-error *ngIf="itemForm.controls['duration'].invalid && itemForm.controls['duration'].touched">
+            Le champ Nombre de jours est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Alerte avant </mat-label>
+          <input matInput 
+          name="alertNumberDays" 
+          type="number"  
+          formControlName="alertNumberDays" 
+          placeholder="Alert avant "  />
+          <mat-error *ngIf="itemForm.controls['alertNumberDays'].invalid && itemForm.controls['alertNumberDays'].touched">
+            Le champ alerte avant est requis.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    
+          <div class="mini-container" >
+            <mat-form-field [style.width.cm]=21.2 class="example-full-width" appearance="outline">
+             <mat-label>Commentaire</mat-label>
+             <textarea matInput placeholder="Veuillez saisir un commentaire." 
+             [formControl]="itemForm.controls['description']"></textarea>
+           </mat-form-field>
+         </div>
+      
+
+          
+        
+          <div fxFlex="100" class="mt-16">
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+            <span fxFlex></span>
+            <button mat-raised-button color="primary" >Enregistrer</button>
+           
+         
+          </div>
+      </div>
+
+
+</form>

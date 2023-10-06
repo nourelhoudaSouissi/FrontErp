@@ -1,0 +1,27 @@
+<button  style="margin-inline-start: 700px;" mat-icon-button class="close-button" (click)="closeDialog()">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div class="holiday-card">
+  <div class="holiday-header">
+    <h2 class="holiday-title">Détails du Jour Férié</h2>
+  </div>
+  <div class="holiday-content">
+    <div class="holiday-info">
+      <div class="info-label">Nom:</div>
+      <div class="info-value">{{holiday.name}}</div>
+    </div>
+    <div class="holiday-info">
+      <div class="info-label">Date de début:</div>
+      <div class="info-value">{{holiday.startDate | date:'dd-MM-yyyy'}}</div>
+    </div>
+    <div class="holiday-info">
+      <div class="info-label">Date de fin:</div>
+      <div class="info-value">{{holiday.endDate | date:'dd-MM-yyyy'}}</div>
+    </div>
+    <div class="holiday-info">
+      <div class="info-label">Durée:</div>
+      <div class="info-value">{{holiday.duration}}</div>
+    </div>
+  </div>
+</div>

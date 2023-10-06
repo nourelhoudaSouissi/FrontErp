@@ -1,0 +1,87 @@
+.example-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container{
+  margin-left: 1.5cm;
+  margin-right: 1.5cm;
+  
+}
+
+
+
+.example-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.example-field {
+  width: calc(50% - 8px);
+}
+
+@media (max-width: 600px) {
+  .example-field {
+    width: 100%;
+  }
+}
+
+.example-field {
+  width: calc(50% - 10px); /* set the width of each field to 50% of the container minus the desired separation */
+  margin-right: 3.5cm; /* add a margin to the right of the first field to create the separation */
+}
+
+.example-field:last-child {
+  margin-right: 0; /* remove the margin from the last field to avoid extra space */
+}
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+
+.col-tfile{
+  padding-right: 1cm ;
+}
+
+.card-stepper{
+  margin-bottom: 2cm;
+  margin-right: 1.5cm;
+  margin-left: 1.5cm;
+  
+}
+
+.mat-heading-label{
+  padding-top: 20px;
+}
+
+
+ .right-button {
+  background-color: rgb(158, 156, 156);
+  color: white;
+}
+.left-button{
+  background-color: rgb(158, 156, 156);
+  color: white;
+  margin-right: 15px;
+}
+
+
+ .right-button:hover {
+  background-color: #35e578d3;
+}
+
+.left-button:hover {
+  background-color: rgba(255, 0, 0, 0.74);
+  
+}

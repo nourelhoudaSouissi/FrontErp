@@ -1,0 +1,57 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+  <button mat-raised-button class="mb-8" style="float: right;" color="primary" (click)="openPopUp({}, true)">
+    {{ "Ajouter " | translate }} Article
+  </button>
+
+  <mat-form-field style="padding-left: 19px;">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field>
+  <div style="clear: both;"></div>
+
+  <div class="table-container">
+    <mat-card style="width: 1000px;" class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <ng-container matColumnDef="articleTitle">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="90">
+              <div style="display: flex; flex-direction: column; margin-top: 30px;" class="text-center">
+                <span>Titre</span>
+                <mat-form-field style="width: 100%; text-align: center;">
+                  <input matInput (input)="applyFilterr($event, 'articleTitle')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="title" fxFlex="90">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header (click)="row.expanded = !row.expanded">
+                  {{row.articleTitle}}
+                </mat-expansion-panel-header>
+                <div *ngIf="row.expanded" [innerHTML]="row.description"></div>
+              </mat-expansion-panel>
+            </mat-cell>            
+          </ng-container>
+          
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row" fxFlex="10">
+              <button   matTooltip="Modifier l'article" mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button  matTooltip="Supprimer l'article" mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)" class="ml-2">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+          
+          
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

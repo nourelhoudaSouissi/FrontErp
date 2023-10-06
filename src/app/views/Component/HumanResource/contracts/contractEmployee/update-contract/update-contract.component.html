@@ -1,0 +1,212 @@
+<!--  <mat-horizontal-stepper  [formGroup]="myFormContract">-->  
+    <mat-horizontal-stepper>
+        <form  [formGroup]="myFormContract">
+          <mat-step label="Informations générales" >  
+        
+   <!--  
+            <div class="form-group mb-1 col-sm-12 col-md-3">
+              <mat-form-field appearance="outline" [style.width.cm]=5 style="padding-right: 1cm;">
+                <mat-label>Employé</mat-label>
+              
+                 <input
+                  matInput
+                  name="resourceId"
+                 
+                  placeholder="Employé"
+                  formControlName="resourceId"
+                  disabled="true"
+                />
+              </mat-form-field>
+            </div>-->
+            <div class="form-group mb-1 col-sm-12 col-md-3  text-center">
+              <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                <mat-label>Titre du contrat </mat-label>
+                  <mat-select formControlName="contractTitle" (selectionChange)="onContractTitleSelectionChange($event)">
+                    <mat-option *ngFor="let contractTitle of ContractTitle" [value]="contractTitle">{{ContractTitleMap[contractTitle] }}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+             
+            </div> 
+            <div fxLayout="row wrap">
+              <div fxFlex="100" fxFlex.gt-xs="50">
+              <div class="form-group mb-1 col-sm-12 col-md-3">
+                <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                  <mat-label>Date  début</mat-label>
+                  <input type="date" matInput name="startDate" formControlName="startDate" placeholder="Date début" />
+                </mat-form-field>
+              </div>
+              <div class="form-group mb-1 col-sm-12 col-md-3">
+                <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                  <mat-label>Date du contrat </mat-label>
+                  <input type="date" matInput name="contactDate" formControlName="contractDate" placeholder="Date de contart"  />
+                </mat-form-field>
+              </div>
+                
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="50">
+              
+              <div class="form-group mb-1 col-sm-12 col-md-3" *ngIf="showEndDate && myFormContract.controls['contractTitle'].value !== 'PERMANENT_EMPLOYMENT_CONTRACT'">
+                  <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                    <mat-label>Date fin </mat-label>
+                    <input matInput name="endDate" formControlName="endDate" placeholder="Date fin" [matDatepicker]="appDatepicker2" />
+                    <mat-datepicker-toggle matSuffix [for]="appDatepicker2"></mat-datepicker-toggle>
+                  </mat-form-field>
+                  <mat-datepicker #appDatepicker2></mat-datepicker>
+                  <mat-error *ngIf="myFormContract.controls['endDate'].invalid && myFormContract.controls['endDate'].touched">
+                    La date de fin est requise.
+                  </mat-error>
+                </div>
+                <div class="form-group mb-1 col-sm-12 col-md-3">
+                    <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                      <mat-label>Lieu du contrat </mat-label>
+                      <input
+                        matInput
+                        name="contractPlace"
+                        formControlName="contractPlace"
+                        placeholder="Lieu du contrat"
+                      />
+                    </mat-form-field>
+                    <mat-error *ngIf="myFormContract.controls['contractPlace'].invalid && myFormContract.controls['contractPlace'].touched">
+                      Le lieu du contrat est requis.
+                    </mat-error>
+                  </div>
+                  <div class="form-group mb-1 col-sm-12 col-md-3">
+                    <mat-form-field appearance="outline" [style.width.cm]=12 style="padding-right: 1cm;">
+                      <mat-label>Date de validité </mat-label>
+                      <input matInput type="date" name="validityDate" formControlName="validityDate" placeholder="Date de validité du contart" />
+                    </mat-form-field>
+                    <mat-error *ngIf="myFormContract.controls['validityDate'].invalid && myFormContract.controls['validityDate'].touched">
+                      La date de validité est requise.
+                    </mat-error>
+                  </div>
+          </div>
+              
+              </div>
+              
+       
+            <div fxFlex="100"  class="pr-16">
+              <mat-card class="p-0">
+                <mat-card-content class="p-0">
+                  <quill-editor theme="snow" formControlName="contractEmployer" ></quill-editor>
+                </mat-card-content>
+              </mat-card>
+              </div>
+              <div fxFlex="100"  class="pr-16">
+                <mat-card class="p-0">
+                  <mat-card-content class="p-0">
+                    <quill-editor theme="snow" formControlName="contractEmployee" ></quill-editor>
+                  </mat-card-content>
+                </mat-card>
+                </div>
+  
+
+              <!--
+              <div fxFlex="100" fxFlex.gt-xs="50">
+            
+                <div class="mb-16">
+                  <p>Signature société</p>
+                  <input type="file" ng2FileSelect [uploader]="uploader" />
+                </div>
+              </div>-->
+               
+             
+              
+            <div>
+              <button mat-raised-button color="primary"  style="margin-left: auto;" style="float: right"  matStepperNext>Suivant</button>
+            </div>
+    
+          </mat-step>
+
+
+
+
+
+
+
+          <mat-step label="Détails de contrat" >
+           
+         <!-- <form [formGroup]="myFormContract">-->
+            <!--
+            <div class="form-group mb-1 col-sm-12 col-md-3">
+              <mat-form-field appearance="outline" [style.width.cm]=5 style="padding-right: 1cm;">
+                <mat-label>Contract</mat-label>
+                <input
+                  matInput
+                  name="contractId"
+                  [(ngModel)]="selectedContract.id"
+                  placeholder="Contrat"
+                  formControlName="contractId"
+                  disabled="true"
+                />
+              </mat-form-field>
+            </div>-->
+            <div formArrayName="articles" >
+              <div  *ngFor="let article of myArrayControls; let i = index" [formGroupName]="i">
+
+                <div fxLayout="row wrap"   >
+                  <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Numéro Article</mat-label>
+                        <input matInput type="number" name="articleNumber" formControlName="articleNumber" placeholder="Numéro de l'article" />
+                        <mat-error *ngIf="myFormContract.get('articles').get(i.toString()).get('articleNumber').errors?.required">
+                          Le numéro d'article est requis.
+                        </mat-error>
+                        <mat-error *ngIf="myFormContract.get('articles').get(i.toString()).get('articleNumber').errors?.min">
+                          Le numéro d'article ne peut pas être négatif.
+                        </mat-error>
+                        <mat-error *ngIf="myFormContract.get('articles').get(i.toString()).get('articleNumber').errors?.duplicateArticleNumber">
+                          Ce numéro d'article est déjà utilisé.
+                        </mat-error>
+                        
+                      </mat-form-field>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                       <mat-form-field appearance="outline">
+                            <mat-label>Titre de l'article</mat-label>
+                            <mat-select formControlName="id" aria-placeholder="Titre de l'article" (selectionChange)="onArticleTitleChange($event.value, i)">
+                              <mat-option *ngFor="let articleTitle of Articles" [value]="articleTitle.id" [disabled]="isArticleTitleSelected(articleTitle.id, i)">
+                                {{ articleTitle.articleTitle }}
+                              </mat-option>
+                            </mat-select>
+                            
+                        </mat-form-field>
+                    </div>
+                </div>
+                </div> 
+                 <div  *ngIf="showEditor"    style="padding-bottom: 60px;">
+                      <quill-editor theme="snow" formControlName="description"></quill-editor>
+                  </div>    
+              </div>
+            </div>
+            
+             
+          
+             <div fxLayout="row" fxLayoutAlign="end center" style="margin-top: 16px;">
+              <button mat-icon-button >
+                <mat-icon (click)="addArticleFormGroup()">add</mat-icon>
+              </button>
+            </div>
+       
+            <div> 
+              <button mat-raised-button color="primary" style="float : left"  matStepperPrevious>Précédent</button>
+              <button mat-raised-button color="primary" style="float: right" (click)="modifyContract(row.id)">Modifier</button>
+
+            </div>
+          </mat-step>
+
+         
+
+
+         
+
+     
+             
+              
+          </form>
+        </mat-horizontal-stepper>
+ 
+
+

@@ -1,0 +1,29 @@
+// view-administrative-data.component.scss
+
+.mat-dialog-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .mat-dialog-content {
+    margin-bottom: 24px;
+  
+    p {
+      margin-bottom: 8px;
+    }
+  }
+  
+  .mat-dialog-actions {
+    justify-content: flex-end;
+  
+    button {
+      background-color: #b1b3b6;
+      color: #fff;
+  
+      &:hover {
+        background-color: #f01a1a;
+      }
+    }
+  }
+  

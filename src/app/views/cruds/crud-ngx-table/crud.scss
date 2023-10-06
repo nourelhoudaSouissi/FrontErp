@@ -1,0 +1,42 @@
+.table-container {
+    height: 400px; /* Set the height of the container */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  table {
+    width: 100%;
+    overflow-x: scroll; /* Enable horizontal scrolling */
+  }
+  
+  .mat-row {
+    width: 100%;
+  }
+  
+  .mat-header-row {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+  }
+
+  .dtHorizontalExampleWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  #dtHorizontalExample th, td {
+    white-space: nowrap;
+  }
+  
+  table.dataTable thead .sorting:after,
+  table.dataTable thead .sorting:before,
+  table.dataTable thead .sorting_asc:after,
+  table.dataTable thead .sorting_asc:before,
+  table.dataTable thead .sorting_asc_disabled:after,
+  table.dataTable thead .sorting_asc_disabled:before,
+  table.dataTable thead .sorting_desc:after,
+  table.dataTable thead .sorting_desc:before,
+  table.dataTable thead .sorting_desc_disabled:after,
+  table.dataTable thead .sorting_desc_disabled:before {
+   bottom: .5em;
+  }

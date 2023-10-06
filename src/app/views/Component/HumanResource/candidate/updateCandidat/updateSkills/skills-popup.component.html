@@ -1,0 +1,20 @@
+<mat-card>
+  <form [formGroup]="skillsForm" (ngSubmit)="submit()">
+    <mat-grid-list cols="2" rowHeight="100px">
+      
+      <mat-grid-tile>
+        <div class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]="10">
+            <mat-label>titre </mat-label>
+            <input matInput name="skillsTitle" formControlName="skillsTitle" placeholder="">
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+    
+    </mat-grid-list>
+    <div class="pt-16">
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Ignorer</button>
+      <button mat-raised-button color="primary" >Enregistrer</button>
+    </div>
+  </form>
+</mat-card>

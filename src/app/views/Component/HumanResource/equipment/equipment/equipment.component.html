@@ -1,0 +1,151 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+
+  <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+    <div fxLayout="row wrap" >
+      <div fxFlex="25">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-green">spellcheck</mat-icon>
+          <h4 class="m-0">{{ affectedCount }}</h4>
+          <small class="m-0"> Equipements affectés</small>
+        </div>
+      </div>
+
+      <div fxFlex="25">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-purple">timer</mat-icon>
+          <h4 class="m-0">{{ availableCount }}</h4>
+          <small class="m-0"> Equipements disponibles</small>
+        </div>
+      </div>
+
+      <div fxFlex="25">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-red">block</mat-icon>
+          <h4 class="m-0">{{ unaffectedCount }}</h4>
+          <small class="m-0"> Equipements non affectés</small>
+        </div>
+      </div>
+      
+      <div fxFlex="25">
+        <div class="text-center pt-16 pb-16 border-right-light">
+          <mat-icon class="text-black">timer_off</mat-icon>
+          <h4 class="m-0">{{ unavailableCount }}</h4>
+          <small class="m-0"> Equipements indisponibles</small>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  
+    
+   
+   <mat-form-field style="padding-left: 19px;">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field>
+  
+   
+   
+   <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+     <mat-card-content class="p-0">
+       <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="reference">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Référence</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'reference')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell> 
+          <mat-cell *matCellDef="let row" data-label="reference"> {{row.reference}} </mat-cell>
+        </ng-container>
+
+   
+         <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Type</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'type')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="type"> {{row.type}} </mat-cell>
+         </ng-container>
+         
+         
+         <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+              <span>Statut</span>
+              <mat-form-field style="width:3cm; text-align: center;">
+                <input matInput (input)="applyFilterr($event, 'status')" placeholder="Filtrer">
+              </mat-form-field>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button class="mat-button-as-chip" [matMenuTriggerFor]="menu"
+              [color]="getStatusColor(row.status).color" [disabled]="row.affectation === 'AFFECTED'">
+              {{getStatusColor(row.status).displayText }}
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="changeStatus('status.AVAILABLE', row)">
+                <mat-icon>check</mat-icon>
+                <span>Disponible</span>
+              </button>
+              <button mat-menu-item (click)="changeStatus('status.UNAVAILABLE', row)">
+                <mat-icon>clear</mat-icon>
+                <span>Indisponible</span>
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+        
+               
+        <ng-container matColumnDef="affectation">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Affectation</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'affectation')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getAffectationColor(row.affectation).color" >{{getAffectationColor(row.affectation).displayText }}</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="changeAffectation('affectation.AFFECTED', row)">
+                <mat-icon>check</mat-icon>
+                <span>Affecté</span>
+              </button>
+              <button mat-menu-item (click)="changeAffectation('affectation.UNAFFECTED', row)">
+                <mat-icon>clear</mat-icon>
+                <span>Non affecté</span>
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>  
+               
+       
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+            
+             <button mat-icon-button mat-sm-button matTooltip="Voir les détails de l'affectation" class="mr-16" (click)=" openPopUpView(row)">
+               <mat-icon>remove_red_eye </mat-icon>
+             </button>
+             <button mat-icon-button mat-sm-button matTooltip="Restituer l'équipement" style="color: blue;" class="mr-16" (click)=" openPopUReturn(row)" *ngIf="row.affectation === 'AFFECTED'">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            
+           </mat-cell>
+         </ng-container>
+   
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+       <mat-paginator [pageSizeOptions]="[10, 25, 100]" #paginator></mat-paginator>
+   
+     </mat-card-content>
+   </mat-card>
+   </div>

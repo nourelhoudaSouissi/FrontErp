@@ -1,0 +1,114 @@
+
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+
+<form [formGroup]="offerForm" (ngSubmit)="submit()">
+
+   
+          <div class="container" style="display: flex; flex-direction: column;">
+            <div class="form-container">
+            
+            <div class="mini-container" >
+              <!-----title--->
+              <mat-form-field class="full-width"   [style.width.cm]=10.5  appearance="outline">
+                <input matInput [formControlName]="'title'" placeholder="Titre">
+                <mat-error *ngIf="offerForm.controls['title'].invalid && offerForm.controls['title'].touched">
+                  Le champ titre de l'article est requis.
+                </mat-error>
+              </mat-form-field>
+            
+             <!-----reference--->
+              <mat-form-field class="full-width"  [style.width.cm]=10.5 appearance="outline">
+                <input matInput name="reference" [formControlName]="'reference'" placeholder="Référence">
+                <mat-error *ngIf="offerForm.controls['reference'].invalid && offerForm.controls['reference'].touched">
+                  Le champ référence de l'article est requis.
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            
+            <div class="mini-container" >
+              <!-----skills--->
+              <mat-form-field [style.width.cm]=21 class="example-full-width" appearance="outline">
+               <mat-label>Compétences demandées</mat-label>
+               <textarea matInput placeholder="Veuillez écrire les compétences nécessaires pour cette offre." [formControlName]="'requiredSkills'"></textarea>
+               <mat-error *ngIf="offerForm.controls['requiredSkills'].invalid && offerForm.controls['requiredSkills'].touched">
+                Le champ compétences est requis.
+              </mat-error>
+              </mat-form-field>
+           </div>
+
+            <div class="mini-container" >
+              <!-----description--->
+            <mat-form-field [style.width.cm]=21 class="example-full-width" appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput placeholder="Veuillez décrire l'offre." [formControlName]="'description'"></textarea>
+              <mat-error *ngIf="offerForm.controls['description'].invalid && offerForm.controls['description'].touched">
+                Le champ description est requis.
+              </mat-error>
+            </mat-form-field>
+            </div>
+
+           
+
+
+            <div class="mini-container" >
+              <!-----jobSite----->
+              <mat-form-field class="full-width" appearance="outline">
+                <input matInput name="jobSite" [formControlName]="'jobSite'" placeholder="Site de recrutement">
+                <mat-error *ngIf="offerForm.controls['jobSite'].invalid && offerForm.controls['jobSite'].touched">
+                  Le champ site web est requis.
+                </mat-error>
+              </mat-form-field>
+
+              <!--StartDate & EndDate-->
+                <mat-form-field appearance="outline">
+                  <mat-label>Date début</mat-label>
+                  <input
+                  matInput
+                  type="date"
+                  name="startDate"
+                  formControlName="startDate"
+                  placeholder="Date début">
+                  <mat-error *ngIf="offerForm.controls['startDate'].invalid && offerForm.controls['startDate'].touched">
+                    Le champ date début est requis.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" >
+                  <mat-label>Date fin</mat-label>
+                  <input
+                  matInput
+                  type="date"
+                  name="endDate"
+                  formControlName="endDate"
+                  placeholder="Date fin">
+                  <mat-error *ngIf="offerForm.controls['endDate'].invalid && offerForm.controls['endDate'].touched">
+                    Le champ date fin est requis.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            
+            </div>
+            
+           
+         
+
+            <div fxFlex="100" class="mt-16">
+              <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+              <span fxFlex></span>
+              <button mat-raised-button color="primary">{{ "Enregsitrer" | translate }}</button>
+            </div>
+          </div>
+       
+    
+  
+</form>

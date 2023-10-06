@@ -1,0 +1,18 @@
+.dialog-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+h1 {
+    margin-right: 30px; /* Ajoute une marge à droite du titre */
+  }
+  /* Add this style to highlight the required fields in red */
+.mat-form-field.ng-invalid.ng-touched {
+  .mat-form-field-outline {
+    color: red;
+  }
+  .mat-form-field-label {
+    color: red;
+  }
+}

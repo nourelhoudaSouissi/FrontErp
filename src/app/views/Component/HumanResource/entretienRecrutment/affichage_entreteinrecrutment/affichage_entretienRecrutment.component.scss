@@ -1,0 +1,109 @@
+mat-card-title{
+    font-size: 26px;
+}
+
+.text-small{
+font-size: 14px;
+
+}
+.name-card{
+    margin-bottom: 25px;
+    padding-top: 20px;
+    padding-bottom: 17px;
+    padding-right: 70px;
+    padding-left: 70px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #F1F1F1;
+    width: auto;
+    display: inline-block;
+}
+
+.infor-card{
+    padding-top: 22px;
+    padding-bottom: 13px;
+    padding-right: 70px;
+    padding-left: 70px;
+    background-color: #F1F1F1;
+    width: auto;
+    display: inline-block;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+
+.infor-card-text{
+    padding-right: 10px;
+}
+
+.button-div{
+    margin: 20px;
+    background-color:aqua;
+}
+
+.chart{
+    padding-top: 90px;
+}
+
+.header-button{
+    padding-top: 15px;
+}
+
+.accordion{
+    width: 995px;
+}
+.interview-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .interview-details {
+    margin-right: 10px;
+  }
+  .question-list {
+    margin-top: 10px;
+    padding: 0;
+  }
+  
+  .question-item {
+    margin-bottom: 10px;
+  }
+  
+  .question-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .question-text {
+    flex: 1;
+  }
+  
+  .form-fields {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 0;
+  }
+  .input-field {
+    width: 200px; /* Adjust the width as needed */
+  }
+/* Customize the color of the disabled slider */
+::ng-deep .mat-slider-disabled .mat-slider-wrapper {
+    background-color: #1972f9; /* Replace with your desired color */
+  }
+  .info-iconn{
+    color: #bdb7b7;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  .slider-field {
+    width: fit-content;
+  }
+  

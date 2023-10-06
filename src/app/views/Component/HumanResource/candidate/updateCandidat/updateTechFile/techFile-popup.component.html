@@ -1,0 +1,26 @@
+<form class="example-form" [formGroup]="techFileForm" (ngSubmit)="submit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Reference</mat-label>
+    <input matInput formControlName="reference">
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Objective</mat-label>
+    <input matInput formControlName="objective">
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Driver's License</mat-label>
+    <input matInput formControlName="driverLicense">
+  </mat-form-field>
+
+  <!-- You can add more fields for the other attributes here -->
+  
+  <button mat-button type="submit" color="primary">Enregistrer</button>
+  <button mat-button type="button" color="accent">Ignorer</button>
+</form>

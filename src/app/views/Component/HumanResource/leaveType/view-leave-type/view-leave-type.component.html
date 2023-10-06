@@ -1,0 +1,37 @@
+<div fxFlex.gt-md="550px">
+  <mat-card class="default">
+    <mat-card-header>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="header-content">
+        <mat-card-title >Détails du Type de congé</mat-card-title>
+        <div fxLayout="row" fxLayoutAlign="end center" >
+          <button style="margin-inline-start: 180px;" mat-icon-button class="close-button" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="pt-0">
+      <mat-list>
+        <mat-list-item>
+          <strong>Titre du congé &nbsp;:&nbsp;</strong> {{ leaveType.name }}
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">assignment</mat-icon>
+          <strong>Type &nbsp;:&nbsp;</strong> {{timeOffTypeMap[leaveType.timeOffType]}}
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">schedule</mat-icon>
+          <strong>Durée &nbsp;:&nbsp;</strong> {{ leaveType.duration }} jours
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">alarm</mat-icon>
+          <strong>Alerte avant &nbsp;:&nbsp;</strong> {{ leaveType.alertNumberDays }} jours
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">comment</mat-icon>
+          <strong>Commentaire &nbsp;:&nbsp;</strong> {{ leaveType.description }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

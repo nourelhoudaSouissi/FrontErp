@@ -1,0 +1,164 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+ 
+
+    
+     
+    
+       
+     <div style="clear: both;"></div>
+    
+    <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="employeeName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                      <span >Employé </span>
+                      <mat-form-field style="width:3cm; text-align: center;" >
+                        <input matInput (input)="applyFilter($event, 'employeeName')" placeholder="Filter">
+                      </mat-form-field>
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.employeeFirstName }} {{ element.employeeLastName }}</mat-cell>
+              </ng-container>
+             
+             
+            
+     
+       
+         <ng-container matColumnDef="billingDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                 <span >Date de facturation</span>
+                 <mat-form-field style="width:3cm; text-align: center;" >
+                   <input matInput (input)="applyFilterr($event, 'billingDate')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="billingDate">{{row.billingDate | date: 'dd/MM/yyyy'}}</mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="feeType">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span >Type de Frais </span>
+   
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'feeType')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+          </mat-header-cell>
+
+
+          <mat-cell *matCellDef="let row">
+        
+              {{ getFeeType(row.feeType).displayText }}
+  
+          </mat-cell>
+        </ng-container>
+
+         <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                   <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                  <span>Montant </span>
+               
+                  <mat-form-field style="width:3cm; text-align: center;" >
+                    <input matInput (input)="applyFilterr($event, 'price')" placeholder="Filtrer">
+                  </mat-form-field>
+                </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{ row.amount }} {{row.currency}}
+            </mat-cell>
+          </ng-container>
+       
+          <ng-container matColumnDef="customerBilling">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div style="display: flex; flex-direction: column; margin-top: 12px;">
+                <span>Facturation Client</span>
+                <mat-form-field style="width: 3cm; text-align: center;">
+                  <input matInput (input)="applyFilterr($event, 'customerBilling')" placeholder="Filtrer">
+                </mat-form-field>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="customerBilling" class="center-cell">
+              <div class="circle-container">
+                <div class="circle" [ngClass]="{ 'green': row.customerBilling, 'red': !row.customerBilling }">
+                  <div class="icon-container">
+                    <mat-icon class="icon" *ngIf="row.customerBilling">check</mat-icon>
+                    <mat-icon class="icon" *ngIf="!row.customerBilling">clear</mat-icon>
+                  </div>
+                </div>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+        
+  
+          
+         <ng-container matColumnDef="requestStatus" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;">
+            <span>Statut</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'requestStatus')" placeholder="Filtrer">
+           </mat-form-field>
+           </div>
+         </mat-header-cell>
+
+            <mat-cell *matCellDef="let row">
+              <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getStatusColor(row.requestStatus).color" >{{ getStatusColor(row.requestStatus).displayText }}</button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="changeOffereStatus('requestStatus.VALIDATED', row.id)">
+                    <mat-icon>cancel</mat-icon>
+                    <span>Validé</span>
+                  </button>
+                  <button mat-menu-item (click)="changeOffereStatus('requestStatus.REJECTED', row.id)">
+                    <mat-icon>cancel</mat-icon>
+                    <span>Rejeté</span>
+                  </button>
+                </mat-menu>
+            </mat-cell>
+          </ng-container>
+
+    
+         <ng-container matColumnDef="createDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+                 <span >Date de création </span>
+                 <mat-form-field style="width:3cm; text-align: center;" >
+                   <input matInput (input)="applyFilterr($event, 'createDate')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="createDate">{{row.createDate | date: 'dd/MM/yyyy'}}</mat-cell>
+         </ng-container>
+ 
+     
+    
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+
+              <button matTooltip="Voir les détails"
+                mat-icon-button
+                routerLink="/expenseReportValidation/{{ row.id }}"
+                routerLinkActive="router-link-active"
+                color="basic">
+                <mat-icon>remove_red_eye </mat-icon>
+              </button>
+   
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+      </mat-card-content>
+    </mat-card>
+ 
+   </div>

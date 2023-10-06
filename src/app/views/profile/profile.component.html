@@ -1,0 +1,96 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-md="340px" fxFlex.gt-sm="50">
+    <mat-card class="profile-sidebar mb-16 pb-0">
+      <div class="propic text-center">
+        <img [src]="imageUrl" *ngIf="imageUrl" style="display: block; width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
+      </div>
+      <div class="profile-title text-center mb-16">
+
+        <div class="subtitle mb-8">Hello {{username | titlecase}}</div>
+
+      </div>
+      <div class="profile-actions mb-16" fxLayoutAlign="center center">
+    
+        <span fxFlex="8px"></span>
+   
+      </div>
+      <div class="profile-nav" >
+        <mat-nav-list>
+
+          <mat-list-item routerLink="/profile/overview" routerLinkActive="list-item-active" *ngIf="roles && roles.includes('ROLE_CUSTOMER')">
+            <mat-icon>account_box</mat-icon>
+            Administration Users
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="/profile/settings" routerLinkActive="list-item-active">
+            <mat-icon>settings</mat-icon>
+            Settings
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-nav-list>
+      </div>
+      
+    </mat-card>
+
+    <!-- Chart grid -->
+    <!-- <mat-card class="default">
+      <mat-card-title>Summary</mat-card-title>
+      <mat-card-content>
+          <div fxLayout="row wrap" class="doughnut-grid text-center">
+              <div fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+                  <canvas 
+                  baseChart
+                  class="chart"
+                  [data]="doughnutChartData1"
+                  [options]="doughnutOptions"></canvas>
+                  <small>Space: {{data1}}/{{total1}} GB</small>
+            </div>
+            <div fxFlex="50" class="doughnut-grid-item light-gray">
+                <canvas  
+                baseChart 
+                class="chart"
+                [data]="doughnutChartData2"
+                [options]="doughnutOptions"></canvas>
+                <small>Sales: 450</small>
+          </div>
+          <div fxFlex="50" class="doughnut-grid-item light-gray">
+              <canvas  
+              baseChart 
+              class="chart"
+              [data]="doughnutChartData2"
+              [options]="doughnutOptions"></canvas>
+              <small>Spent: $500</small>
+        </div>
+        <div fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+            <canvas 
+            baseChart 
+            class="chart"
+            [data]="doughnutChartData2"
+            [options]="doughnutOptions"></canvas>
+            <small>Follower: 2000</small>
+      </div>
+        </div>
+      </mat-card-content>
+    </mat-card> -->
+
+
+    <!-- Contact Information -->
+    <mat-card class="default">
+      <h3 class="mx-80 my-27">Contact Information</h3>
+      <mat-card-content class="pt-0">
+        <mat-list>
+          <mat-list-item><mat-icon class="mr-16">account_box</mat-icon> {{fullname}}</mat-list-item>
+          <mat-list-item><mat-icon class="mr-16">email</mat-icon> {{email}}</mat-list-item>
+          <mat-list-item><mat-icon class="mr-16">phone</mat-icon> {{phone}}</mat-list-item>
+          <mat-list-item><mat-icon class="mr-16">add_location</mat-icon> {{adresse}}</mat-list-item>
+          <mat-list-item><mat-icon class="mr-16">public</mat-icon> {{website}}</mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+<!-- Profile Views -->
+  <div fxFlex="100" fxFlex.gt-sm="70" fxFlex.gt-md="calc(100% - 600px)">
+    <router-outlet></router-outlet>
+  </div>
+</div>

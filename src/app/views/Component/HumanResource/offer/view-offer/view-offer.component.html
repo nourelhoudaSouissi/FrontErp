@@ -1,0 +1,84 @@
+<div class="modal-body px-0">
+  <div style="overflow-y: hidden; height: calc(100vh - 15rem);">
+    <div class="px-2" style="overflow-y: auto; height: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="width: 50%; display: flex; display: inline-block; flex-grow: 2; height: 100%;">
+         
+          <mat-card-title class="mx-auto my-24" style="text-align: center;">les détails de l'offre</mat-card-title>
+        </div>
+
+        <!-- Bouton de fermeture -->
+        <button mat-icon-button class="close-button" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <mat-list>
+        <mat-list-item>
+            
+            <strong>Titre &nbsp;:&nbsp;</strong> {{offer.title}}
+        </mat-list-item>
+        <mat-list-item>
+           
+            <strong>Référence &nbsp;:&nbsp;</strong> {{offer.reference}}
+        </mat-list-item>
+        <mat-list-item>
+            <mat-icon color="primary" class="mr-16">event</mat-icon>
+            <strong>Date de début &nbsp;:&nbsp;</strong> {{offer.startDate | date:'dd-MM-yyyy'}}
+        </mat-list-item>
+        <mat-list-item>
+            <mat-icon color="primary" class="mr-16">event</mat-icon>
+            <strong>Date de fin &nbsp;:&nbsp;</strong> {{offer.endDate | date:'dd-MM-yyyy'}}
+        </mat-list-item>
+        <mat-list-item>
+            <mat-icon color="primary" class="mr-16">public</mat-icon>
+            <strong>Site de l'offre &nbsp;:&nbsp;</strong> {{offer.jobSite}}
+        </mat-list-item>
+        <mat-list-item>
+          <div class="icon-title">
+              <mat-icon color="primary" class="mr-16">description</mat-icon>
+              <strong>Description :</strong>
+          </div>
+          <div class="content">{{offer.description}}</div>
+      </mat-list-item>
+      <mat-list-item>
+          <div class="icon-title">
+              <mat-icon color="primary" class="mr-16">list</mat-icon>
+              <strong>Compétences demandées :</strong>
+          </div>
+          <div class="content">{{offer.requiredSkills}}</div>
+      </mat-list-item>
+    </mat-list>
+    
+
+   <!--  <mat-list>
+        <mat-list-item>
+          <strong>Titre &nbsp;:&nbsp; </strong>
+          <span>{{offer.title}}</span>
+          <span style="display: inline-block; width: 7.25cm;"></span>
+          <strong>Référence &nbsp;:&nbsp; </strong>
+          <span>{{offer.reference}}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16" >date_range</mat-icon>
+          <strong>Date de début &nbsp;:&nbsp; </strong>
+          <span>{{offer.startDate | date:'dd-MM-yyyy'}}</span>
+          <span style="display: inline-block; width: 5cm;"></span>
+          <mat-icon color="primary" class="mr-16" >date_range</mat-icon>
+          <strong>Date de fin &nbsp;:&nbsp; </strong>
+          <span>{{offer.endDate | date:'dd-MM-yyyy'}}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <strong>Site de l'offre &nbsp;:&nbsp; </strong> {{offer.jobSite}}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>Compétences demandées &nbsp;:&nbsp; </strong> {{offer.requiredSkills}}
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16" >description</mat-icon>
+          <strong>Description &nbsp;:&nbsp; </strong> {{offer.description}}
+        </mat-list-item>
+      </mat-list>-->
+    </div>
+  </div>
+</div>

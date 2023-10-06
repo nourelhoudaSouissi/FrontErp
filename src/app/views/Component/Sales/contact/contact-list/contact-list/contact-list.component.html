@@ -1,0 +1,79 @@
+<div class="m-4" [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+  <button mat-raised-button class="mb-8" style="float: right;" color="primary" (click)="openPopUp({},true)" >Nouveau
+    Contact</button>
+   <div style="clear: both;"></div>
+   
+</div>
+<mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+  <mat-card-content class="p-0">
+    <mat-table [dataSource]="dataSource" matSort  >
+  
+  
+  
+  
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Prénom </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="firstName"> {{row.firstName}} </mat-cell>
+      </ng-container>
+  
+  
+  
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="lastName"> {{row.lastName}} </mat-cell>
+      </ng-container>
+  
+        
+      <ng-container matColumnDef="function">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Fonction </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="function"> {{row.function}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+
+          <button mat-icon-button 
+            routerLink="/contact/{{ row.id }}" 
+            routerLinkActive="router-link-active" 
+            color="basic"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button mat-sm-button color="basic" [matMenuTriggerFor]="menu" (click)="moreAboutItem(row.id)">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item 
+            routerLink="/contact-appointment"
+            routerLinkActive="router-link-active"
+            >
+            Notes contact
+          </button>
+            <button mat-menu-item
+            routerLink="/contact-note"
+            routerLinkActive="router-link-active"
+            >
+            Rendez-vous
+          </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  
+  </mat-card-content>
+</mat-card>

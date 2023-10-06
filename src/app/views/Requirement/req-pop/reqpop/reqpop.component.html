@@ -1,0 +1,193 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+{{"ADD" | translate }} {{"Partner" | translate }}
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="title"
+        type="text"
+        [formControlName]="'title'"
+        placeholder="title">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="description"
+        type="text"
+        [formControlName]="'description'"
+        placeholder="staffNumbdescriptioner">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="criteria"
+        type="text"
+        [formControlName]="'criteria'"
+        placeholder="criteria">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="plannedBudget"
+        type="number"
+        [formControlName]="'plannedBudget'"
+        placeholder="plannedBudget">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="number"
+        name="plannedIncome"
+        [formControlName]="'plannedIncome'"
+        placeholder="plannedIncome">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          type="number"
+          name="totalCandidateNumber"
+          [formControlName]="'totalCandidateNumber'"
+          placeholder="totalCandidateNumber">
+        </mat-form-field>
+      </div>
+
+    
+      
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width">
+              <input
+              matInput
+              name="description"
+              type="text"
+              [formControlName]="'description'"
+              placeholder="description">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50"  class="pr-16">
+
+            <mat-form-field class="full-width">
+              <mat-label>WorkField</mat-label>
+              <mat-select  [formControlName]="'workField'">
+                <mat-option *ngFor="let x of WorkField" [value]="x">{{ x }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+
+
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>requirementType</mat-label>
+          <mat-select  [formControlName]="'requirementType'">
+            <mat-option *ngFor="let requirementType of RequirementType" [value]="requirementType">{{requirementType }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>requirementStatus</mat-label>
+          <mat-select  [formControlName]="'requirementStatus'">
+            <mat-option *ngFor="let requirementStatus of RequirementStatus" [value]="requirementStatus">{{ requirementStatus }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>availability</mat-label>
+          <mat-select  [formControlName]="'availability'">
+            <mat-option *ngFor="let availability of Availability" [value]="availability">{{ availability }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+<div>
+    <mat-form-field class="full-width">
+        <mat-label>partnerNum</mat-label>
+        <mat-select  [formControlName]="'partnerNum'">
+          <mat-option *ngFor="let partnerNum of listpartner" [value]="partnerNum.id">{{ partnerNum.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+
+
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="expectedEndDate"
+            matInput
+            [matDatepicker]="picker"
+            placeholder="expectedEndDate"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="startDate"
+            matInput
+            [matDatepicker]="picker2"
+            placeholder="startDate"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+            formControlName="responseDate"
+            matInput
+            [matDatepicker]="picker3"
+            placeholder="responseDate"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+          <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+        
+  
+
+  
+
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" >{{"SAVE" | translate }}</button>
+      <span fxFlex></span>
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Cancel</button>
+    </div>
+  </div>
+  </form>
+

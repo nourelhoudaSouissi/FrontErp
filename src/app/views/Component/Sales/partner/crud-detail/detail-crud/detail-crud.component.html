@@ -1,0 +1,204 @@
+<mat-card class="p-0">
+  <mat-card-title class="">
+     <div class="card-title-text"><mat-icon>
+      info_outline </mat-icon>General Informations </div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-sm="30">
+        <mat-card class="p-0">
+          <mat-card-content>
+            <div class="propic text-center">
+              <img src="assets/images/sq-face-220.jpg" alt="">
+            </div>
+            <div class="profile-title text-center mb-16">
+              <div class="main-title">{{ partner.name }}</div>
+              <div class="subtitle mb-8"><strong>Parent Company:</strong> {{ partner.parentCompany }}</div>
+              <div class="subtitle mb-8"><strong>name: </strong>  {{ partner.ceoName }}</div>
+              <div class="text-muted">{{ partner.description }}</div>
+            </div>
+            <div class="profile-actions mb-16" fxLayoutAlign="center center">
+              <button mat-raised-button color="primary">Message</button>
+              <span fxFlex="8px"></span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="30">
+        <mat-card class="p-0">
+          <mat-card-title class="">
+            <div class="card-title-text">Partner Contact Info</div>
+            <mat-divider></mat-divider>
+          </mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item><mat-icon class="mr-16">phone</mat-icon> + {{ partner.refPhoneNumber }}{{ partner.phoneNumber }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">phone</mat-icon> + {{ partner.refPhoneNumber }}{{ partner.phoneNumberTwo }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">add_location</mat-icon> {{ partner.postCode }}, {{ partner.city }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">public</mat-icon> {{ partner.country }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">devices</mat-icon> <strong>Provenance:</strong> {{ partner.provenance }}</mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="40">
+        <mat-card class="p-0">
+          <mat-card-title class="">
+            <div class="card-title-text">Administrative Info</div>
+            <mat-divider></mat-divider>
+          </mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item><mat-icon class="mr-16">date_range</mat-icon> <strong>Activity Start Date:</strong> {{ partner.activityStartDate }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">perm_contact_calendar</mat-icon> <strong>Partnership Date :</strong>  {{ partner.partnerShipDate }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">add_location</mat-icon> <strong>Company Status:</strong> {{ partner.companyStatus }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">domain</mat-icon>  <strong>Legal Status:</strong>{{ partner.legalStatus }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">work</mat-icon> <strong>Work Field:</strong> {{ partner.workField }}</mat-list-item>
+              <mat-list-item><mat-icon class="mr-16">group_add</mat-icon> <strong>Staff Number:</strong> {{ partner.staffNumber }}</mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+          <mat-accordion multi="false">
+            
+              <mat-expansion-panel expanded="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon color="primary">location_on </mat-icon>
+                    <h6 class="text-18 mb-4"> <strong>Adresses</strong></h6>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="border-bottom pb-16 mb-16">
+                    <div fxLyout="row wrap" class="text-blue font-weight-bold">
+                       <span>Adress 1</span>
+                        <span fxFlex></span>
+                        <span><mat-icon class="mr-16">map</mat-icon></span>
+                      </div>
+                      <div fxLyout="row wrap" class="text-muted">
+                        <small>adress Text</small>
+                        <span fxFlex></span>
+                        <small class="text-green">Current Adress</small>
+                      </div>
+                </div>
+                <div class="border-bottom pb-16 mb-16">
+                    <div fxLyout="row wrap" class="text-blue font-weight-bold">
+                        <span>Adress 2</span>
+                        <span fxFlex></span>
+                        <span><mat-icon class="mr-16">map</mat-icon></span>
+                      </div>
+                      <div fxLyout="row wrap" class="text-muted">
+                        <small>adress Text</small>
+                        <span fxFlex></span>
+                        <small class="text-red">Old Adress</small>
+                      </div>
+                </div>
+                <div class="">
+                    <div fxLyout="row wrap" class="text-blue font-weight-bold">
+                        <span>Adress 3</span>
+                        <span fxFlex></span>
+                        <span><mat-icon class="mr-16">map</mat-icon></span>
+                      </div>
+                      <div fxLyout="row wrap" class="text-muted">
+                        <small>adress Text</small>
+                        <span fxFlex></span>
+                        <small class="text-green">Current Adress</small>
+                      </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon Orders
+                    color="primary">  phonelink_ring</mat-icon>
+                    <h6 class="text-18 mb-4"> <strong> Social Medias</strong></h6>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="border-bottom pb-16 mb-16">
+                    <div fxLyout="row wrap" class="text-blue font-weight-bold">
+                        <span>Website</span>
+                        <span fxFlex></span>
+                        <span><mat-icon class="mr-16">link</mat-icon></span>
+                      </div>
+                      <div fxLyout="row wrap" class="text-muted">
+                        <small>Link Here</small>
+                      </div>
+                </div>
+                <div class="border-bottom pb-16 mb-16">
+                    <div fxLyout="row wrap" class="text-blue font-weight-bold">
+                        <span>Linkdin</span>
+                        <span fxFlex></span>
+                        <span><mat-icon class="mr-16">link</mat-icon></span>
+                      </div>
+                      <div fxLyout="row wrap" class="text-muted">
+                        <small>Link Here</small>
+                      </div>
+                </div>
+                <div class="">
+                    <div fxLyout="row wrap" class="text-blue font-weight-bold">
+                        <span>Facebook</span>
+                        <span fxFlex></span>
+                        <span><mat-icon class="mr-16">link</mat-icon></span>
+                      </div>
+                      <div fxLyout="row wrap" class="text-muted">
+                        <small>Link Here</small>
+                      </div>
+                </div>
+              </mat-expansion-panel>
+              
+            </mat-accordion>
+  </mat-card-content>
+</mat-card>
+  <mat-card class="p-0">
+    <mat-card-title class="">
+      <div fxLyout="row wrap" >
+        <div class="card-title-text">
+          <mat-icon> contact_phone </mat-icon>
+        <span>Contacts</span>
+      </div>
+        <span fxFlex></span>
+        <span><mat-icon class="mr-16" title="Add a new Contact">add_circle</mat-icon></span>
+        <span><mat-icon class="mr-16" title="See My Calendar">perm_contact_calendar</mat-icon></span>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div
+        fxFlex="100"
+        fxFlex.gt-sm="33"
+        fxFlex.sm="50">
+          <mat-card class="user-card p-0">
+            <mat-card-title class="mb-16">
+              <div class="card-title-text">
+                <!--<a href="" class="toolbar-avatar sm mr-16"><img [src]="user.photo" alt=""></a>-->
+                <span class="text-16">FirstaName LastName</span>
+                <span fxFlex></span>
+                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                    <mat-icon class="text-muted text-18">more_vert</mat-icon>
+                </button>
+                <mat-menu #userMenu="matMenu">
+                    <button mat-menu-item>Edit</button>
+                    <button mat-menu-item>Appointment</button>
+                    <button mat-menu-item>Notes</button>
+                    <button mat-menu-item>Delete</button>
+                </mat-menu>
+              </div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+            <mat-card-content>
+              <!-- user detail lines-->
+              <mat-list>
+                <mat-list-item><mat-icon class="mr-16">card_membership</mat-icon> Funstion Here</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">date_range</mat-icon> Email Here</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">phone</mat-icon> Phone Number Here</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">do_not_disturb_on</mat-icon> Privilege Here</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">insert_comment</mat-icon> Comment Here</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>

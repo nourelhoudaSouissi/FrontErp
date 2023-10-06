@@ -1,0 +1,66 @@
+<div class="modal-body px-0">
+  <div style="overflow-y: hidden; height: calc(100vh - 15rem);">
+    <div class="px-2" style="overflow-y: auto; height: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="width: 50%; display: flex; display: inline-block; flex-grow: 2; height: 100%;">
+          <mat-card-title class="mx-auto my-24" style="text-align: center;">Fiche équipement</mat-card-title>
+        </div>
+        <!-- Bouton de fermeture -->
+        <button mat-icon-button class="close-button" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+
+      
+
+        <!-- Contenu de la première carte -->
+        <mat-card style="width: 710px;">
+          <mat-card-title>Informations générales</mat-card-title>
+          <mat-card-content class="pt-0">
+              <mat-list>
+              <mat-list-item><strong>Référence &nbsp;:&nbsp; </strong>{{ equipment.reference}}</mat-list-item>
+
+                <mat-list-item>  <strong >Numéro de série &nbsp;:&nbsp;</strong>{{equipment.serialNumber}}</mat-list-item>
+          
+                <mat-list-item><strong>Type d'équipement &nbsp;:&nbsp;</strong>{{equipment.type}}</mat-list-item>
+        
+                <mat-list-item>   <strong >Désignation &nbsp;:&nbsp; </strong>{{equipment.designation}}</mat-list-item>
+           </mat-list>
+         </mat-card-content>
+         </mat-card>
+    
+    
+
+      <!-- Contenu de la deuxième  carte -->
+      <mat-card style="width: 710px;">
+        <mat-card-content class="pt-0">
+          <mat-list>
+            <mat-list-item><strong>Disponibilité &nbsp;:&nbsp; </strong>{{StatusDisponibilityMap[equipment.status]}}</mat-list-item>
+            <mat-list-item *ngIf="equipment.status === 'UNAVAILABLE'"><strong>Motif d'indisponibilité &nbsp;:&nbsp; </strong>{{equipment.motifUnavailability}}</mat-list-item>
+           <!-- <mat-list-item *ngIf="equipment.status === 'UNAVAILABLE'"><mat-icon>date_range</mat-icon><strong>Date de prochaine Disponibilité &nbsp;:&nbsp; </strong>{{equipment.disponibilityDate| date:'dd-MM-yyyy'}}</mat-list-item>
+           --></mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- contenu troisième card -->
+      <mat-card style="width: 710px;">
+        <mat-card-content class="pt-0">
+          <mat-list>
+            <mat-list>
+              <mat-list-item><strong>Affectation &nbsp;:&nbsp; </strong>{{AffectationMap[equipment.affectation]}}</mat-list-item>
+              <mat-list-item *ngIf="equipment.affectation === 'AFFECTED'">
+                <strong>A: </strong> {{ employeeFirstLastName  }}
+            
+              </mat-list-item>
+          </mat-list>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+
+
+
+  
