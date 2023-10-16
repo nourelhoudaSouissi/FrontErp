@@ -1,18 +1,25 @@
+import { Partner } from "./Partner";
+
 export interface contact {
-    id :number;
+    contactId :number;
     firstName :string;
     lastName: string;
+    fullName: string;
     function: string;
-    emailOne:string;
+    localisation: string
+    email:string;
     emailTwo:string;
     comment:string;
-    phoneNumberOne:number ;
-    phoneNumberTwo:number ;
-    partnerNum :number 
-    partnerId :number
-    privilege: Privilege
+    phoneNumber:number ;
+    mobilePhoneNumber:number ;
+    company ?: string;
+    partner ?: Partner 
+    partnerId ?:number
+    privilege ?: Privilege
     civility: Civility
-    service: Service
+    service: string
+    societe : string
+    
 }
 
 export enum Privilege {

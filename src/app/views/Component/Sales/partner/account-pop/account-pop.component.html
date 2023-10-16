@@ -1,0 +1,74 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <mat-card class="p-0">
+<div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
+    
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Banque</mat-label>
+          <input
+          matInput
+          name="bankName"
+          type="text"
+          [formControlName]="'bankName'"
+          placeholder="Banque">
+        </mat-form-field>
+      </div> 
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Numéro compte(RIB)</mat-label>
+        <input
+        matInput
+        name="rib"
+        type="text"
+        [formControlName]="'rib'"
+        placeholder="Numéro compte(RIB)">
+      </mat-form-field>
+    </div> 
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>BIC</mat-label>
+        <input
+        matInput
+        name="bic"
+        type="text"
+        [formControlName]="'bic'"
+        placeholder="BIC">
+      </mat-form-field>
+    </div> 
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>IBAN</mat-label>
+        <input
+        matInput
+        name="iban"
+        type="text"
+        [formControlName]="'iban'"
+        placeholder="IBAN">
+      </mat-form-field>
+    </div> 
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Adresse banque</mat-label>
+        <input
+        matInput
+        name="bankAddress"
+        type="text"
+        [formControlName]="'bankAddress'"
+        placeholder="N°, rue, ville, code postal, région, pays">
+      </mat-form-field>
+    </div> 
+    <div fxFlex="100" class="mt-16">
+        <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
+        <span fxFlex></span>
+        <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      </div>
+</div>
+

@@ -26,15 +26,12 @@
         </ng-container>
   
         
-       <ng-container matColumnDef="Criteria">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Criteria </mat-header-cell>
+       <ng-container matColumnDef="criteria">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> criteria </mat-header-cell>
           <mat-cell *matCellDef="let row" data-label="Criteria"> {{row.criteria}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="plannedBudget">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> plannedBudget </mat-header-cell>
-            <mat-cell *matCellDef="let row" data-label="plannedBudget"> {{row.plannedBudget}} </mat-cell>
-          </ng-container>
+      
 
         
 
@@ -60,10 +57,7 @@
           </ng-container>
 
                     
-          <ng-container matColumnDef="workField">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> workField </mat-header-cell>
-            <mat-cell *matCellDef="let row" data-label="workField"> {{row.workField}} </mat-cell>
-          </ng-container>
+         
 
           <ng-container matColumnDef="availability">
             <mat-header-cell *matHeaderCellDef mat-sort-header> availability </mat-header-cell>
@@ -73,14 +67,7 @@
   
         
   
-        <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            
-           
-  
-          </mat-cell>
-        </ng-container>
+        
   
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

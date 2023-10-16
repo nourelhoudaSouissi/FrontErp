@@ -1,0 +1,85 @@
+
+<mat-card id="Contrat">
+    <div fxLayout="row">
+      <button mat-icon-button routerLink="/contractEmployee/liste-employee-contracts">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span fxFlex></span>
+      <button  mat-flat-button color="primary" class="ml-16 mr-16" (click)="downloadContract()"> Télécharger </button>
+      <button mat-flat-button color="accent" (click)="print()"> Imprimer </button>
+    </div>
+  
+  
+    <!---->
+    <!-- Format du endorsement -->
+      <form>
+        <!-- Begin logo and title  -->
+        <div id="formImprime"> 
+        <div fxLayout="row wrap" fxLayoutAlign="space-between" class="order-info">
+          <div fxLayout="column" fxFlex="33.33%" class="contract-logo">
+              <img src="assets/images/csiLogo.png" width="200px">
+          </div>
+          </div>
+          <div class="text-center pt-8 pb-16" style="color: #2580e0;">
+            <U><h2 style="padding-bottom: 15px; font-weight: bold; font-size: 28px;">{{ endorsement.title }}</h2></U> 
+          </div>
+         
+        <!-- end  logo and title  -->
+   <div class="contract-container">
+    <div class="contract-inside-container"> 
+      <!-- <div class="article-content" align = "justify">
+          <p  [innerHtml]="endorsement.contract.contractEmployer" style="display: inline-block; margin-left: 2em;"></p>
+         </div>
+         <div style="text-align: right;">
+          <p><strong>En sa qualité d’employeur d’une part,</strong></p>
+      </div>
+         <div class="article-content"  align = "justify">
+          <p [innerHtml]="endorsement.contract.contractEmployee" style="display: inline-block; margin-left: 2em;"></p>
+         </div>-->
+         <div style="text-align: right;">
+          <p><strong> En sa qualité d’employé d’autre part,</strong></p>
+          </div>
+         <div class="article-container-object">
+           <div class="main-color" style="padding-bottom: 15px;"><U><strong>OBJET :{{endorsement.object}}</strong></U></div>
+           
+          <div class="article-content" align = "justify">
+           <p [innerHtml]="endorsement.note" style="display: inline-block; margin-left: 2em;"></p>
+          </div>
+           </div>
+       </div>
+        
+           </div> 
+            <div fxLayout="row wrap"  class="order-info" >
+              <div class="main-color" fxLayout="column" fxFlex="90%">
+                <div style="display: flex; justify-content: space-between;">
+                  <div class="text-left pt-8">
+                    <h6>L’EMPLOYE(E)</h6>
+                  </div>
+                  <div class="text-right pt-8 pl-28">
+                    <h6>L’EMPLOYEUR</h6>
+                  </div>
+                </div>
+                <hr style="width: 100%; height: 2px; margin-top: 8px;background-color: #2580e0;">
+              </div>
+            <div >
+              <h6 style="padding-top: 0;">(Lu et approuvé) signature légalisée</h6>
+            </div>
+          </div>
+      </div>
+
+        
+          
+        <!-- billing details -->
+
+
+  
+  
+  </form>
+  
+   
+    </mat-card>
+    <!-- end of endorsement -->
+    
+  
+  
+  

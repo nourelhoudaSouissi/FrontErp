@@ -1,0 +1,96 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="titled"
+        type="text"
+        [formControlName]="'titled'"
+        placeholder="Titre">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="averageDailyCost"
+        type="number"
+        [formControlName]="'averageDailyCost'"
+        placeholder="Coût journalier moyen">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="totalCost"
+        type="number"
+        [formControlName]="'totalCost'"
+        placeholder="Coût total">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="cost"
+        type="number"
+        [formControlName]="'cost'"
+        placeholder="Coût HT">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        type="number"
+        name="costEfficiency"
+        [formControlName]="'costEfficiency'"
+        placeholder="Rentabilité">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          type="number"
+          name="monthlyFees"
+          [formControlName]="'monthlyFees'"
+          placeholder="Charges mensuels">
+        </mat-form-field>
+      </div>
+
+    
+
+          <div fxFlex="50"  class="pr-16">
+
+            <mat-form-field class="full-width">
+              <mat-label>Etat prestation</mat-label>
+              <mat-select  [formControlName]="'benefitStatus'">
+                <mat-option *ngFor="let x of benefitStatus" [value]="x">{{benefitStatusMap[x]}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="50"  class="pr-16">
+            <mat-checkbox [formControlName]="'exceptionalCosts'">
+                Coûts exceptionnels
+            </mat-checkbox>
+        </div>
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" >Enregistrer</button>
+      <span fxFlex></span>
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+    </div>
+  </div>
+  </form>
+

@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Détails compte bancaire <strong>{{ data.bankName }}</strong></h2>
+<mat-dialog-content >
+  <mat-list>
+    <mat-list-item>Banque : <strong>{{ data.bankName }}</strong></mat-list-item>
+    <mat-list-item>Numéro compte : <strong>{{ data.rib }}</strong></mat-list-item>
+    <mat-list-item>Code BIC : <strong>{{ data.bic }}</strong></mat-list-item>
+    <mat-list-item>Code IBAN : <strong>{{ data.iban }}</strong></mat-list-item>
+    <mat-list-item>Adresse : <strong>{{ data.bankAddress }}</strong></mat-list-item>
+  </mat-list>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fermer</button>
+</mat-dialog-actions>

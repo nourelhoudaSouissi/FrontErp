@@ -1,0 +1,41 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <mat-card class="p-0">
+<div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
+    
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Sujet</mat-label>
+        <input
+        matInput
+        name="subject"
+        [formControlName]="'subject'"
+        placeholder="Sujet">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Note</mat-label>
+        <textarea
+          matInput
+          name="note"
+          type="text"
+          [formControlName]="'note'"
+          placeholder="Saisissez votre note ici.">
+        </textarea>
+      </mat-form-field>
+    </div> 
+    <div fxFlex="100" class="mt-16">
+        <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
+        <span fxFlex></span>
+        <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      </div>
+</div>
+

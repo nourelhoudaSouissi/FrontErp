@@ -9,9 +9,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { egretAnimations } from 'app/shared/animations/egret-animations';
 import { ContactService } from '../../contact.service';
 import { AppConfirmService } from 'app/shared/services/app-confirm/app-confirm.service'; 
-import { contact } from 'app/shared/models/contact';
-import { NgxTablePopupComponent } from 'app/views/cruds/crud-ngx-table/ngx-table-popup/ngx-table-popup.component';
+import { Civility, contact } from 'app/shared/models/contact';
 import { ContactPopComponent } from '../../contact-pop/contact-pop/contact-pop.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-contact-list',
   templateUrl: './contact-list.component.html',
@@ -26,17 +26,20 @@ export class ContactListComponent implements OnInit,OnDestroy {
   public getItemSub: Subscription;
   
   
-  constructor( private snack: MatSnackBar,
-              private dialog: MatDialog,
-              private loader: AppLoaderService,
-              private contactService :ContactService,
-              private confirmService: AppConfirmService ) {
-    this.dataSource = new MatTableDataSource<contact>([]);
+  constructor(
+    private router: Router,
+    private snack: MatSnackBar,
+    private dialog: MatDialog,
+    private loader: AppLoaderService,
+    private contactService: ContactService,
+    private confirmService: AppConfirmService
+  ) {
+      this.dataSource = new MatTableDataSource<contact>([]);
     }
    
    
    getDisplayedColumns() {
-    return ['firstName','lastName','function','actions'];
+    return ['civility','firstName','lastName','appointmentMaking','actions'];
   }
 
 
@@ -71,28 +74,31 @@ export class ContactListComponent implements OnInit,OnDestroy {
  }
  
  deleteItem(row) {
-  this.confirmService.confirm({message: `Delete ${row.name}?`})
+  this.confirmService.confirm({message: `Supprimer ce contact ${row.fullName}?`})
     .subscribe(res => {
       if (res) {
-        this.loader.open('Deleting Partner');
-        this.contactService.deleteItem(row)
+        this.loader.open('Suppression contact en cours');
+        this.contactService.deleteContact(row.contactId)
           .subscribe((data:any)=> {
             this.dataSource = data;
             this.loader.close();
-            this.snack.open('Partner deleted!', 'OK', { duration: 2000 });
+            this.snack.open('Contact supprimé !', 'OK', { duration: 2000 });
             this.getItems();
           })
       }
     })
 }
 
+
 openPopUp(data: any = {}, isNew?) {
   let title = isNew ? 'Nouveau contact' : 'Mettre à jour contact';
   let dialogRef: MatDialogRef<any> = this.dialog.open(ContactPopComponent, {
-    width: '720px',
+    height: '620px',
+    width: '920px',
     disableClose: true,
     data: { title: title, payload: data }
   })
+  console.log(data.contactId)
   dialogRef.afterClosed()
     .subscribe(res => {
       if(!res) {
@@ -101,7 +107,7 @@ openPopUp(data: any = {}, isNew?) {
       }
       if (isNew) {
         this.loader.open('Ajout en cours');
-        this.contactService.addItem(res)
+        this.contactService.addContact(res)
           .subscribe((data:any) => {
             this.dataSource = data;
             this.loader.close();
@@ -110,7 +116,7 @@ openPopUp(data: any = {}, isNew?) {
           })
       } else {
         this.loader.open('Mise à jour');
-        this.contactService.updateItem(data._id, res)
+        this.contactService.updateContact(data.contactId, res)
           .subscribe((data :any) => {
             this.dataSource = data;
             this.loader.close();
@@ -121,6 +127,28 @@ openPopUp(data: any = {}, isNew?) {
     })
 }
 
+////////////filtrer  par colonne //////////////
+applyFilterr(event: Event, key: string) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
+  }
+  this.dataSource.filterPredicate = (data, filter) => {
+    return data[key].trim().toLowerCase().indexOf(filter) !== -1;
+  };
+}
+
+civilityMap = {
+  [Civility.MR]:'Mr',
+  [Civility.MRS]:'Mme',
+  [Civility.MS] : 'Mlle'
+}
+
+appointmentMakingMap = {
+  true: 'Oui',
+  false: 'Non'
+};
 }
 
 

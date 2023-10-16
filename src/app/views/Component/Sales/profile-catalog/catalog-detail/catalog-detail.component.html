@@ -1,0 +1,108 @@
+<mat-card class="p-0">
+    <mat-card-title class="card-title-container">
+        <div class="card-title-text">
+            <mat-icon >info_outline</mat-icon>
+            Fiche catalogue <small> {{ catalog.ref }} </small> : <strong>{{ catalog.title }}</strong>
+        </div>
+        <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+        <mat-card style="margin-top: 20px;margin-bottom: 20px;">
+            <mat-card-content>
+                <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
+                    
+                    <mat-list fxFlex="30%" fxFlex.xs="100%">
+                        <mat-list-item class="cc1-title">
+                          <!--mat-icon color="primary" class="mr-16">phone</mat-icon-->
+                          <span style="font-weight: bold;color: rgb(134, 134, 139);">Devise</span>
+                        </mat-list-item>
+                        <mat-list-item>{{ currencyMap[catalog.currency]}}</mat-list-item>
+                    </mat-list>
+                    <mat-list fxFlex="30%" fxFlex.xs="100%">
+                        <mat-list-item class="cc1-title">
+                          <!--mat-icon color="primary" class="mr-16">phone</mat-icon-->
+                          <span style="font-weight: bold;color: rgb(134, 134, 139);">Date de création</span>
+                        </mat-list-item>
+                        <mat-list-item>{{ catalog.creationDate }}</mat-list-item>
+                    </mat-list>
+                    <mat-list fxFlex="30%" fxFlex.xs="100%">
+                        <mat-list-item class="cc1-title">
+                          <!--mat-icon color="primary" class="mr-16">phone</mat-icon-->
+                          <span style="font-weight: bold;color: rgb(134, 134, 139);">Date début</span>
+                        </mat-list-item>
+                        <mat-list-item>{{ catalog.startDate }}</mat-list-item>
+                    </mat-list>
+                    <mat-list fxFlex="30%" fxFlex.xs="100%">
+                        <mat-list-item class="cc1-title">
+                          <!--mat-icon color="primary" class="mr-16">phone</mat-icon-->
+                          <span style="font-weight: bold;color: rgb(134, 134, 139);">Date fin</span>
+                        </mat-list-item>
+                        <mat-list-item>{{ catalog.endDate }}</mat-list-item>
+                    </mat-list>
+                    <mat-list fxFlex="50%" fxFlex.xs="100%">
+                        <button mat-button (click)="openComment()"> 
+                        <mat-list-item class="cc1-title">
+                          <mat-icon color="primary" class="mr-16">comment</mat-icon>
+                          <span  style="font-weight: bold;color: rgb(134, 134, 139);">Commentaire</span>
+                        </mat-list-item>
+                        </button>
+                      </mat-list>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-accordion>
+            <!--requested profiles here-->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon Orders
+                        color="primary">contact_phone </mat-icon>
+                        <h6 class="text-18 mb-4"> Profils disponibles </h6>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!--div fxLayout="row wrap" fxLayoutAlign="space-between center" class="border-bottom pb-16 mb-16">
+                    <span fxFlex></span>
+                    <button mat-icon-button color="primary" type="button" (click)="openPopUp2(req.id,true)">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div-->
+              
+                <mat-table [dataSource]="dataSource" matSort >
+            
+            
+            
+                    <ng-container matColumnDef="function">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Fonction </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="function"> {{row.function}} </mat-cell>
+                    </ng-container>
+            
+                  
+                    <ng-container matColumnDef="experience">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Niveau d'expérience </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="experience"> {{levelMap[row.experience]}} </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="candidateDailyCost">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Taux journalier profil </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="candidateDailyCost"> {{row.candidateDailyCost}} {{catalog.currency}} </mat-cell>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+    
+                            <button mat-icon-button mat-sm-button color="warn" (click)="deleteProfile(row.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+    
+                        </mat-cell>
+                    </ng-container>
+            
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+            
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>

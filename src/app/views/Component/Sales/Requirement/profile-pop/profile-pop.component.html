@@ -1,0 +1,101 @@
+
+
+
+<h1 matDialogTitle>{{data.title}}</h1>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre de candidats</mat-label>
+        <input
+          matInput
+          required
+          type="number"
+          name="candidateNumber"
+          formControlName="candidateNumber"
+          placeholder="Nombre de candidats"
+        />
+        <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
+          Ce champs est requis.
+        </mat-error-->
+    </mat-form-field>
+    </div>
+
+    <!--Fonction-->
+  <div fxFlex="50"  class="pr-16">
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Fonction</mat-label>
+        <input
+          matInput
+          required
+          name="function"
+          formControlName="function"
+          placeholder="Fonction"
+        />
+        <!--mat-error *ngIf="partnerAddressForm.get('value').at(i).get('num').invalid && partnerAddressForm.get('value').at(i).get('num').touched">
+          Ce champs est requis.
+        </mat-error-->
+    </mat-form-field>
+  </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Années d'expérience</mat-label>
+          <input
+            matInput
+            required
+            type="number"
+            name="experienceYears"
+            formControlName="experienceYears"
+            placeholder="Années d'expérience"
+          />
+          <!--mat-error *ngIf="partnerAddressForm.get('value').at(i).get('experienceYears').invalid && partnerAddressForm.get('value').at(i).get('experienceYears').touched">
+            Ce champs est requis.
+          </mat-error-->
+      </mat-form-field>
+      </div>
+
+    <!--Code postal-->
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date début</mat-label>
+          <input  
+              matInput [matDatepicker]="picker3" 
+              formControlName="startDate" 
+              placeholder="Date début" 
+          >
+          <mat-datepicker-toggle  matSuffix [for]="picker3"></mat-datepicker-toggle>
+          <mat-datepicker #picker3></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+     <!--Ville-->
+     <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date fin</mat-label>
+          <input  
+              matInput [matDatepicker]="picker4" 
+              formControlName="endDate" 
+              placeholder="Date fin" 
+          >
+          <mat-datepicker-toggle  matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="mini-container" >
+      <mat-form-field [style.width.cm]=17 class="example-full-width" appearance="outline">
+        <mat-label>Commentaire</mat-label>
+        <textarea matInput placeholder="Saisissez un commentaire si nécessaire."
+        formControlName="comment"></textarea>
+      </mat-form-field>
+    </div>
+
+        <div fxFlex="100" class="mt-16">
+          <button mat-raised-button color="primary" >Enregistrer</button>
+          <span fxFlex></span>
+          <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+        </div>
+      </div>
+  </form>

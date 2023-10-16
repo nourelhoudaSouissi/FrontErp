@@ -1,0 +1,131 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+   
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
+      <div  fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Nom contact</mat-label>
+                <mat-select  [formControlName]="'contactNum'">
+                  <mat-option *ngFor="let contact of listcontact" [value]="contact.contactId">{{ contact.fullName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          
+      <div  fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Date</mat-label>
+           <input
+          matInput
+          name="date"
+          type="date" 
+          [formControlName]="'date'"
+          placeholder="Date">
+          <!--input
+            formControlName="date"
+            matInput
+            name = "Date"
+            [matDatepicker]="picker"
+            placeholder="Date"
+            required
+          >
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker-->
+         
+        </mat-form-field>
+      </div>
+
+    <!--div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        formControlName="time"
+        ngxMatTimepicker="timepicker" 
+        placeholder="Heure"
+      />
+      <ngx-mat-timepicker-toggle matSuffix [for]="timepicker"></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker #timepicker></ngx-mat-timepicker>
+    
+      </mat-form-field>
+    </div--> 
+
+  
+    <div fxFlex="50" class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Heure</mat-label>
+        <input
+          matInput
+          name="time"
+          type="time" 
+          [formControlName]="'time'"
+          placeholder="Heure">
+      </mat-form-field>
+    </div>
+
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Lieu</mat-label>
+        <input
+        matInput
+        name="location"
+        type="text"
+        [formControlName]="'location'"
+        placeholder="Lieu">
+      </mat-form-field>
+    </div>
+   
+
+   
+
+    
+      
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Durée</mat-label>
+              <input
+              matInput
+              name="duration"
+              type="number"
+              [formControlName]="'duration'"
+              placeholder="Durée en heures">
+            </mat-form-field>
+          </div>
+          <div class="mini-container">
+            <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+              <mat-label>Commentaire</mat-label>
+              <textarea
+              matInput
+              name="subject"
+              type="text"
+              [formControlName]="'subject'"
+              placeholder="Saisissez un commentaire si nécessaire.">
+              </textarea>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" class="mt-16">
+            <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
+            <span fxFlex></span>
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+          </div>
+         
+
+
+
+     
+
+    
+
+     
+
+
+
+
+
+    

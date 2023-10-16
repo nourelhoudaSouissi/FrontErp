@@ -1,0 +1,139 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+    <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">Nouveau
+     rendez-vous</button>
+  
+    <mat-form-field  >
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+      </mat-form-field> 
+   
+  </div>
+  <mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+    <mat-card-content class="p-0">
+      <mat-table [dataSource]="dataSource" matSort  >
+  
+  
+    
+  
+        
+
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Date</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'date')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="date"> {{ formatDate(row.date) }} </mat-cell>
+          </ng-container>
+
+        
+          
+        
+
+          
+          <ng-container matColumnDef="time">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Heure</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'time')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="time"> {{row.time}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="location">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Lieu</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'location')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="location"> {{row.location }} </mat-cell>
+          </ng-container>
+
+                    
+          <ng-container matColumnDef="duration">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Durée</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'duration')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="duration"> {{row.duration }} heures </mat-cell>
+          </ng-container>
+
+                    
+         
+          <!--ng-container matColumnDef="subject">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Sujet</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'subject')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="subject"> {{row.subject}} </mat-cell>
+          </ng-container-->
+
+          <ng-container matColumnDef="contact">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Contact</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'contact')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="contact" > {{ row.contactFullName  }} </mat-cell>
+          </ng-container>
+  
+  
+        
+  
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Action 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            
+           
+  
+                <button
+                  mat-icon-button
+                  routerLink="/gg/{{ row.id }}"
+                  routerLinkActive="router-link-active"
+                  color="basic"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+  
+  
+  
+            <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  
+    </mat-card-content>
+  </mat-card> 
+  
+ 

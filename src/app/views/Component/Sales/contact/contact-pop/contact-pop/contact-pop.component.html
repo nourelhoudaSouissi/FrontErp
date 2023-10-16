@@ -1,53 +1,139 @@
 
-<h1 matDialogTitle>{{data.title}}</h1>
-Nouveau contact
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
   <form [formGroup]="itemForm" (ngSubmit)="submit()" >
-    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
+
 
     <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        name="firstName"
-        [formControlName]="'firstName'"
-        placeholder="Nom">
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Civilité</mat-label>
+        <mat-select  [formControlName]="'civility'">
+          <mat-option *ngFor="let x of Civility" [value]="x">{{ CivilityMap[x]}}</mat-option>
+        </mat-select>
       </mat-form-field>
-    </div>
-
+  </div>
+  
     <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Nom</mat-label>
         <input
         matInput
         name="lastName"
         type="text"
         [formControlName]="'lastName'"
+        placeholder="Nom">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Prénom</mat-label>
+        <input
+        matInput
+        name="firstName"
+        [formControlName]="'firstName'"
         placeholder="Prénom">
       </mat-form-field>
     </div>
 
+    
+
+    <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
+      <label>
+        Contact d'un partenaire/prospect existant
+        <input type="checkbox" [checked]="showDiv" [formControlName]="'partnerCont'" (change)="toggleDiv()">
+      </label>
+    </div>
+
+    <div fxFlex="50"  class="pr-16" *ngIf="!showDiv">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Société/Groupe</mat-label>
+        <input
+        matInput
+        name="societe"
+        type="text"
+        [formControlName]="'societe'"
+        placeholder="Société/Groupe">
+      </mat-form-field>
+    </div>
+
+    <div  fxFlex="50"  class="pr-16" *ngIf="showDiv">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Nom partenaire</mat-label>
+          <mat-select  [formControlName]="'partnerNum'">
+            <mat-option *ngFor="let partner of listPartner" [value]="partner.id">{{partner.name}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16" *ngIf="showDiv">
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Classification</mat-label>
+        <mat-select  [formControlName]="'privilege'">
+          <mat-option *ngFor="let x of Privilege" [value]="x">{{PrivilegeMap[x]}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
     <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Service</mat-label>
+      <input 
+      matInput
+      name="service"
+      type="text"
+      [formControlName]="'service'"
+      placeholder="Service">
+      
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="50"  class="pr-16">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Localisation</mat-label>
+      <input
+      matInput
+      name="localisation"
+      [formControlName]="'localisation'"
+      placeholder="Localisation">
+    </mat-form-field>
+  </div>
+  
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Fonction</mat-label>
         <input
         matInput
         name="function"
         [formControlName]="'function'"
-        placeholder="fonction">
+        placeholder="Fonction">
       </mat-form-field>
     </div>
 
     <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Email</mat-label>
         <input
         matInput
-        name="emailOne"
+        name="email"
         type="email"
-        [formControlName]="'emailOne'"
-        placeholder="Email 1">
+        [formControlName]="'email'"
+        placeholder="Email">
       </mat-form-field>
     </div>
 
-    <div fxFlex="50"  class="pr-16">
-        <mat-form-field class="full-width">
+    <!--div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Email 2</mat-label>
           <input
           matInput
           name="emailTwo"
@@ -55,87 +141,59 @@ Nouveau contact
           [formControlName]="'emailTwo'"
           placeholder="Email 2">
         </mat-form-field>
-      </div>
+      </div-->
 
 
 
       <div fxFlex="50"  class="pr-16">
-        <mat-form-field class="full-width">
-            <mat-label>Téléphone 1</mat-label>
-            <input matInput formControlName="phoneNumberOne" placeholder="+1 1234567890">
-            <mat-error *ngIf="itemForm.get('phoneNumberOne').invalid && itemForm.get('phoneNumberOne').touched">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>N° téléphone mobile</mat-label>
+            <input matInput [formControlName]="'mobilePhoneNumber'" placeholder="N° téléphone mobile">
+            <!--mat-error *ngIf="itemForm.get('phoneNumberOne').invalid && itemForm.get('phoneNumberOne').touched">
               <div *ngIf="itemForm.get('phoneNumberOne').errors.required">Phone number is required</div>
               <div *ngIf="itemForm.get('phoneNumberOne').errors.pattern">Invalid phone number format</div>
-            </mat-error>
+            </mat-error-->
           </mat-form-field>
         </div>
 
         <div fxFlex="50"  class="pr-16">
-          <mat-form-field class="full-width">
-              <mat-label>Téléphone 2</mat-label>
-              <input matInput formControlName="phoneNumberTwo" placeholder="+1 1234567890">
-              <mat-error *ngIf="itemForm.get('phoneNumberTwo').invalid && itemForm.get('phoneNumberTwo').touched">
+          <mat-form-field class="full-width" appearance="outline">
+              <mat-label>N° téléphone fixe</mat-label>
+              <input matInput [formControlName]="'phoneNumber'" placeholder="N° téléphone fixe">
+              <!--mat-error *ngIf="itemForm.get('phoneNumberTwo').invalid && itemForm.get('phoneNumberTwo').touched">
                 <div *ngIf="itemForm.get('phoneNumberTwo').errors.required">Phone number is required</div>
                 <div *ngIf="itemForm.get('phoneNumberTwo').errors.pattern">Invalid phone number format</div>
-              </mat-error>
+              </mat-error-->
+            </mat-form-field>
+          </div>
+          
+          <div class="mini-container">
+            <mat-form-field [style.width.cm]=22.3 class="example-full-width" appearance="outline">
+              <mat-label>Commentaire</mat-label>
+              <textarea
+                matInput
+                name="comment"
+                [formControlName]="'comment'"
+                placeholder="Saisissez un commentaire si nécessaire.">
+              </textarea>
             </mat-form-field>
           </div>
 
-          <div fxFlex="50"  class="pr-16">
-            <mat-form-field class="full-width">
-              <input
-              matInput
-              name="comment"
-              type="text"
-              [formControlName]="'comment'"
-              placeholder="Commentaire">
-            </mat-form-field>
-          </div>
-
-          <div fxFlex="50"  class="pr-16">
-
-            <mat-form-field class="full-width">
-              <mat-label>Privilège</mat-label>
-              <mat-select  [formControlName]="'privilege'">
-                <mat-option *ngFor="let x of Privilege" [value]="x">{{ x }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+        <!--Prise de rendez-vous-->
+        <div fxFlex="50" class="pr-16" style="padding-bottom:17px ;">
+          <label>
+            Prise de rendez-vous
+            <input type="checkbox" [formControlName]="'appointmentMaking'">
+          </label>
         </div>
 
-        <div fxFlex="50"  class="pr-16">
+          
 
-          <mat-form-field class="full-width">
-            <mat-label>Civilité</mat-label>
-            <mat-select  [formControlName]="'civility'">
-              <mat-option *ngFor="let x of Civility" [value]="x">{{ x }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
 
-      <div fxFlex="50"  class="pr-16">
-
-        <mat-form-field class="full-width">
-          <mat-label>Service</mat-label>
-          <mat-select  [formControlName]="'service'">
-            <mat-option *ngFor="let service of Service" [value]="service">{{service }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field class="full-width">
-            <mat-label>Partenaire</mat-label>
-            <mat-select  [formControlName]="'partnerNum'">
-              <mat-option *ngFor="let partnerNum of listPartner" [value]="partnerNum.id">{{ partnerNum.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
-
-    <div fxFlex="100" class="mt-16">
-      <button mat-raised-button color="primary" >{{"SAVE" | translate }}</button>
+  <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
       <span fxFlex></span>
-      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Cancel</button>
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
     </div>
   </div>
-  </form>
 

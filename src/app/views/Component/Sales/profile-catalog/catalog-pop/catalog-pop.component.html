@@ -1,0 +1,231 @@
+<!--h1 matDialogTitle>{{data.title}}</h1-->
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.title}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+    <form [formGroup]="itemForm">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Référence catalogue</mat-label>
+            <input
+              matInput
+              name="ref"
+              type="text"
+              [formControlName]="'ref'"
+              placeholder="Référence catalogue">
+              <mat-error *ngIf="itemForm.get('ref').hasError('required') && itemForm.get('ref').touched">
+                La référence catalogue est requise.
+              </mat-error>
+              <mat-error *ngIf="itemForm.get('ref').hasError('overlappingRef') && itemForm.get('ref').touched">
+                La référence saisie existe déjà.
+              </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Titre</mat-label>
+            <input
+              matInput
+              name="title"
+              type="text"
+              [formControlName]="'title'"
+              placeholder="Titre">
+              <mat-error *ngIf="itemForm.get('title').invalid && itemForm.get('title').touched">
+                Le titre catalogue est requis.
+              </mat-error>
+        </mat-form-field>
+      </div>
+
+      
+      <!--div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Année</mat-label>
+            <input
+              matInput
+              name="year"
+              type="number"
+              [formControlName]="'year'"
+              placeholder="Année">
+        </mat-form-field>
+      </div-->
+      
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Date de début</mat-label>
+          <input
+            matInput
+            name="startDate"
+            type="date" 
+            [formControlName]="'startDate'"
+          placeholder="Date de début">
+            <!--input  
+              matInput [matDatepicker]="picker" 
+              formControlName="responseDate" 
+              placeholder="Date de réponse" 
+            >
+            <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker-->
+              <mat-error *ngIf="itemForm.get('startDate').hasError('required')">
+                La date de début est requise.
+              </mat-error>
+              <mat-error *ngIf="itemForm.get('startDate').hasError('overlappingStartDate') || itemForm.get('startDate').hasError('periodOverlapping')">
+                La date saisie est en conflit avec une autre période.
+              </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Date de fin</mat-label>
+          <input
+            matInput
+            name="endDate"
+            type="date" 
+            [formControlName]="'endDate'"
+          placeholder="Date de fin">
+            <!--input  
+              matInput [matDatepicker]="picker" 
+              formControlName="responseDate" 
+              placeholder="Date de réponse" 
+            >
+            <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker-->
+              <mat-error *ngIf="itemForm.get('endDate').hasError('required')">
+                La date de fin est requise.
+              </mat-error>
+              <mat-error *ngIf="itemForm.get('endDate').hasError('invalidDateRange')">
+                La date de fin doit être supérieure à la date de début.
+              </mat-error>
+              <mat-error *ngIf="itemForm.get('endDate').hasError('overlappingEndDate') || itemForm.get('endDate').hasError('periodOverlapping')">
+                La date saisie est en conflit avec une autre période.
+              </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Devise</mat-label>
+          <mat-select  [formControlName]="'currency'">
+            <mat-option *ngFor="let currency of currencies" [value]="currency">{{ currencyMap[currency] }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="itemForm.get('currency').invalid && itemForm.get('currency').touched">
+            La devise du catalogue est requise.
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="mini-container" >
+        <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+          <mat-label>Commentaire</mat-label>
+          <textarea matInput placeholder="Saisissez un commentaire si nécessaire."
+          [formControl]="itemForm.controls['comment']"></textarea>
+        </mat-form-field>
+      </div>
+  
+          <mat-card class = "custom-card">
+            <mat-card-title>
+              <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px" >
+                <span>{{data.titleP}}</span>
+                <button mat-icon-button *ngIf="data.isNew" (click)="toggleProfilesForm()">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="!data.isNew" (click)="toggleProfilesForm()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+              <mat-error *ngIf="profilesFormArray.length === 0 && submitted">
+                Un profil au moins est requis.
+              </mat-error>
+            </mat-card-title>
+  
+            <div formArrayName="profiles" *ngIf="showProfilesForm">
+              <div *ngFor="let profile of itemForm.get('profiles')?.controls; let i = index" [formGroup]="profile">
+                <div fxLayout="row wrap" >
+
+                  
+              
+                  <!--Fonction-->
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Fonction</mat-label>
+                      <input
+                        matInput
+                        required
+                        name="function"
+                        formControlName="function"
+                        placeholder="Fonction"
+                      />
+                      <!--mat-error *ngIf="partnerAddressForm.get('value').at(i).get('num').invalid && partnerAddressForm.get('value').at(i).get('num').touched">
+                        Ce champs est requis.
+                      </mat-error-->
+                  </mat-form-field>
+                </div>
+              
+                  
+  
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Niveau d'expérience</mat-label>
+          <mat-select  [formControlName]="'experience'">
+            <mat-option *ngFor="let level of levels" [value]="level">{{ levelMap[level] }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+              
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Coût journalier candidat (en {{ itemForm.get('currency').value }})</mat-label>
+          <input
+            matInput
+            required
+            type="number"
+            name="candidateDailyCost"
+            formControlName="candidateDailyCost"
+            placeholder="Coût journalier candidat (en {{ itemForm.get('currency').value }})"
+          />
+          <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
+            Ce champs est requis.
+          </mat-error-->
+      </mat-form-field>
+      </div>
+                  <div class="mini-container" >
+                    <mat-form-field [style.width.cm]=20.8 class="example-full-width" appearance="outline">
+                      <mat-label>Commentaire</mat-label>
+                      <textarea matInput placeholder="Saisissez un commentaire si nécessaire."
+                      formControlName="comment"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="button-container">
+                    <div>
+                      <button class="left-button" mat-icon-button (click)="removeProfileFormGroup(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <div>
+                      <button class="right-button" mat-icon-button (click)="addProfileFormGroup(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </mat-card>
+  
+          <div fxFlex="100" class="mt-16">
+            <button mat-raised-button color="primary" (click)="submit()">Enregistrer</button>
+            <span fxFlex></span>
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+          </div>
+        </div>
+    </form>
+  
+  

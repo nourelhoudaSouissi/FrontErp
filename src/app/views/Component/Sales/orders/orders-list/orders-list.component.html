@@ -1,0 +1,91 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+    <button 
+    mat-raised-button 
+    class="mb-2" 
+    style="float: right ;"  
+    color="primary" 
+    routerLink="/order/add"
+    routerLinkActive="router-link-active" >
+    Nouvelle
+     commande</button>
+    
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+    </mat-form-field>
+</div>
+<mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+    <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="ref">
+                <mat-header-cell *matHeaderCellDef mat-sort-header > 
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                    <span>Référence</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'ref')" placeholder="Filtrer">
+                   </mat-form-field>
+                   </div> 
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="ref"> {{row.ref}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="quotationRef">
+                <mat-header-cell *matHeaderCellDef mat-sort-header > 
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                    <span>Référence devis</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'quotationRef')" placeholder="Filtrer">
+                   </mat-form-field>
+                   </div> 
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="ref"> {{row.quotationRef}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="partnerName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;">
+                    <span>Nom partenaire</span>
+                    <mat-form-field style="width: 10rem; text-align: center;">
+                      <input matInput (input)="applyFilterr($event, 'partnerName')" placeholder="Filter">
+                    </mat-form-field>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="partnerName">{{ row.partnerName }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="reqTitle">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;">
+                    <span>Opportunité</span>
+                    <mat-form-field style="width: 10rem; text-align: center;">
+                      <input matInput (input)="applyFilterr($event, 'reqTitle')" placeholder="Filter">
+                    </mat-form-field>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="reqTitle">{{ row.reqTitle }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button
+                        mat-icon-button
+                        routerLink="/order/{{ row.id }}"
+                        routerLinkActive="router-link-active"
+                        color="basic"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </mat-card-content>
+</mat-card>

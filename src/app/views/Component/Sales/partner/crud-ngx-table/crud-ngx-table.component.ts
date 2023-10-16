@@ -10,14 +10,13 @@ import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Partner } from 'app/shared/models/Partner';
+import { CompanyStatus, LegalStatus, Partner, Provenance, WorkField } from 'app/shared/models/Partner';
 import { Router } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-crud-ngx-table',
-  styleUrls: ['crud.scss'],
   templateUrl: './crud-ngx-table.component.html',
   animations: egretAnimations
 })
@@ -48,7 +47,7 @@ export class CrudNgxTableComponent implements OnInit, OnDestroy {
   }
 
   getDisplayedColumns() {
-    return ['name','parentCompany','ceoName','Country','CompanyStatus','actions'];
+    return ['logo','companyStatus','ref','name','blocked','actions'];
   }
 
 
@@ -63,20 +62,26 @@ export class CrudNgxTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  getItems() {    
-    this.getItemSub = this.crudService.getItems()
-      .subscribe((data:any)  => {
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-
+  getItems() {
+    this.getItemSub = this.crudService.getItems().subscribe((data: any) => {
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+  
+      // Iterate over the rows of the MatTableDataSource
+      for (const item of this.dataSource.data) {
+        this.clientSupplierPartner(item);
+        console.log(item.companyStatus);
+      }
+    });
   }
+  
 
   openPopUp(data:  any , isNew?) {
     let title = isNew ? 'Nouveau partenaire' : 'Modifier Partenaire';
     let dialogRef: MatDialogRef<any> = this.dialog.open(NgxTablePopupComponent, {
-      width: '1000px',
+      width: '920px',
+      height: '620px',
       disableClose: true,
       data: { title: title, payload: data }
     })
@@ -108,11 +113,11 @@ export class CrudNgxTableComponent implements OnInit, OnDestroy {
       })
   }
   deleteItem(row) {
-    this.confirmService.confirm({message: `Delete ${row.name}?`})
+    this.confirmService.confirm({message: `Supprimer ${row.name}?`})
       .subscribe(res => {
         if (res) {
-          this.loader.open('Supprission du partenaire');
-          this.crudService.deleteItem(row)
+          this.loader.open('Suppression du partenaire');
+          this.crudService.deleteItem(row.id)
             .subscribe((data:any)=> {
               this.dataSource = data;
               this.loader.close();
@@ -142,4 +147,69 @@ add(){
       this.router.navigate(['/contacts', itemId]);
     }
   }*/
+
+
+  ////////////filtrer  par colonne //////////////
+  applyFilterr(event: Event, key: string) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+    this.dataSource.filterPredicate = (data, filter) => {
+      return data[key].trim().toLowerCase().indexOf(filter) !== -1;
+    };
+  }
+
+  // Mapper function to map 'blocked' field values to labels
+  mapBlockedStatus(blocked: boolean): string {
+    return blocked ? 'Bloqué' : 'Actif';
+  }
+
+  clientSupplierPartner(item){
+    const refs = item.refs
+    
+    for (let i=0 ; i < refs.length ; i++) {
+      if (refs[i].startsWith('CL')) {
+        for (let j=0 ; j < refs.length ; j++) {
+          if (refs[j].startsWith('FR')){
+            item.companyStatus = CompanyStatus.CLIENT_SUPPLIER
+            break
+          }
+        }
+        break
+      }
+    }
+  }
+
+  CompanyStatusMap = {
+    [CompanyStatus.PROSPECT]:'Prospect',
+    [CompanyStatus.SUPPLIER]:'Fournisseur',
+    [CompanyStatus.CLIENT]:'Client',
+    [CompanyStatus.ARCHIVED] :'Archivé',
+    [CompanyStatus.CLIENT_SUPPLIER] :'Client / Fournisseur'
+  };
+
+  provenanceMap = {
+    [Provenance.JOBS_FORUM]:'Salon des entreprises',
+    [Provenance.RECOMMENDATION]:'Recommendation',
+   [Provenance.COOPERATION]:'Coopération',
+   [Provenance.OTHER] :'Autre'
+  };
+
+  workFieldMap = {
+    [WorkField.IT]:'IT',
+    [WorkField.INDUSTRY]:'Industrie',
+   [WorkField.SALES]:'Ventes',
+   [WorkField.AGRICULTURE] :'Agriculture',
+   [WorkField.BANKING] :'Banking',
+   [WorkField.E_COM] :'E-Commerce',
+   [WorkField.ASSURANCE] :'Assurance',
+   [WorkField.FINANCE] :'Finance'
+  };
+
+  legalStatusMap = {
+    [LegalStatus.SA]:'SA',
+    [LegalStatus.SARL]:'SARL'
+  };
 }

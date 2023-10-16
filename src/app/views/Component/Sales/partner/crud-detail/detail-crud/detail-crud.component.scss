@@ -1,0 +1,94 @@
+.partner-card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .partner-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .partner-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 30px;
+  }
+  
+  .partner-logo img {
+    max-width: 250px;
+    max-height: 250px;
+    border: 2px solid #cfc9c9ea;
+    border-radius: 4px; 
+  }
+  
+
+  .partner-details {
+    background-color: #f5f3f386;
+    font-size: 15px;
+    border-radius: 10px; 
+    overflow: hidden;
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .main-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .subtitle {
+    margin-bottom: 8px;
+  }
+  
+  .subtitle strong {
+    font-weight: bold;
+  }
+  
+
+  .coord-card1 {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f5f3f386;
+  padding: 16px;
+}
+
+.cc1-title {
+  display: flex;
+  align-items: center;
+}
+
+.mat-icon {
+  margin-right: 8px;
+}
+  
+  
+  .financial-nfo{
+    border-radius: 10px; 
+  overflow: hidden;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  padding: 10px;
+  }
+
+  .card-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .first-div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .second-div {
+    margin-left: auto;
+  }
+  
+  /*.title-text {
+    padding-top: 10px;
+  }*/

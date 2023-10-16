@@ -1,11 +1,18 @@
+
+
 <div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
 
 
-    <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">Nouveau
-     besoin</button>
+    <button 
+    mat-raised-button 
+    class="mb-2" 
+    style="float: right ;"  
+    color="primary" 
+    (click)="openPopUp({},true)">Nouvelle
+     Opportunité</button>
   
     <mat-form-field  >
-      <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
       </mat-form-field> 
    
   </div>
@@ -13,46 +20,114 @@
     <mat-card-content class="p-0">
       <mat-table [dataSource]="dataSource" matSort  >
   
-  
-    
-  
-        <ng-container matColumnDef="title">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Titre </mat-header-cell>
-          <mat-cell *matCellDef="let row" data-label="title"> {{row.title}} </mat-cell>
-        </ng-container>
-  
-  
-  
-        <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-          <mat-cell *matCellDef="let row" data-label="description"> {{row.description}} </mat-cell>
-        </ng-container>
-  
-        
-       <ng-container matColumnDef="Criteria">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Critère </mat-header-cell>
-          <mat-cell *matCellDef="let row" data-label="Criteria"> {{row.criteria}} </mat-cell>
+        <ng-container matColumnDef="partnerName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header > 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+              <span>Nom partenaire</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'partnerName')" placeholder="Filtrer">
+             </mat-form-field>
+             </div> 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="partnerName"> {{row.partnerName}} </mat-cell>
         </ng-container>
 
-                    
-          <ng-container matColumnDef="requirementType">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Type besoin </mat-header-cell>
-            <mat-cell *matCellDef="let row" data-label="requirementType"> {{row.requirementType}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="ref">
+          <mat-header-cell *matHeaderCellDef mat-sort-header > 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+              <span>Réf. opportunité</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'ref')" placeholder="Filtrer">
+             </mat-form-field>
+             </div> 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="title"> {{row.ref}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header > 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;">
+              <span>Titre</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'title')" placeholder="Filtrer">
+             </mat-form-field>
+             </div> 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="title"> {{row.title}} </mat-cell>
+        </ng-container>
 
                     
           <ng-container matColumnDef="requirementStatus">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Etat besoin </mat-header-cell>
-            <mat-cell *matCellDef="let row" data-label="requirementStatus"> {{row.requirementStatus}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header > 
+              <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                <span>Etat opportunité</span>
+                <mat-form-field style="width:3cm; text-align: center;" >
+                  <input matInput (input)="applyFilterr($event, 'requirementStatus')" placeholder="Filtrer">
+               </mat-form-field>
+               </div> 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="requirementStatus">
+              <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getStatusColor(row.requirementStatus).color" >{{ getStatusColor(row.requirementStatus).displayText }}</button>
+              <mat-menu #menu="matMenu">
+                <!--button mat-menu-item (click)="changeReqStatus('requirementStatus.OPEN', row.id)">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Ouverte</span>
+                </button-->
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.IN_PROGRESS', row.id)">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>En progrès</span>
+                </button>
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.CLOSED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Clôturée</span>
+                </button>
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.PARTIALLY_WON', row.id)">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Partiellement gagnée</span>
+                </button>
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.TOTALLY_WON', row.id)">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Totalement gagnée</span>
+                </button>
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.PARTIALLY_LOST', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Partiellement perdue</span>
+                </button>
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.TOTALLY_LOST', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Totalement perdue</span>
+                </button>
+                <button mat-menu-item (click)="changeReqStatus('requirementStatus.ABANDONED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Abandonée</span>
+                </button>
+              </mat-menu>
+            </mat-cell>
           </ng-container>
-
-                    
-          <ng-container matColumnDef="workField">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Secteur d'activité </mat-header-cell>
-            <mat-cell *matCellDef="let row" data-label="workField"> {{row.workField}} </mat-cell>
-          </ng-container>
+          
+          <ng-container matColumnDef="availability">
+          <mat-header-cell *matHeaderCellDef mat-sort-header > 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Démarrage</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'availability')" placeholder="Filtrer">
+             </mat-form-field>
+             </div> 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="availability"> {{availabilityMap[row.availability]}} </mat-cell>
+        </ng-container>
   
-  
+        <ng-container matColumnDef="responseDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header > 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Date de réponse</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'responseDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div> 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="responseDate"> {{formatDate(row.responseDate)}} </mat-cell>
+        </ng-container>
         
   
         <ng-container matColumnDef="actions">
@@ -60,22 +135,25 @@
           <mat-cell *matCellDef="let row">
             
            
-  
-                <button
+            <!--button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp2(row.id)">
+              <mat-icon>note_add</mat-icon>
+            </button-->
+
+            <button
                   mat-icon-button
-                  routerLink="/gg/{{ row.id }}"
+                  routerLink="/requirement/detail/{{ row.id }}"
                   routerLinkActive="router-link-active"
-                  color="primary"
+                  color="basic"
                 >
                   <mat-icon>visibility</mat-icon>
-                </button>
+            </button>
   
   
   
-            <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+            <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row, false)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+            <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>

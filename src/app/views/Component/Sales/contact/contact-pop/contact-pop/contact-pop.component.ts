@@ -1,7 +1,7 @@
 import { Component, OnInit ,Inject}  from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {  Validators,  FormGroup, FormBuilder } from '@angular/forms';
-import { Privilege,Civility,Service } from 'app/shared/models/contact';
+import {  Validators,  FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Privilege,Civility } from 'app/shared/models/contact';
 import { ContactService } from '../../contact.service';
 import { Partner } from 'app/shared/models/Partner';
 import { CrudPartnerService } from '../../../partner/crudPartner.service';
@@ -11,10 +11,14 @@ import { CrudPartnerService } from '../../../partner/crudPartner.service';
 
 })
 export class ContactPopComponent implements OnInit {
+  showDiv = false; 
+  toggleDiv() {
+    this.showDiv = !this.showDiv;
+  }
+  private partnerNum : number
   public itemForm: FormGroup;
   Privilege :string []= Object.values(Privilege);
   Civility :string []= Object.values(Civility);
-  Service :string []= Object.values(Service);
   listPartner : Partner[] = []
   constructor( @Inject(MAT_DIALOG_DATA) public data: any,
   public dialogRef: MatDialogRef<ContactPopComponent>,
@@ -26,22 +30,27 @@ export class ContactPopComponent implements OnInit {
   ngOnInit(): void {
     this.buildItemForm(this.data.payload)
     this.getPartner()
+    this.partnerNum = this.data.partnerId;
   }
 
   buildItemForm(item){
     this.itemForm = this.fb.group({
       firstName : [item.firstName || '', Validators.required],
       lastName : [item.lastName || '', Validators.required],
+      localisation : [item.localisation || '', Validators.required],
+      societe : [item.societe || '', Validators.required],
       function : [item.function || '', Validators.required],
-      emailOne : [item.emailOne || '', Validators.required],
-      emailTwo : [item.emailTwo || '', Validators.required],
-      phoneNumberOne : [item.phoneNumberOne || '', Validators.required],
-      phoneNumberTwo : [item.phoneNumberTwo || '', Validators.required],
+      email : [item.email || '', Validators.required],
+      //emailTwo : [item.emailTwo || '', Validators.required],
+      phoneNumber : [item.phoneNumber || '', Validators.required],
+      mobilePhoneNumber : [item.mobilePhoneNumber || '', Validators.required],
       comment : [item.comment || '', Validators.required],
       privilege : [item.privilege || '', Validators.required],
       civility : [item.civility || '', Validators.required],
       service : [item.service || '', Validators.required],
-      partnerNum : [item.partnerId|| '', Validators.required]
+      company : [item.company || '', Validators.required],
+      appointmentMaking : [item.appointmentMaking || '', Validators.required],
+      partnerNum: [this.data.partnerId || null, Validators.required]
     });
 }
 
@@ -55,6 +64,17 @@ submit() {
   this.dialogRef.close(this.itemForm.value)
   console.log(this.itemForm.value)
 }
+PrivilegeMap = {
+    [Privilege.HIGH]:'Elevé',
+    [Privilege.MEDIUM]:'Moyen',
+    [Privilege.LOW] : 'Faible'
+  };
+  CivilityMap = {
+    [Civility.MR]:'Mr',
+    [Civility.MRS]:'Mme',
+    [Civility.MS] : 'Mlle'
+   
+  };
 }
 
 

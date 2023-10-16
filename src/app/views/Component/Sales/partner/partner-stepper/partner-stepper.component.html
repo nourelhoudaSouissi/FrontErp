@@ -1,0 +1,1110 @@
+<mat-card class="p-0">
+    <mat-horizontal-stepper  #stepper (selectionChange)="onStepChange($event.selectedIndex)">
+          <!---------------------------INFOS-PARTENAIRES-------------------------->
+        <mat-step [stepControl]="step1">
+            <form [formGroup]="partnerForm">
+                <div>
+                    <ng-template matStepLabel>Infos générales</ng-template>
+                    <mat-card-title class="">
+                        <mat-divider></mat-divider>
+                        <div class="card-title-text">Indiquez les infos générales du partenaire</div>
+                        <mat-divider></mat-divider>
+                    </mat-card-title>
+
+                    <mat-card-content class="container" style="padding-top: 1.5cm;">
+                        <div>
+                            <mat-grid-list cols="2" rowHeight="100px">
+                                <mat-grid-tile>
+                                    <!--Type partenariat-->
+                                    <div class="pb-16">
+                                     <mat-form-field appearance="outline" [style.width.cm]=10>
+                                     <mat-label>Type partenariat</mat-label>
+                                     <mat-select formControlName="companyStatus">
+                                       <mat-option  *ngFor="let status of companyStatus " [value]="status">{{ companyStatusMap[status] }}</mat-option>
+                                     </mat-select>
+                                     <mat-error *ngIf =  "partnerForm.get('companyStatus').invalid && partnerForm.get('companyStatus').touched">
+                                      Le champs type partenariat est requis.
+                                     </mat-error>
+                                     </mat-form-field>
+                                   </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="pb-16">
+                                        <mat-form-field appearance="outline" [style.width.cm]="10">
+                                            <mat-label>Désignation(nom)</mat-label>
+                                            <input
+                                              matInput
+                                              required
+                                              name="name"
+                                              formControlName="name"
+                                              placeholder= "Désignation(nom)"
+                                            />
+                                            <mat-error *ngIf="partnerForm.get('name').invalid && partnerForm.get('name').touched">
+                                              La désignation est requise et doit commencer par une majuscule.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <!--status juridique société-->
+                                    <div class="pb-16">
+                                     <mat-form-field appearance="outline" [style.width.cm]=10>
+                                     <mat-label>Forme juridique</mat-label>
+                                     <mat-select formControlName="legalStatus">
+                                       <mat-option  *ngFor="let status of legalStatus " [value]="status">{{ legalStatusMap[status] }}</mat-option>
+                                     </mat-select>
+                                     <mat-error *ngIf="partnerForm.get('legalStatus').invalid && partnerForm.get('legalStatus').touched">
+                                      Le champs forme juridique est requis.
+                                     </mat-error>
+                                     </mat-form-field>
+                                   </div>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    
+                                  <div class="pb-16">
+                                    <!--Référence externe-->
+                                      <mat-form-field appearance="outline" [style.width.cm]="10">
+                                          <mat-label>Référence externe</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="externalReference"
+                                            formControlName="externalReference"
+                                            placeholder="Référence externe"
+                                          />
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    
+                                    <div class="pb-16">
+                                      <!--Identifiant juridique entreprise-->
+                                        <mat-form-field appearance="outline" [style.width.cm]="10">
+                                            <mat-label>Identifiant juridique entreprise</mat-label>
+                                            <input
+                                              matInput
+                                              required
+                                              name="legalIdentifier"
+                                              formControlName="legalIdentifier"
+                                              placeholder="Identifiant juridique entreprise"
+                                            />
+                                            <mat-error *ngIf="partnerForm.get('legalIdentifier').invalid && partnerForm.get('legalIdentifier').touched">
+                                              Ce champs est requis et doit comporter au maximum 30 caractères.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="pb-16">
+                                      <!--Identifiant juridique entreprise-->
+                                        <mat-form-field appearance="outline" [style.width.cm]="10">
+                                            <mat-label>Identifiant TVA</mat-label>
+                                            <input
+                                              matInput
+                                              required
+                                              name="tvaIdentifier"
+                                              formControlName="tvaIdentifier"
+                                              placeholder="Identifiant TVA"
+                                            />
+                                            <mat-error *ngIf="partnerForm.get('tvaIdentifier').invalid && partnerForm.get('tvaIdentifier').touched">
+                                              Ce champs est requis et doit comporter au maximum 30 caractères.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="pb-16">
+                                      <!--Identifiant juridique entreprise-->
+                                        <mat-form-field appearance="outline" [style.width.cm]="10">
+                                            <mat-label>Code NAF</mat-label>
+                                            <input
+                                              matInput
+                                              required
+                                              name="nafCode"
+                                              formControlName="nafCode"
+                                              placeholder="Code NAF"
+                                            />
+                                            <mat-error *ngIf="partnerForm.get('nafCode').invalid && partnerForm.get('nafCode').touched">
+                                              Ce champs doit comporter au maximum 30 caractères.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+
+
+                                <mat-grid-tile>
+                                  <!--Logo-->
+                                  <mat-label style="margin-bottom: 10px;">Logo</mat-label>
+                                  <div  fxFlex="50"  class="pr-16" >
+                                    <input type="file" style="padding: 12px;" (change)="onFileSelected($event)">
+                                  </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </mat-card-content>
+
+                    <div  fxLayout="row" dir="rtl"  fxLayoutAlign="space-between center">
+                      <!--Button 1-->
+                      <div>
+                        <button 
+                        mat-raised-button 
+                        color="primary"
+                        (click)="savePartner()"
+                        matStepperNext>Coordonnées
+                        </button>
+                      </div>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+        <!-----------------------ADRESSES-PARTENAIRES----------------------------->
+        <mat-step [stepControl]="step2" >
+                <div>
+                    <ng-template matStepLabel>Coordonnées</ng-template>
+                    <mat-card-title class="">
+                        <mat-divider></mat-divider>
+                        <div class="card-title-text"><small>{{selectedPartner.ref}} : </small><strong>{{selectedPartner.name}}</strong></div>
+                        <mat-divider></mat-divider>
+                    </mat-card-title>
+
+                    <mat-card-content class="container" style="padding-top: 1.5cm;">
+                            <form [formGroup] = "coordonneesForm">
+                              <!--n° tel fixe-->
+                              <div class = "d-flex">
+                                <div class="form-group mb-1 col-sm-12 col-md-3">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                        <mat-label>n° téléphone fixe</mat-label>
+                                        <input
+                                          matInput
+                                          required
+                                          name="phoneNumber"
+                                          formControlName="phoneNumber"
+                                          placeholder="n° téléphone fixe"
+                                        />
+                                        <mat-error *ngIf="coordonneesForm.get('phoneNumber').invalid && coordonneesForm.get('phoneNumber').touched">
+                                          Ce champs est requis et doit comporter seulement des caractères numériques.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                              <!--n° tel mobile-->
+                                <div class="form-group mb-1 col-sm-12 col-md-3">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10">
+                                        <mat-label>n° téléphone mobile</mat-label>
+                                        <input
+                                          matInput
+                                          required
+                                          name="mobilePhoneNumber"
+                                          formControlName="mobilePhoneNumber"
+                                          placeholder="n° téléphone mobile"
+                                        />
+                                        <mat-error *ngIf="coordonneesForm.get('mobilePhoneNumber').invalid && coordonneesForm.get('mobilePhoneNumber').touched">
+                                          Ce champs est requis et doit comporter seulement des caractères numériques.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                              </div>
+                              <!--email-->
+                              <div class = "d-flex">
+                                <div class="form-group mb-1 col-sm-12 col-md-3">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                        <mat-label>Email</mat-label>
+                                        <input
+                                          matInput
+                                          required
+                                          name="email"
+                                          formControlName="email"
+                                          placeholder="Email"
+                                        />
+                                        <mat-error *ngIf="coordonneesForm.get('email').invalid && coordonneesForm.get('email').touched">
+                                          Ce champs est requis et l'email doit être valide.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                              <!--site web-->
+                                <div class="form-group mb-1 col-sm-12 col-md-3">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10">
+                                        <mat-label>Site web</mat-label>
+                                        <input
+                                          matInput
+                                          required
+                                          name="website"
+                                          formControlName="webSite"
+                                          placeholder="Site web"
+                                        />
+                                        <mat-error *ngIf="coordonneesForm.get('webSite').invalid && coordonneesForm.get('webSite').touched">
+                                          Ce champs est requis.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                              </div>
+                            </form>
+                            <mat-card-title>
+                              <div class="card-title-text">Ajoutez les adresses</div>
+                          </mat-card-title>
+                            <mat-divider></mat-divider>
+                            <div style="padding-bottom: 1.8cm;"></div>
+                            <form [formGroup]="partnerAddressForm">
+                              <div class="card-body" formArrayName="value"  >
+                                <div class="row" >
+                                  <div class="repeater-default">
+                                    <div fxLayout="row"  fxLayoutAlign="space-evenly center" *ngFor="let val of getAddress; let i = index"  [formGroupName]="i"  >
+                                      <div>
+                                        <div class="d-flex">
+                                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                                      <!--Type adresse-->
+                                              <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                                  <mat-label>Type adresse</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="type"
+                                                    formControlName="type"
+                                                    placeholder="Exemple : siège"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('type').invalid && partnerAddressForm.get('value').at(i).get('type').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                    </div>
+                                      <!--Numéro-->
+                                          <div class="form-group mb-1 col-sm-12 col-md-3">
+                                              <mat-form-field appearance="outline" [style.width.cm]="10">
+                                                  <mat-label>N°</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="num"
+                                                    formControlName="num"
+                                                    placeholder="N°"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('num').invalid && partnerAddressForm.get('value').at(i).get('num').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                          </div>
+                                        </div>
+                                      <div class="d-flex">
+                                      <!--Rue-->
+                                          <div class="form-group mb-1 col-sm-12 col-md-3">
+                                              <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                                  <mat-label>Rue</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="street"
+                                                    formControlName="street"
+                                                    placeholder="Rue"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('street').invalid && partnerAddressForm.get('value').at(i).get('street').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                          </div>
+                                      <!--Code postal-->
+                                          <div class="form-group mb-1 col-sm-12 col-md-3">
+                                              <mat-form-field appearance="outline" [style.width.cm]="10">
+                                                  <mat-label>Code postal</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="postalCode"
+                                                    formControlName="postalCode"
+                                                    placeholder="Code postal"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('postalCode').invalid && partnerAddressForm.get('value').at(i).get('postalCode').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                          </div>
+                                        </div>
+                                      <!--Ville-->
+                                      <div class="d-flex">
+                                          <div class="form-group mb-1 col-sm-12 col-md-3">
+                                              <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                                  <mat-label>Ville</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="city"
+                                                    formControlName="city"
+                                                    placeholder="Ville"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('city').invalid && partnerAddressForm.get('value').at(i).get('city').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                          </div>
+                                      <!--Département/région-->
+                                          <div class="form-group mb-1 col-sm-12 col-md-3">
+                                              <mat-form-field appearance="outline" [style.width.cm]="10">
+                                                  <mat-label>Département/région</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="region"
+                                                    formControlName="region"
+                                                    placeholder="Département/région"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('region').invalid && partnerAddressForm.get('value').at(i).get('region').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                          </div>
+                                        </div>
+                                      <!--Pays-->
+                                      <div class="d-flex ">
+                                          <div class="form-group mb-1 col-sm-12 col-md-3">
+                                              <mat-form-field appearance="outline" [style.width.cm]="10">
+                                                  <mat-label>Pays</mat-label>
+                                                  <input
+                                                    matInput
+                                                    required
+                                                    name="country"
+                                                    formControlName="country"
+                                                    placeholder="Pays"
+                                                  />
+                                                  <mat-error *ngIf="partnerAddressForm.get('value').at(i).get('country').invalid && partnerAddressForm.get('value').at(i).get('country').touched">
+                                                    Ce champs est requis.
+                                                  </mat-error>
+                                              </mat-form-field>
+                                          </div>
+                                    </div>
+                                    <!--div class="form-group col-sm-12 col-md-3 d-flex justify-content-center align-items-center">
+                                      <label >Enregistrer et ajouter une autre adresse</label>
+                                      <button mat-icon-button color="primary" type="button" (click)="saveAddress(i)">
+                                        <mat-icon>check</mat-icon>
+                                      </button>
+                                    </div-->
+                                    <!-- Inside the *ngFor loop -->
+                                      <div class="button-container">
+                                        <div>
+                                          <button class="left-button" mat-fab 
+                                          [disabled]="val.get('isSubmitted').value" 
+                                          (click)="saveAddress(i)">
+                                            <mat-icon>check</mat-icon> 
+                                          </button>
+                                        </div>
+
+                                        <div>
+                                          <button class="right-button" mat-fab 
+                                          [disabled]="val.get('isSubmitted').value" (click)="saveAddAddress(i)">
+                                            <mat-icon>add</mat-icon>
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                    
+                                    
+                                    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                                  </form>
+                    </mat-card-content>
+
+                    <div  fxLayout="row" dir="rtl"  fxLayoutAlign="space-between center">
+                      <!--Button 2-->
+                      <div>
+                        <button 
+                        mat-raised-button 
+                        color="primary" 
+                        (click)="savePartnerCoordonnees()"
+                        matStepperNext>Infos financières
+                        </button>
+                      </div>
+                    </div>
+                </div>
+        </mat-step>
+        <!--------------------------------INFOS-FINANCIAIRES------------------------------->
+   
+          <mat-step [stepControl]="step3" >
+            <div>
+                <ng-template matStepLabel>Infos financières</ng-template>
+                <mat-card-title class="">
+                    <mat-divider></mat-divider>
+                        <div class="card-title-text"><small>{{selectedPartner.ref}} : </small><strong>{{selectedPartner.name}}</strong></div>
+                    <mat-divider></mat-divider>
+                </mat-card-title>
+
+                <mat-card-content class="container" style="padding-top: 1.5cm;">
+                    <div>
+                        <mat-grid-list cols="2" rowHeight="100px">
+                          <form [formGroup]="financialInfoForm">
+                            <!--Devise-->
+                            <mat-grid-tile>
+                                <div class="pb-16">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10">
+                                        <mat-label>Devise</mat-label>
+                                        <mat-select formControlName="currency">
+                                          <mat-option  *ngFor="let currency of sortedCurrencies " [value]="currency">{{ currencyMap[currency] }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                <!--Mode de paiement-->
+                                <div class="pb-16">
+                                 <mat-form-field appearance="outline" [style.width.cm]=10>
+                                 <mat-label>Mode de paiement</mat-label>
+                                 <mat-select formControlName="paymentMode">
+                                   <mat-option  *ngFor="let mode of paymentMode " [value]="mode">{{ paymentModeMap[mode] }}</mat-option>
+                                 </mat-select>
+                                 </mat-form-field>
+                               </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                <!--Condition de paiement-->
+                                <div class="pb-16">
+                                 <mat-form-field appearance="outline" [style.width.cm]=10>
+                                 <mat-label>Condition de paiement</mat-label>
+                                 <mat-select formControlName="paymentCondition">
+                                   <mat-option  *ngFor="let condition of paymentCondition " [value]="condition">{{ paymentConditionMap[condition] }}</mat-option>
+                                 </mat-select>
+                                 </mat-form-field>
+                               </div>
+                            </mat-grid-tile>
+                          </form>
+                        </mat-grid-list>
+                        <mat-card-title>
+                            <div class="card-title-text">Ajoutez les comptes bancaires</div>
+                        </mat-card-title>
+                        <mat-divider></mat-divider>
+                        <div style="padding-bottom: 1.8cm;"></div>
+
+                        <form [formGroup]="bankAccountForm">
+                          <div class="card-body" formArrayName="value"  >
+                            <div class="row" >
+                              <div class="repeater-default">
+                                <div fxLayout="row"  fxLayoutAlign="space-evenly center" *ngFor="let val of getBankAccount; let i = index"  [formGroupName]="i"  >
+                                  <div>
+                                    <div class="d-flex">
+                                <div class="form-group mb-1 col-sm-12 col-md-3">
+                                  <!--Type adresse-->
+                                          <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                              <mat-label>Banque</mat-label>
+                                              <input
+                                                matInput
+                                                required
+                                                name="bankName"
+                                                formControlName="bankName"
+                                                placeholder="Banque"
+                                              />
+                                              <mat-error *ngIf="bankAccountForm.get('value').at(i).get('bankName').invalid && bankAccountForm.get('value').at(i).get('bankName').touched">
+                                                Ce champs est requis.
+                                              </mat-error>
+                                          </mat-form-field>
+                                </div>
+                                  <!--Numéro-->
+                                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                                          <mat-form-field appearance="outline" [style.width.cm]="10">
+                                              <mat-label>Numéro compte(RIB)</mat-label>
+                                              <input
+                                                matInput
+                                                required
+                                                name="rib"
+                                                formControlName="rib"
+                                                placeholder="Numéro compte(RIB)"
+                                              />
+                                              <mat-error *ngIf="bankAccountForm.get('value').at(i).get('rib').invalid && bankAccountForm.get('value').at(i).get('rib').touched">
+                                                Ce champs est requis et doit être valide.
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                    </div>
+                                  <div class="d-flex">
+                                  <!--Rue-->
+                                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                                          <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                              <mat-label>BIC</mat-label>
+                                              <input
+                                                matInput
+                                                required
+                                                name="bic"
+                                                formControlName="bic"
+                                                placeholder="BIC"
+                                              />
+                                              <mat-error *ngIf="bankAccountForm.get('value').at(i).get('bic').invalid && bankAccountForm.get('value').at(i).get('bic').touched">
+                                                Le BIC est requis et doit être valide.
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                  <!--Code postal-->
+                                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                                          <mat-form-field appearance="outline" [style.width.cm]="10">
+                                              <mat-label>IBAN</mat-label>
+                                              <input
+                                                matInput
+                                                required
+                                                name="iban"
+                                                formControlName="iban"
+                                                placeholder="IBAN"
+                                              />
+                                              <mat-error *ngIf="bankAccountForm.get('value').at(i).get('iban').invalid && bankAccountForm.get('value').at(i).get('iban').touched">
+                                                <ng-container *ngIf="bankAccountForm.get('value').at(i).get('iban').errors.required">
+                                                  Le champs IBAN est requis.
+                                                </ng-container>
+                                                <ng-container *ngIf="bankAccountForm.get('value').at(i).get('iban').errors.iban">
+                                                  IBAN est invalide.
+                                                </ng-container>
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                    </div>
+                                  <!--Ville-->
+                                  <div class="d-flex">
+                                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                                          <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                              <mat-label>Adresse banque</mat-label>
+                                              <input
+                                                matInput
+                                                required
+                                                name="bankAddress"
+                                                formControlName="bankAddress"
+                                                placeholder="Adresse banque"
+                                              />
+                                              <mat-error *ngIf="bankAccountForm.get('value').at(i).get('bankAddress').invalid && bankAccountForm.get('value').at(i).get('bankAddress').touched">
+                                                Ce champs est requis.
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                    </div>
+                                <!--div class="form-group col-sm-12 col-md-3 d-flex justify-content-center align-items-center">
+                                  <label >Enregistrer et ajouter un autre compte bancaire</label>
+                                  <button mat-icon-button color="primary" type="button" (click)="saveBankAccount(i)">
+                                    <mat-icon>check</mat-icon>
+                                  </button>
+                                </div-->
+                                <div class="button-container">
+                                  <div >
+                                    <button class="left-button" mat-fab 
+                                    [disabled]="val.get('isSubmitted').value"
+                                    (click)="saveBankAccount(i)">
+                                     <mat-icon>check</mat-icon>
+                                    </button>
+                                    </div>
+      
+                                    <div>
+                                      <button class="right-button" mat-fab 
+                                      [disabled]="val.get('isSubmitted').value"
+                                      (click)="saveAddBankAccount(i)">
+                                       <mat-icon>add</mat-icon>
+                                      </button>
+                                    </div>
+                                </div>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                              </form>
+                    </div>
+                </mat-card-content>
+                <div  fxLayout="row" dir="rtl"  fxLayoutAlign="space-between center">
+                  <!--Button 3-->
+                  <div>
+                    <button 
+                    mat-raised-button 
+                    color="primary"  
+                    (click)="saveFinancial()"
+                    matStepperNext>
+                    Contacts partenaire
+                    </button>
+                  </div>
+                </div>
+            </div>
+         </mat-step> 
+         
+          <!--------------------------------CONTACTS------------------------------>
+          <mat-step [stepControl]="step4">
+              <div>
+                  <ng-template matStepLabel>Contacts</ng-template>
+                  <mat-card-title class="">
+                      <mat-divider></mat-divider>
+                          <div class="card-title-text"><small>{{selectedPartner.ref}} : </small><strong>{{selectedPartner.name}}</strong></div>
+                      <mat-divider></mat-divider>
+                  </mat-card-title>
+                  <mat-card-content class="container" style="padding-top: 1.5cm;">
+                    <form [formGroup]="contactForm">
+                      <div class="card-body" formArrayName="value"  >
+                        <div class="row" >
+                          <div class="repeater-default">
+                            <div fxLayout="row"  fxLayoutAlign="space-evenly center" *ngFor="let val of getContact; let i = index"  [formGroupName]="i"  >
+                              <div>
+                                <div class="d-flex">
+                            <div class="form-group mb-1 col-sm-12 col-md-3">
+                              <!--Civilité-->
+                                      <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                          <mat-label>Civilité</mat-label>
+                                          <mat-select formControlName="civility">
+                                            <mat-option  *ngFor="let civility of civilities" [value]="civility">{{ civilityMap[civility] }}</mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                            </div>
+                              <!--Nom-->
+                                  <div class="form-group mb-1 col-sm-12 col-md-3">
+                                      <mat-form-field appearance="outline" [style.width.cm]="10">
+                                          <mat-label>Nom</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="lastName"
+                                            formControlName="lastName"
+                                            placeholder="Nom"
+                                          />
+                                          <mat-error *ngIf="contactForm.get('value').at(i).get('firstName').invalid && contactForm.get('value').at(i).get('firstName').touched">
+                                            Ce champs est requis et doit commencer par une majuscule.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                                </div>
+                            <div class="d-flex">
+                              <!--Rue-->
+                                  <div class="form-group mb-1 col-sm-12 col-md-3">
+                                      <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                          <mat-label>Prénom</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="firstName"
+                                            formControlName="firstName"
+                                            placeholder="Prénom"
+                                          />
+                                          <mat-error *ngIf="contactForm.get('value').at(i).get('lastName').invalid && contactForm.get('value').at(i).get('lastName').touched">
+                                            Le nom est requis et doit commencer par une majuscule.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                              <div class="form-group mb-1 col-sm-12 col-md-3">
+                                        <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                            <mat-label>Niveau d'accessibilité</mat-label>
+                                            <mat-select formControlName="privilege">
+                                              <mat-option  *ngFor="let privilege of privileges" [value]="privilege">{{ privilegeMap[privilege] }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                              </div>
+                            </div>
+                                
+                                <div class="d-flex">
+                                  <!--Service-->
+                                      <div class="form-group mb-1 col-sm-12 col-md-3">
+                                          <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                              <mat-label>Service</mat-label>
+                                              <input
+                                                matInput
+                                                required
+                                                name="service"
+                                                formControlName="service"
+                                                placeholder="Service"
+                                              />
+                                              <mat-error *ngIf="contactForm.get('value').at(i).get('service').invalid && contactForm.get('value').at(i).get('service').touched">
+                                                Ce champs est requis.
+                                              </mat-error>
+                                          </mat-form-field>
+                                      </div>
+                                  <!--Fonction-->
+                                  <div class="form-group mb-1 col-sm-12 col-md-3">
+                                    <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                        <mat-label>Fonction</mat-label>
+                                        <input
+                                          matInput
+                                          required
+                                          name="function"
+                                          formControlName="function"
+                                          placeholder="Fonction"
+                                        />
+                                        <mat-error *ngIf="contactForm.get('value').at(i).get('function').invalid && contactForm.get('value').at(i).get('function').touched">
+                                          Ce champs est requis.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                </div>
+                                  <div class="d-flex">
+                                    <!--Email-->
+                                        <div class="form-group mb-1 col-sm-12 col-md-3">
+                                            <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                                <mat-label>Email</mat-label>
+                                                <input
+                                                  matInput
+                                                  required
+                                                  name="email"
+                                                  formControlName="email"
+                                                  placeholder="Email"
+                                                />
+                                                <mat-error *ngIf="contactForm.get('value').at(i).get('email').invalid && contactForm.get('value').at(i).get('email').touched">
+                                                  Ce champs est requis et l'email doit être valide.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    <!--N° téléphone mobile-->
+                                    <div class="form-group mb-1 col-sm-12 col-md-3">
+                                      <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                          <mat-label>N° téléphone mobile</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="mobilePhoneNumber"
+                                            formControlName="mobilePhoneNumber"
+                                            placeholder="N° téléphone mobile"
+                                          />
+                                          <mat-error *ngIf="contactForm.get('value').at(i).get('mobilePhoneNumber').invalid && contactForm.get('value').at(i).get('mobilePhoneNumber').touched">
+                                            Ce champs est requis.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                                  </div>
+                                  <div class="d-flex">
+                                    <!--N° téléphone fixe-->
+                                        <div class="form-group mb-1 col-sm-12 col-md-3">
+                                            <mat-form-field appearance="outline" [style.width.cm]=10 style="padding-right: 1cm;">
+                                                <mat-label>N° téléphone fixe</mat-label>
+                                                <input
+                                                  matInput
+                                                  required
+                                                  name="phoneNumber"
+                                                  formControlName="phoneNumber"
+                                                  placeholder="N° téléphone fixe"
+                                                />
+                                                <mat-error *ngIf="contactForm.get('value').at(i).get('phoneNumber').invalid && contactForm.get('value').at(i).get('phoneNumber').touched">
+                                                  Ce champs est requis.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                  
+                                </div>
+                                <div class="d-flex">
+                                  <!--Commentaire-->
+                                  <div class="form-group mb-1 col-sm-12 col-md-3">
+                                      <mat-form-field appearance="outline" [style.width.cm]=21 style="padding-right: 1cm;">
+                                          <mat-label>Commentaire</mat-label>
+                                          <textarea
+                                            matInput
+                                            required
+                                            name="comment"
+                                            formControlName="comment"
+                                            placeholder="Saisissez un commentaire si nécessaire."
+                                          ></textarea>
+                                      </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="d-flex">
+                                <!--Contact privilégié-->
+                                <div fxFlex="50" class="pr-16">
+                                  <label>
+                                    Contact privilégié
+                                    <input type="checkbox" formControlName="privilegedContact" [disabled]="isAnyContactPrivileged(i)">
+                                  </label>
+                                </div>
+                                <!--Prise de rendez-vous-->
+                                <div fxFlex="50"  class="pr-16">
+                                  <label>
+                                    Prise de rendez-vous
+                                    <input type="checkbox" formControlName="appointmentMaking">
+                                  </label>
+                                </div>
+                                </div>
+                            <div class="button-container">
+                              <div >
+                                <button class="left-button" mat-fab 
+                                [disabled]="val.get('isSubmitted').value" 
+                                 (click)="saveContact(i)">
+                                 <mat-icon>check</mat-icon>
+                                </button>
+                                </div>
+  
+                                <div>
+                                  <button class="right-button" mat-fab 
+                                  [disabled]="val.get('isSubmitted').value" 
+                                  (click)="saveAddContact(i)">
+                                   <mat-icon>add</mat-icon> 
+                                  </button>
+                                </div>
+                            </div>
+                            </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </form>
+                  </mat-card-content>
+                  <div  fxLayout="row" dir="rtl"  fxLayoutAlign="space-between center">
+                    <!--Button 4-->
+                    <div>
+                      <button 
+                      mat-raised-button 
+                      color="primary"  
+                      
+                      matStepperNext>Infos complémentaires
+                      </button>
+                    </div>
+                  </div>
+              </div>
+          </mat-step>
+          <!--------------------------------INFOS-COMPLEMENTAIRES------------------------------->
+          <mat-step [stepControl]="step5" >
+            <form [formGroup]="complInfoForm">
+            
+              <div>
+                  <ng-template matStepLabel>Infos complémentaires</ng-template>
+                  <mat-card-title class="">
+                      <mat-divider></mat-divider>
+                          <div class="card-title-text"><small>{{selectedPartner.ref}} : </small><strong>{{selectedPartner.name}}</strong></div>
+                      <mat-divider></mat-divider>
+                  </mat-card-title>
+  
+                  <mat-card-content class="container" style="padding-top: 1.5cm;">
+                      <div>
+                          <mat-grid-list cols="2" rowHeight="100px">
+                            <!--Date de partenariat-->
+                            <mat-grid-tile>
+                              <div class="pb-16">
+                                  <mat-form-field appearance="outline" [style.width.cm]=10>
+                                    <mat-label>Date de partenariat</mat-label>
+                                    <input
+                                    matInput
+                                    name="partnerShipDate"
+                                    type="date" 
+                                    [formControlName]="'partnerShipDate'"
+                                    placeholder="Date de partenariat">
+                                    <!--input matInput [matDatepicker]="picker" 
+                                    formControlName="partnerShipDate" 
+                                    placeholder="Date de partenariat" >
+                                    <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker-->
+                                  </mat-form-field>
+                              </div>
+                          </mat-grid-tile>
+                            <!--Date de début d'activité-->
+                              <mat-grid-tile>
+                                  <div class="pb-16">
+                                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                                        <mat-label>Date de début d'activité</mat-label>
+                                        <input
+                                        matInput
+                                        name="activityStartDate"
+                                        type="date" 
+                                        [formControlName]="'activityStartDate'"
+                                        placeholder="Date de début d'activité">
+                                        <!--input matInput [matDatepicker]="picker1" 
+                                        formControlName="activityStartDate" 
+                                        placeholder="Date de début d'activité" >
+                                        <mat-datepicker-toggle  matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker-->
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+                              <!--Date de fin d'activité-->
+                              <mat-grid-tile>
+                                  <div class="pb-16">
+                                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                                        <mat-label>Date de fin d'activité</mat-label>
+                                        <input
+                                        matInput
+                                        name="activityEndDate"
+                                        type="date" 
+                                        [formControlName]="'activityEndDate'"
+                                        placeholder="Date de fin d'activité">
+                                        <!--input matInput [matDatepicker]="picker2" 
+                                        formControlName="activityEndDate" 
+                                        placeholder="Date de fin d'activité" >
+                                        <mat-datepicker-toggle  matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker-->
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+                              <!--Date de création-->
+                              <mat-grid-tile>
+                                  <div class="pb-16">
+                                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                                        <mat-label>Date de création de l'entreprise</mat-label>
+                                        <input
+                                        matInput
+                                        name="foundedSince"
+                                        type="date" 
+                                        [formControlName]="'foundedSince'"
+                                        placeholder="Date de création de l'entreprise">
+                                        <!--input matInput [matDatepicker]="picker3" 
+                                        formControlName="foundedSince" 
+                                        placeholder="Date de création" 
+                                        >
+                                        <mat-datepicker-toggle  matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker-->
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+                              <!--classification-->
+                              <mat-grid-tile>
+                                <div class="pb-16">
+                                  <mat-form-field appearance="outline" [style.width.cm]="10" >
+                                    <mat-label>Classification</mat-label>
+                                    <mat-select formControlName="classification">
+                                      <mat-option  *ngFor="let privilege of privileges" [value]="privilege">{{ privilegeMap[privilege] }}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </mat-grid-tile>
+                              <!--Capital-->
+                              <mat-grid-tile>
+                                  <div class="pb-16">
+                                      <mat-form-field appearance="outline" [style.width.cm]="10">
+                                          <mat-label>Capital (en {{selectedPartner.currency}})</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="capital"
+                                            formControlName="capital"
+                                            placeholder="Capital"
+                                          />
+                                          <mat-error *ngIf="complInfoForm.get('capital').invalid && complInfoForm.get('capital').touched">
+                                            Ce champs est requis.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+                              <!--En cours autorisé-->
+                              <mat-grid-tile>
+                                  <div class="pb-16">
+                                      <mat-form-field appearance="outline" [style.width.cm]="10">
+                                          <mat-label>En cours autorisé (en {{selectedPartner.currency}})</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="inProgressAuthorized"
+                                            formControlName="inProgressAuthorized"
+                                            placeholder="En cours autorisé"
+                                          />
+                                          <mat-error *ngIf="complInfoForm.get('inProgressAuthorized').invalid && complInfoForm.get('inProgressAuthorized').touched">
+                                            Ce champs est requis.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+                              <!--Compagnie assurance-->
+                              <mat-grid-tile>
+                                <div class="pb-16">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10">
+                                        <mat-label>Compagnie assurance</mat-label>
+                                        <input
+                                          matInput
+                                          required
+                                          name="insuranceCompany"
+                                          formControlName="insuranceCompany"
+                                          placeholder="Compagnie assurance"
+                                        />
+                                        <mat-error *ngIf="complInfoForm.get('insuranceCompany').invalid && complInfoForm.get('insuranceCompany').touched">
+                                          Ce champs est requis.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                              </mat-grid-tile>
+                              <!--Police assurance-->
+                              <mat-grid-tile>
+                                  <div class="pb-16">
+                                      <mat-form-field appearance="outline" [style.width.cm]="10">
+                                          <mat-label>Police assurance</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="insurancePolicy"
+                                            formControlName="insurancePolicy"
+                                            placeholder="Police assurance"
+                                          />
+                                          <mat-error *ngIf="complInfoForm.get('insurancePolicy').invalid && complInfoForm.get('insurancePolicy').touched">
+                                            Ce champs est requis.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+                              <!--Taux de tolérance-->
+                              <mat-grid-tile>
+                                <div class="pb-16">
+                                    <mat-form-field appearance="outline" [style.width.cm]="10">
+                                        <mat-label>Taux de tolérance(%)</mat-label>
+                                        <input
+                                          type="number"
+                                          matInput
+                                          required
+                                          name="toleranceRate"
+                                          formControlName="toleranceRate"
+                                          placeholder="Taux de tolérance(%)"
+                                        />
+                                        <mat-error *ngIf="complInfoForm.get('toleranceRate').invalid && complInfoForm.get('toleranceRate').touched">
+                                          Ce champs est requis et doit être inférieur à 5%.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </mat-grid-tile>
+                              <!--Type de contrôle-->
+                              <mat-grid-tile>
+                                <div class="pb-16">
+                                  <mat-form-field appearance="outline" [style.width.cm]="10" >
+                                    <mat-label>Type de contrôle</mat-label>
+                                    <mat-select formControlName="controlType">
+                                      <mat-option  *ngFor="let controlType of controlTypes" [value]="controlType">{{ controlTypeMap[controlType] }}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </mat-grid-tile>
+                              
+                              
+                          </mat-grid-list>
+                          <!--Commentaire-->
+                              
+                                  <div class="mini-container" style="padding-left: 8px;">
+                                      <mat-form-field appearance="outline" class="example-full-width" [style.width.cm]="20.4">
+                                          <mat-label>Commentaire</mat-label>
+                                          <textarea
+                                            matInput
+                                            required
+                                            name="comment"
+                                            formControlName="comment"
+                                            placeholder="Saisissez un commentaire si nécessaire."
+                                          >
+                                          </textarea>
+                                      </mat-form-field>
+                                  </div>
+
+                      </div>
+                  </mat-card-content>
+                  <div  fxLayout="row" dir="rtl"  fxLayoutAlign="space-between center">
+                    <!--Button 5-->
+                    <div>
+                      <button 
+                      mat-raised-button 
+                      color="primary"  
+                      (click)="savePartnerCompleted()"
+                      routerLink = "/partner/partner-crud"
+                      routerLinkActive="router-link-active">Terminer
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </form>
+          </mat-step>
+        
+
+        <!--------------------------------CALENDRIER------------------------------->
+        <!--mat-step [stepControl]="step6" >
+            <div>
+                <ng-template matStepLabel>Calendrier</ng-template>
+            </div>
+            <div>
+              <button 
+              mat-raised-button
+              style="float: right ;" 
+              class="mb-2"
+              color="primary" 
+              routerLink = "/partner/partner-crud"
+              routerLinkActive="router-link-active"
+              >Terminer
+              </button>
+            </div>
+        </mat-step-->
+
+ </mat-horizontal-stepper>
+</mat-card>
+    

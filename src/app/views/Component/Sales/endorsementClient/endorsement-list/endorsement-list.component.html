@@ -1,0 +1,103 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+   
+       <button mat-raised-button class="mb-8" style="float: right;" color="primary"  (click)="openPopUp({}, true)">{{"Ajouter " | translate }}
+        Avenant</button>
+        <mat-form-field  >
+          <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+        </mat-form-field> 
+   </div>
+   <mat-card style="border: 5px; " [@animate]="{value:'*',params:{y:'50px',delay:'500ms'}}">
+     <mat-card-content class="p-0">
+       <mat-table [dataSource]="dataSource" matSort>
+
+
+        <ng-container matColumnDef="refContract">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px; text-align: center;" >
+              <span>Réf. contrat</span>
+              <mat-form-field style="width:3cm; text-align: center; " >
+                <input matInput (input)="applyFilterr($event, 'refContract')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="refContract"> {{row.refContract}} </mat-cell>
+        </ng-container> 
+        <ng-container matColumnDef="reference">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px; text-align: center;" >
+              <span>Référence</span>
+              <mat-form-field style="width:3cm; text-align: center; " >
+                <input matInput (input)="applyFilterr($event, 'reference')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="reference"> {{row.reference}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px; text-align: center;" >
+              <span>Titre</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'contractDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="title"> {{row.title}} </mat-cell>
+         </ng-container>
+   
+         <ng-container matColumnDef="endorsementDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px; text-align: center;" >
+              <span>Date</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'contractDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="endorsementDate"> {{row.endorsementDate | date:'dd-MM-yyyy'}} </mat-cell>
+         </ng-container>
+     
+      <!--  <ng-container matColumnDef="address">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 
+            <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+              <span>Lieu</span>
+              <mat-form-field style="width:3cm; text-align: center;" >
+                <input matInput (input)="applyFilterr($event, 'contractDate')" placeholder="Filtrer">
+             </mat-form-field>
+             </div>
+           </mat-header-cell> <mat-header-cell *matHeaderCellDef mat-sort-header> Lieu </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="address"> {{row.address}} </mat-cell>
+        </ng-container>--> 
+  
+      
+   
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+             <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+               <mat-icon>edit</mat-icon>
+             </button>
+             <button
+             mat-icon-button
+             routerLink="/endorsement/{{ row.id }}"
+             routerLinkActive="router-link-active"
+             color="basic" 
+           >
+               <mat-icon>remove_red_eye </mat-icon>
+             </button>
+             <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+               <mat-icon>delete</mat-icon>
+             </button>
+           </mat-cell>
+         </ng-container>
+   
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+       <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+   
+     </mat-card-content>
+   </mat-card>
+   

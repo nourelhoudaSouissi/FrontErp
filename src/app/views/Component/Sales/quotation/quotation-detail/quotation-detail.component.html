@@ -1,0 +1,659 @@
+
+<!-- Edit quotation -->
+<mat-card *ngIf="showEditOption">
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <form [formGroup]="quotationForm" (ngSubmit)="saveQuotation()">
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button
+        mat-button
+        type="button"
+        class="ml-16 mr-16"
+        *ngIf="!isLoading"
+        (click)="showEditOption = !showEditOption"
+      >
+        Annuler
+      </button>
+
+      <button-loading
+        [loadingText]="'Enregistrer...'"
+        color="primary"
+        [type]="'submit'"
+        [loading]="isLoading"
+        >Enregistrer</button-loading>
+    </div>
+
+    
+    <!-- order details -->
+    <div fxLayout="row wrap" fxLayoutAlign="space-between" class="order-info">
+      
+      <div fxLayout="column" fxFlex="25%">
+        <div>
+        <h4><strong>Nouveau devis</strong></h4>
+        </div>
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Opportunité</mat-label>
+            <mat-select [formControlName]="'requirementNum'">
+              <mat-option *ngFor="let x of listReq" [value]="x.id">{{ x.ref }} - {{ x.title }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+          
+        </div>
+        <mat-divider></mat-divider>
+      <!--div>
+        <div>
+          <label for="image">
+            <mat-icon>add_a_photo</mat-icon>
+          </label>
+          <input formControlName="logo" type="file" id="image" name="image" (change)="handleFileInput($event)">
+        </div>
+        
+        <div>
+          <img *ngIf="imageUrl" [src]="imageUrl" alt="image">
+          <div *ngIf="!imageUrl && quotationForm.get('logo').errors?.required">
+            <mat-icon>image</mat-icon>
+            <span>Aucune image sélectionnée</span>
+          </div>
+          <div *ngIf="!imageUrl && quotationForm.get('logo').errors?.maxSize">
+            <mat-icon>image</mat-icon>
+            <span>La taille de l'image doit être inférieure à 1MB</span>
+          </div>
+          <div *ngIf="!imageUrl && quotationForm.get('logo').errors?.invalidFormat">
+            <mat-icon>image</mat-icon>
+            <span>Le format de l'image doit être JPG, JPEG ou PNG</span>
+          </div>
+        </div>
+      </div-->
+      
+        <div fxLayout="column">
+        <!--h4><strong>Référence du devis</strong></h4-->
+        <!--mat-form-field>
+          <input
+            formControlName="invoiceNumber"
+            matInput
+            required
+            placeholder="numéro de facture."
+          />
+        </mat-form-field-->
+
+        <!--mat-form-field>
+          <mat-label>Catalogue</mat-label>
+          <mat-select  [formControlName]="'catalogNum'">
+            <mat-option *ngFor="let catalogNum of listCatalog" [value]="catalogNum.id">{{ catalogNum.ref }}</mat-option>
+          </mat-select>
+        </mat-form-field-->
+        
+      
+      </div>
+
+      <!--div fxLayout="column" fxFlex="33.33%" fxLayoutGap="20px">
+        <h4><strong>Information du devis</strong></h4>
+        
+          <div fxLayout="column" fxLayoutAlign="start start">
+            <mat-form-field class="full-width">
+              <mat-label>Opportunité</mat-label>
+              <mat-select [formControlName]="'requirementNum'">
+                <mat-option *ngFor="let x of listReq" [value]="x.id">{{ x.ref }} - {{ x.title }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        <div>
+          <mat-form-field fxFill>
+            <mat-label>Type de facturation</mat-label>
+              <mat-select [formControlName]="'billingType'">
+                <mat-option *ngFor="let x of billingTypes" [value]="x">{{ billingTypeMap[x] }}</mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field fxFill>
+            <input
+              [formControlName]="'billingInstruction'"
+              matInput
+              required
+              placeholder="Instruction de facturation"
+            />
+          </mat-form-field>
+        </div>
+        
+      
+       
+     
+      </div-->
+    </div>
+    <!-- end of order details -->
+
+    <mat-divider></mat-divider>
+
+    <!-- billing details -->
+    <div
+      class="billing-address"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between start"
+    >
+  
+      <!-- buyer -->
+      <div
+        fxLayout="column"
+        fxLayoutGap="20px"
+        fxFlex="25%"
+      >
+        <div fxLayoutAlign="start center">
+          <h4><strong>Destinataire</strong></h4>
+        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Client - destinataire</mat-label>
+          <mat-select  [formControlName]="'partnerNum'">
+            <mat-option *ngFor="let partnerNum of listPartner" [value]="partnerNum.id" disabled>{{ partnerNum.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Adresse</mat-label>
+          <mat-select  [formControlName]="'addressBuyer'">
+            <mat-option *ngFor="let address of listAddress" [value]="address.id">{{ address.type }} - {{ address.city }}, {{ address.country }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--mat-form-field fxFill>
+          <textarea
+            [formControlName]="'addressBuyer'"
+            matInput
+            required
+            matTextareaAutosize
+            placeholder="Adresse Client"
+          ></textarea>
+        </mat-form-field-->
+      </div>
+      <div fxFlex="25%" fxLayoutGap="20px" fxLayout="column">
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <h4><strong>Emetteur</strong></h4>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <p>CSI Digital</p>
+          <p>Administration PAEB, 7000 Bizerte</p>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <!-- end of billing details -->
+    <div style="margin-top: 2%;">
+      <h4><strong>Infos devis</strong></h4>
+    </div>
+    <div class="billing-address" fxLayout="row wrap" fxLayoutAlign="space-between start">
+      <!-- payment -->
+      <div 
+      fxLayout="column"
+      fxLayoutGap="20px"
+      fxFlex="30%">
+      <mat-form-field class="full-width">
+        <mat-label>Devise devis</mat-label>
+        <mat-select [formControlName]="'currency'">
+          <mat-option *ngFor="let currency of currencies" [value]="currency">{{ currencyMap[currency] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+         <mat-form-field class="full-width">
+           <input
+             [formControlName]="'tva'"
+             type="number"
+             matInput
+             required
+             placeholder="TVA"
+           />
+         </mat-form-field>
+         <mat-form-field class="full-width">
+           <input
+             [formControlName]="'discount'"
+             type="number"
+             matInput
+             required
+             placeholder="Taux de remise %"
+           />
+         </mat-form-field>
+      </div>
+      <div 
+      fxLayout="column"
+      fxLayoutGap="20px"
+      fxFlex="30%">
+      <mat-form-field class="full-width">
+        <mat-label>Type de facturation</mat-label>
+          <mat-select [formControlName]="'billingType'">
+            <mat-option *ngFor="let x of billingTypes" [value]="x">{{ billingTypeMap[x] }}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input
+          [formControlName]="'billingInstruction'"
+          matInput
+          required
+          placeholder="Instruction de facturation"
+        />
+      </mat-form-field>
+       
+       
+      </div>
+      <div 
+      fxLayout="column"
+      fxLayoutGap="20px"
+      fxFlex="30%">
+      <mat-form-field class="full-width">
+         <mat-label>Mode de payment</mat-label>
+         <mat-select [formControlName]="'paymentMode'">
+           <mat-option *ngFor="let x of paymentModes" [value]="x">{{ paymentModeMap[x] }}</mat-option>
+         </mat-select>
+       </mat-form-field>
+       <mat-form-field class="full-width">
+         <mat-label>Condition de payment</mat-label>
+         <mat-select [formControlName]="'paymentCondition'">
+           <mat-option *ngFor="let x of paymentConditions" [value]="x">{{ paymentConditionMap[x] }}</mat-option>
+         </mat-select>
+       </mat-form-field>
+     
+     </div>
+
+
+    </div> 
+ <mat-divider></mat-divider>
+<div style="margin-top: 2%;">
+  <h4><strong>Infos catalogue profils</strong></h4>
+</div>
+ <div class="billing-address" fxLayout="row wrap" fxLayoutAlign="space-between center">
+  <!-- payment -->
+  <div 
+  fxLayout="column"
+  fxLayoutGap="20px"
+  fxFlex="30%">
+    <mat-form-field>
+      <mat-label>Catalogue</mat-label>
+      <mat-select  [formControlName]="'catalogNum'" [disabled]="updateForm() && !profilesEmptyList()">
+        <mat-option *ngFor="let catalogNum of listCatalog" [value]="catalogNum.id">{{ catalogNum.ref }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div 
+  fxLayout="column"
+  fxLayoutGap="20px"
+  fxFlex="30%">
+     <mat-form-field class="full-width">
+       <mat-label>Devise catalogue</mat-label>
+       <mat-select [formControlName]="'catalogCurrency'">
+         <mat-option *ngFor="let currency of currencies" [value]="currency" disabled>{{ currencyMap[currency] }}</mat-option>
+       </mat-select>
+     </mat-form-field>
+  </div>
+  <div 
+  fxLayout="column"
+  fxLayoutGap="20px"
+  fxFlex="30%">
+    <mat-form-field class="full-width">
+      <input
+        [formControlName]="'changeRate'"
+        type="number"
+        matInput
+        required
+        placeholder="Taux de change ({{ quotationForm.get('catalogCurrency').value }} -> {{ quotationForm.get('currency').value }})"
+      />
+    </mat-form-field>
+ 
+ </div>
+
+
+</div> 
+    <!-- additionalFees form table -->
+    <div formArrayName="profiles" class="additionalFees-form-list" fxLayout="column">
+      <div class="additionalFees-form-list-head-line" fxLayout="row" fxLayoutAlign="space-around center">
+        <p>Profil</p>
+        <p>Nombre ressources</p>
+        <p>Nombre jours</p>
+        <p>Coût journalier</p>
+        <p>Date début</p>
+        <p>Date fin</p>
+        <!--p>TVA</p-->
+        <p></p>
+      </div>
+    
+      <ng-container *ngFor="let profiles of quotationProfilesFormArray.controls; let i = index">
+        <div [formGroup]="profiles" class="form-rows" fxLayout="row" fxLayoutAlign="space-around center">
+          <span>{{ i + 1 }}</span>
+          <mat-form-field fxFlex="14%">
+            <!--input type="text" formControlName="profile" matInput placeholder="Référence article" required /-->
+            <!--mat-form-field class="full-width" appearance="outline"-->
+              <mat-label>Profil</mat-label>
+              <mat-select  *ngIf="!updateForm()" [formControlName]="'profile'">
+                <mat-option *ngFor="let profile of listProfiles" [value]="profile">{{ profile.function }} - {{ levelMap[profile.experience] }}</mat-option>
+              </mat-select>
+              <mat-select  *ngIf="updateForm()" [formControlName]="'profileNum'">
+                <mat-option *ngFor="let profile of listProfiles" [value]="profile.id">{{ profile.function }} - {{ levelMap[profile.experience] }}</mat-option>
+              </mat-select>
+            <!--/mat-form-field-->
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="candidateNumber" matInput placeholder="Nombre de ressources" required />
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="period" matInput placeholder="Nombre de jours" required />
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="candidateDailyCost" matInput placeholder="Coût journalier candidat" required />
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <!--input type="number" formControlName="startDate" matInput placeholder="Date début" required /-->
+            <mat-label>Date début</mat-label>
+                  <input
+                    matInput
+                    name="startDate"
+                    type="date" 
+                    [formControlName]="'startDate'"
+                    placeholder="Date début"
+                    required>
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <!--input type="number" formControlName="endDate" matInput placeholder="Date fin" required /-->
+            <mat-label>Date fin</mat-label>
+                  <input
+                    matInput
+                    name="endDate"
+                    type="date" 
+                    [formControlName]="'endDate'"
+                    placeholder="Date fin"
+                    required>
+          </mat-form-field>
+          <!--mat-form-field>
+            <input type="number" formControlName="tva" matInput placeholder="TVA" required />
+          </mat-form-field-->
+    
+          <button *ngIf="!updateForm()" mat-icon-button mat-sm-button color="warn" (click)="deleteProfilesFromQuotation(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button *ngIf="updateForm()" mat-icon-button mat-sm-button color="warn" (click)="deleteProfilesFromQuotationUpdate(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+    
+        <div class="form-rows" fxLayout="row" fxLayoutAlign="end center">
+          <mat-form-field>
+           <strong>Total : </strong> <input type="number" matInput disabled required [value]="(profiles.get('candidateDailyCost').value * profiles.get('candidateNumber').value * profiles.get('period').value).toFixed(3)" />
+           {{ currency }}
+          </mat-form-field>
+          <!--mat-form-field>
+            <strong>Totale TTC :</strong><input type="number" matInput  required disabled [value]="((feeClients.get('cost').value * feeClients.get('quantity').value) * ((feeClients.get('tva').value / 100) + 1)).toFixed(3)" />
+          </mat-form-field-->
+        
+        </div>
+        
+      </ng-container>
+    </div>
+    
+    
+      <!-- end of additionalFees form table -->
+    
+      <!-- add additionalFees button -->
+      <div class="add-button" fxLayoutAlign="end center">
+        <button-loading *ngIf="!updateForm()" color="primary" mat-button type="button" (click)="addNewUpdatedProfile(emptyFormObject)">
+          Ajouter un profil
+        </button-loading>
+        <button-loading *ngIf="updateForm()" color="primary" mat-button type="button" (click)="addUpdateNewUpdatedProfile(emptyFormObject)">
+          Ajouter un profil
+        </button-loading>
+      </div>
+    
+    <div class="billing-address" fxLayout="row wrap" fxLayoutAlign="space-between center">
+         <!-- payment -->
+         <div style="margin-top: 10%;" 
+         fxLayout="column"
+         fxLayoutGap="20px"
+         fxFlex="33.33%">
+        
+        </div>
+    <!-- total cost of Fees form -->
+    <div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Montant brut HT : </span>
+          <span>{{ htRevenue.toFixed(3) }} {{ currency }}</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Remise ({{ discount }}%): </span>
+          <span>{{ discountAmount.toFixed(3) }} {{ currency }}</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Montant net HT : </span>
+          <span>{{ revenue.toFixed(3) }} {{ currency }}</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>TVA ({{ tva }}%) : </span>
+          <span>{{ tvaCost.toFixed(3) }} {{ currency }}</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Net à payer TTC : </span>
+          <span>{{ revenueOrd.toFixed(3) }} {{ currency }}</span>
+        </div>
+    
+        <!--div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Montant remise :</span>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+            <h5><strong>{{ totalDiscount }}</strong></h5>
+
+          </div>
+        </div>
+    
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <h5><strong>Total avec remise :</strong></h5>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+            <h5><strong>{{ totalWithDiscount }}</strong></h5>
+          </div>
+        </div-->
+      </div>
+
+   
+    </div> 
+
+   
+    
+    <!-- end of total cost -->
+  </form>
+</mat-card>
+
+<!-- end of edit quotation -->
+<!-- =================================================== -->
+
+<!-- =================================================== -->
+<!-- quotation details -->
+<mat-card *ngIf="!showEditOption" class="invoice-details">
+  <div fxLayout="row">
+    <button mat-icon-button routerLink="/quotation/quotation-crud">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span fxFlex></span>
+
+    <button
+      *ngIf="quotation.quotationStatus != 'VALIDATED'"
+      mat-flat-button
+      color="primary"
+      class="ml-16 mr-16"
+      (click)="updateQuotation()"
+    >
+      Modifier devis
+    </button>
+    <button mat-flat-button color="accent" (click)="print()">
+      Imprimer devis
+    </button>
+  </div>
+      <br>
+  <div id="print-area">
+    <!-- order details -->
+    <mat-divider></mat-divider>
+
+        <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
+          <!-- seller -->
+          <div fxFlex="30%" fxLayout="column">
+            <!--h4><strong>Facture client: </strong> {{ quotation?.invoiceType }}</h4-->
+            <br>
+            <div>
+              <img src="../../../../../../assets/images/csiLogo.png" alt="Logo" style="width: 8cm; height: 3cm;">
+            </div>
+            
+            <!--p><strong>Numéro de commande :</strong> {{ quotation?.orderNumber }}</p-->
+            <!--p><strong>Date d'émission  :</strong> {{ quotation?.date | date: 'dd/MM/yyyy' }}</p-->
+    
+          </div>
+    <div fxFlex="25%" fxLayout="column" fxLayoutAlign="start start">
+      <!--p><strong>Etat de la facture :</strong> {{ quotation?.invoiceEtat }}</p-->
+      <h1><p>DEVIS</p></h1>
+      <p><strong>Référence devis :</strong> {{ quotation?.ref }}</p>
+      <p><strong>Devise: </strong> {{ currencyMap[quotation?.currency] }}</p>
+      <p><strong>Date d'émission :</strong> {{ quotation?.quotationDate | date: 'dd-MM-yyyy' }}</p>
+    
+    </div>
+         
+          <!--div class="espace">
+            <img [src]="invoice?.logo" alt="Logo" style="width: 5cm; height: 5cm;">
+          </div-->
+          
+        </div>
+        
+    <!-- end of order details -->
+
+    <mat-divider></mat-divider>
+
+    <!-- billing details -->
+    <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between start">
+      <!-- seller -->
+      <div fxFlex="20%" fxLayout="column">
+        <h4><strong>Emetteur</strong></h4>
+        <!--p>{{ quotation?.nameSeller }}</p>
+        <p>{{ quotation?.addressSeller }}</p-->
+        <p>CSI Digital</p>
+        <p>Administration PAEB, 7000 Bizerte</p>
+        
+      </div>
+
+      <!-- buyer -->
+      <div fxFlex="25%" fxLayout="column">
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <h4><strong>Destinataire</strong></h4>
+          <p>{{ partner.name }}</p>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <p>{{ address.num }}, {{ address.street }}, {{ address.city }},</p>
+          <p> {{ address.postalCode }}, {{ address.region }}, {{ address.country }}</p>
+        </div>
+      </div>
+    
+    
+    
+    
+    
+    
+    </div>
+    <!-- end of billing details -->
+    <mat-divider></mat-divider>
+    <!--div>
+      <br>
+      <h4><strong>Infos supplémentaires</strong></h4>
+         <br>
+      <p><strong>Mode de payment : </strong> {{ paymentModeMap[quotation?.paymentMode] }}</p>
+      <p><strong>Condition de payment : </strong> {{ paymentConditionMap[quotation?.paymentCondition] }}</p>
+      <p><strong>Type de facturation : </strong> {{ billingTypeMap[quotation?.billingType] }}</p>
+      <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>
+      <br>
+   </div-->
+    <div class="additionalFees-table">
+      <div>
+        <mat-table [dataSource]="quotationProfilesFormArray.controls" class="mat-elevation-z4" #table>
+          
+          <ng-container matColumnDef="number">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="profile">
+            <mat-header-cell *matHeaderCellDef>Profil</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('function').value }} - {{ levelMap[element.get('experience').value] }}</mat-cell>
+          </ng-container>
+      
+          <!-- Description Column -->
+          <ng-container matColumnDef="candidateNumber">
+            <mat-header-cell *matHeaderCellDef>Nbr ressources</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('candidateNumber').value }}</mat-cell>
+          </ng-container>
+
+           <!-- Quantité Column -->
+           <ng-container matColumnDef="period">
+            <mat-header-cell *matHeaderCellDef>Nbr jours</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('period').value }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="candidateDailyCost">
+            <mat-header-cell *matHeaderCellDef>Coût journalier</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('candidateDailyCost').value }} {{ quotation.currency }}</mat-cell>
+          </ng-container>
+
+          <!-- Tarif Column -->
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef>Date début</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('startDate').value | date: 'dd-MM-yyyy'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef>Date fin</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('endDate').value | date: 'dd-MM-yyyy'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('total').value }} {{ quotation.currency }}</mat-cell>
+          </ng-container>
+
+          <!-- TVA Column -->
+          <!--ng-container matColumnDef="tva">
+            <mat-header-cell *matHeaderCellDef>TVA</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('tva').value }}</mat-cell>
+          </ng-container-->
+
+           <!-- Montant HT Column -->
+           <!--ng-container matColumnDef="priceWithoutTax">
+            <mat-header-cell *matHeaderCellDef>Montant HT</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.get('priceWithoutTax').value).toFixed(3) }}</mat-cell>
+          </ng-container-->
+
+           <!-- Montant TTC Column -->
+           <!--ng-container matColumnDef="priceWithAllTaxIncluded">
+            <mat-header-cell *matHeaderCellDef>Montant TTC</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.get('priceWithAllTaxIncluded').value).toFixed(3) }}</mat-cell>
+          </ng-container-->
+          
+          <!-- Column definitions -->
+          <mat-header-row *matHeaderRowDef="['number', 'profile', 'candidateNumber','period', 'candidateDailyCost','startDate', 'endDate', 'total']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['number', 'profile', 'candidateNumber','period', 'candidateDailyCost','startDate', 'endDate', 'total']"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+    
+    
+    <!-- end of table -->
+
+    <!-- total cost -->
+    <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
+      <!-- seller -->
+      <div>
+         
+        <p><strong>Mode de payment : </strong> {{ paymentModeMap[quotation?.paymentMode] }}</p>
+        <p><strong>Condition de payment : </strong> {{ paymentConditionMap[quotation?.paymentCondition] }}</p>
+        <p><strong>Type de facturation : </strong> {{ billingTypeMap[quotation?.billingType] }}</p>
+        <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>
+  
+     </div>
+
+      <!-- buyer -->
+      <div fxFlex="25%" fxLayout="column" fxLayoutAlign="start start">
+        <p><strong>Montant brut HT : </strong>{{ quotation?.htRevenue.toFixed(3) }} {{ quotation?.currency }}</p>
+        <p><strong>Remise ({{ quotation?.discount }}%) : </strong>{{ quotation?.discountAmount.toFixed(3) }} {{ quotation?.currency }}</p>
+        <p><strong>Montant net HT : </strong>{{ quotation?.revenue.toFixed(3) }} {{ quotation?.currency }}</p>
+        <p><strong>TVA ({{ quotation?.tva }}%) : </strong>{{ quotation?.tvaCost.toFixed(3) }} {{ quotation?.currency }}</p>
+        <h5><strong><strong>Net à payer TTC : </strong>{{ quotation?.revenueOrd.toFixed(3) }} {{ quotation?.currency }}</strong></h5>
+      </div>
+    </div>
+
+ 
+    <!-- end of total cost -->
+  </div>
+</mat-card>

@@ -1,0 +1,104 @@
+
+
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+
+  <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">Nouvelle
+   prestation</button>
+
+  <mat-form-field  >
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+    </mat-form-field> 
+ 
+</div>
+<mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+  <mat-card-content class="p-0">
+    <mat-table [dataSource]="dataSource" matSort  >
+
+
+  
+
+      <ng-container matColumnDef="titled">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Titre 
+          <div style="padding-left: 20px;">
+            <mat-form-field style="width:1.5cm;" >
+             <input matInput (input)="applyFilterr($event, 'titled')" placeholder="Filtrer par fonction">
+           </mat-form-field>
+          </div>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="titled"> {{row.titled}} </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="totalCost">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Coût total 
+          <div style="padding-left: 20px;">
+            <mat-form-field style="width:1.5cm;" >
+             <input matInput (input)="applyFilterNumber($event, 'totalCost')" placeholder="Filtrer par fonction">
+           </mat-form-field>
+          </div>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="totalCost"> {{row.totalCost}} </mat-cell>
+      </ng-container>
+
+      
+     <ng-container matColumnDef="costEfficiency">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Rentabilité
+          <div style="padding-left: 20px;">
+            <mat-form-field style="width:1.5cm;" >
+             <input matInput (input)="applyFilterNumber($event, 'costEfficiency')" placeholder="Filtrer par fonction">
+           </mat-form-field>
+          </div>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="costEfficiency"> {{row.costEfficiency}} </mat-cell>
+      </ng-container>
+
+                  
+        <ng-container matColumnDef="exceptionalCosts">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Coûts exceptionnels 
+            <div style="padding-left: 20px;">
+              <mat-form-field style="width:1.5cm;" >
+               <input matInput (input)="applyFilterBoolean($event, 'exceptionalCosts')" placeholder="Filtrer par fonction">
+             </mat-form-field>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="exceptionalCosts"> {{row.exceptionalCosts}} </mat-cell>
+        </ng-container>
+
+
+      
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          
+         
+
+              <button
+                mat-icon-button
+                routerLink="/benefit/{{ row.id }}"
+                routerLinkActive="router-link-active"
+                color="basic"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+
+
+
+          <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+  </mat-card-content>
+</mat-card>

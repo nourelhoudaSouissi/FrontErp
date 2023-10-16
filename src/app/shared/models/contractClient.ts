@@ -3,6 +3,7 @@ import { articleClient } from './articleClient';
 export class contractClient{
     id?:number;
     titleContract?:string;
+    reference?: string;
     dateContract?:Date;
     lieuContract?:string;
     startDate?:Date;
@@ -11,7 +12,7 @@ export class contractClient{
     introductionClient?:string;
     contractStatus?:ContractStatus;
     contractType?:ContractClientType;
-    articles?: articleClient[];
+    articleClients?: articleClient[];
 
 
 }

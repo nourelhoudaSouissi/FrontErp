@@ -37,9 +37,9 @@ import { ContactPopComponent } from "./contact-pop/contact-pop/contact-pop.compo
 import { contactRoutes } from "./contact.routing";
 import { ContactService } from "./contact.service";
 import { CrudPartnerService } from "../partner/crudPartner.service";
-import { AppointmentComponent } from './appointment/appointment.component';
-import { ContactNoteComponent } from './contact-note/contact-note.component';
-//import { ContactDetailComponent } from './contact-detail/contact-detail.component';
+import { ContactNotePopComponent } from './contact-note-pop/contact-note-pop.component';
+import { ContactDetailComponent } from './contact-detail/contact-detail.component';
+import { RendezVousPopComponent } from './rendez-vous-pop/rendez-vous-pop.component';
 
 
 
@@ -47,9 +47,9 @@ import { ContactNoteComponent } from './contact-note/contact-note.component';
   declarations: [
     ContactListComponent,
     ContactPopComponent,
-    AppointmentComponent,
-    ContactNoteComponent,
-    //ContactDetailComponent
+    ContactNotePopComponent,
+    ContactDetailComponent,
+    RendezVousPopComponent
   ],
   providers: [ContactService, CrudPartnerService],
   imports: [

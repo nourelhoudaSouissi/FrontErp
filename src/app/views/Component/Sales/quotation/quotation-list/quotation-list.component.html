@@ -1,0 +1,123 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+    <button 
+    mat-raised-button 
+    class="mb-2" 
+    style="float: right ;"  
+    color="primary"
+    routerLink="/quotation/add"
+    routerLinkActive="router-link-active" 
+    >Nouveau
+     devis</button>
+     <!--(click)="openPopUp({},true)"-->
+    
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+    </mat-form-field>
+</div>
+<mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
+    <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="ref">
+                <mat-header-cell *matHeaderCellDef mat-sort-header > 
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                    <span>Référence</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'ref')" placeholder="Filtrer">
+                   </mat-form-field>
+                   </div> 
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="ref"> {{row.ref}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="partnerName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;">
+                    <span>Nom partenaire</span>
+                    <mat-form-field style="width: 10rem; text-align: center;">
+                      <input matInput (input)="applyFilterr($event, 'partnerName')" placeholder="Filter">
+                    </mat-form-field>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="partnerName">{{ row.partnerName }}</mat-cell>
+              </ng-container>
+
+            <ng-container matColumnDef="requirementTitle">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;">
+                    <span>Opportunité</span>
+                    <mat-form-field style="width: 10rem; text-align: center;">
+                      <input matInput (input)="applyFilterr($event, 'requirementTitle')" placeholder="Filter">
+                    </mat-form-field>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="requirementTitle">{{ row.requirementTitle }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="quotationStatus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header > 
+                  <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+                    <span>Etat devis</span>
+                    <mat-form-field style="width:3cm; text-align: center;" >
+                      <input matInput (input)="applyFilterr($event, 'quotationStatus')" placeholder="Filtrer">
+                   </mat-form-field>
+                   </div> 
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="quotationStatus">
+                <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getStatusColor(row.quotationStatus).color" >{{ getStatusColor(row.quotationStatus).displayText }}</button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="changeQuotationStatus('quotationStatus.IN_PROGRESS', row.id)">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>En attente</span>
+                  </button>
+                  <button mat-menu-item (click)="changeQuotationStatus('quotationStatus.ACCEPTED', row.id)">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Accepté</span>
+                  </button>
+                  <button mat-menu-item (click)="changeQuotationStatus('quotationStatus.REFUSED', row.id)">
+                    <mat-icon>cancel</mat-icon>
+                    <span>Refusé</span>
+                  </button>
+                  <button mat-menu-item (click)="changeQuotationStatus('quotationStatus.UNANSWERED', row.id)">
+                    <mat-icon>cancel</mat-icon>
+                    <span>Sans suite</span>
+                  </button>
+                </mat-menu>
+              </mat-cell>
+              </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button
+                        mat-icon-button
+                        routerLink="/quotation/{{ row.id }}"
+                        routerLinkActive="router-link-active"
+                        color="basic"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <!--button 
+                    mat-icon-button 
+                    mat-sm-button 
+                    color="primary" 
+                    class="mr-16" 
+                    routerLink="/quotation/{{ row.id }}"
+                    routerLinkActive="router-link-active"
+                    >
+                    <(click)="openPopUp(row, false)">
+                        <mat-icon>edit</mat-icon>
+                    </button-->
+                    <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Dates importantes</h2>
+<mat-dialog-content >
+  <mat-list>
+    <mat-list-item> <!--mat-icon class="mr-16" color="primary">date_range</mat-icon--> <strong>Créé le : </strong>  {{ formatDate(data.creationDate) }}</mat-list-item>
+    <mat-list-item> <!--mat-icon class="mr-16" color="primary">date_range</mat-icon--> <strong>Date partenariat : </strong>  {{ formatDate(data.partnerShipDate) }}</mat-list-item>
+    <mat-list-item><!--mat-icon class="mr-16" color="primary">date_range</mat-icon--> <strong>Date début activité : </strong> {{  formatDate(data.startDate ) }}</mat-list-item>
+    <mat-list-item><!--mat-icon class="mr-16" color="primary">date_range</mat-icon--> <strong>Date fin activité : </strong> {{ formatDate(data.endDate) }}</mat-list-item>
+    <mat-list-item><!--mat-icon class="mr-16" color="primary">date_range</mat-icon--> <strong>Date création de l'entreprise : </strong> {{ formatDate(data.foundingDate) }}</mat-list-item>
+  </mat-list>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

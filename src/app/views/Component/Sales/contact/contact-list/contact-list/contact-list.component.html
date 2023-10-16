@@ -1,34 +1,75 @@
 <div class="m-4" [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
 
 
-  <button mat-raised-button class="mb-8" style="float: right;" color="primary" (click)="openPopUp({},true)" >Nouveau
+  <button 
+  mat-raised-button 
+  class="mb-2" 
+  style="float: right;" 
+  color="primary" 
+  (click)="openPopUp({},true)" >Nouveau
     Contact</button>
-   <div style="clear: both;"></div>
+
+  <mat-form-field  >
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field> 
    
 </div>
 <mat-card  style="border: 5px; "  [@animate]="{value:'*',params:{y:'10px',delay:'500ms'}}">
   <mat-card-content class="p-0">
-    <mat-table [dataSource]="dataSource" matSort  >
-  
+    <mat-table [dataSource]="dataSource" matSort >
+      
+      
+      <ng-container matColumnDef="civility">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+            <span>Civilité</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'civility')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="société"> {{civilityMap[row.civility]}} </mat-cell>
+      </ng-container>
   
   
   
       <ng-container matColumnDef="firstName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Prénom </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+            <span>Prénom</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'firstName')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
         <mat-cell *matCellDef="let row" data-label="firstName"> {{row.firstName}} </mat-cell>
       </ng-container>
   
   
   
       <ng-container matColumnDef="lastName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+            <span>Nom</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'lastName')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
         <mat-cell *matCellDef="let row" data-label="lastName"> {{row.lastName}} </mat-cell>
       </ng-container>
-  
+      
         
-      <ng-container matColumnDef="function">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Fonction </mat-header-cell>
-        <mat-cell *matCellDef="let row" data-label="function"> {{row.function}} </mat-cell>
+      <ng-container matColumnDef="appointmentMaking">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;" >
+            <span>Prise de rendez-vous </span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'appointmentMaking')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="appointmentMaking"> {{ appointmentMakingMap[row.appointmentMaking] }} </mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="actions">
@@ -36,7 +77,7 @@
         <mat-cell *matCellDef="let row">
 
           <button mat-icon-button 
-            routerLink="/contact/{{ row.id }}" 
+            routerLink="/contact/{{ row.contactId }}" 
             routerLinkActive="router-link-active" 
             color="basic"
           >
@@ -47,12 +88,12 @@
             <mat-icon>edit</mat-icon>
           </button>
 
-          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button mat-sm-button color="basic" [matMenuTriggerFor]="menu" (click)="moreAboutItem(row.id)">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+          <!--button mat-icon-button mat-sm-button color="basic" [matMenuTriggerFor]="menu" (click)="moreAboutItem(row.id)">
+            <mat-icon>more_horiz</mat-icon>
+          </button-->
           <mat-menu #menu="matMenu">
             <button mat-menu-item 
             routerLink="/contact-appointment"

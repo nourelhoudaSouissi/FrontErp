@@ -1,0 +1,142 @@
+<mat-card class="p-0">
+    <mat-card-title class="">
+       <div class="card-title-text">
+          <mat-icon>
+            info_outline
+          </mat-icon>
+          Fiche opportunité <small> {{ req.ref }} </small> : <strong>{{ req.title }}</strong>
+        </div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <mat-card style="margin-top: 20px;margin-bottom: 20px;">
+
+         <mat-card-title class="">
+          <div class="card-title-text">Infos générales</div>
+        </mat-card-title>
+        <mat-card-content >
+          <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
+           
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">smartphone</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Désignation partenaire</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ partner.name }}</strong></mat-list-item>
+            </mat-list>
+          
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">phone</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Type partenaire</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{companyStatusMap[partner.companyStatus]}}</strong></mat-list-item>
+            </mat-list>
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">mail</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Etat opportunité</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ reqStatusMap[req.requirementStatus] }}</strong></mat-list-item>
+            </mat-list>
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">mail</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Type opportunité</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ reqTypeMap[req.requirementType] }}</strong></mat-list-item>
+            </mat-list>
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">mail</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Type paiement</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ paymentTypeMap[req.paymentType] }}</strong></mat-list-item>
+            </mat-list>
+          </div>
+          
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-title class="">
+          <div class="card-title-text">Détails opportunité</div>
+        </mat-card-title>
+        <mat-card-content >
+          <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
+           
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">smartphone</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);"> Type budgétisation</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ budgetingTypeMap[req.budgetingType] }}</strong></mat-list-item>
+            </mat-list>
+          
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">phone</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Budget total</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ req.totalBudget }} {{ req.currency }}</strong></mat-list-item>
+            </mat-list>
+            <mat-list fxFlex="30%" fxFlex.xs="100%">
+              <mat-list-item class="cc1-title">
+                <!--mat-icon color="primary" class="mr-16">mail</mat-icon-->
+                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Besoin effectif</span>
+              </mat-list-item>
+              <mat-list-item><strong>{{ req.candidateNumber }}</strong></mat-list-item>
+            </mat-list>
+          </div>
+          
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-title class="">
+          <div class="card-title-text">Dates</div>
+        </mat-card-title>
+        <mat-card-content>
+          <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
+           
+              <mat-list fxFlex="50%" fxFlex.xs="100%">
+                <mat-list-item class="cc1-title">
+                  <!--mat-icon color="primary" class="mr-16">business</mat-icon-->
+                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Date création : </span>
+                </mat-list-item>
+                <mat-list-item><strong>{{ req.creationDate | date:'dd-MM-yyyy'}}</strong></mat-list-item>
+              </mat-list>
+
+              <mat-list fxFlex="50%" fxFlex.xs="100%">
+                <mat-list-item class="cc1-title">
+                  <!--mat-icon color="primary" class="mr-16">business</mat-icon-->
+                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Date réponse : </span>
+                </mat-list-item>
+                <mat-list-item><strong>{{ req.responseDate | date:'dd-MM-yyyy'}}</strong></mat-list-item>
+              </mat-list>
+  
+              <mat-list fxFlex="50%" fxFlex.xs="100%">
+                <mat-list-item class="cc1-title">
+                  <!--mat-icon color="primary" class="mr-16">work</mat-icon-->
+                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Date prévu de clôture : </span>
+                </mat-list-item>
+                <mat-list-item><strong>{{ req.closureDate | date:'dd-MM-yyyy'}}</strong></mat-list-item>
+              </mat-list>
+
+              <mat-list fxFlex="50%" fxFlex.xs="100%" *ngIf = !req.startDate>
+                <mat-list-item class="cc1-title">
+                  <!--mat-icon color="primary" class="mr-16">work</mat-icon-->
+                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Démarrage dans : </span>
+                </mat-list-item>
+                <mat-list-item><strong>{{ availabilityMap[req.availability] }}</strong></mat-list-item>
+              </mat-list>
+
+              <mat-list fxFlex="50%" fxFlex.xs="100%" *ngIf = req.startDate>
+                <mat-list-item class="cc1-title">
+                  <!--mat-icon color="primary" class="mr-16">star_half</mat-icon-->
+                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Date début : </span>
+                </mat-list-item>
+                <mat-list-item><strong>{{ req.startDate | date:'dd-MM-yyyy'}}</strong></mat-list-item>
+              </mat-list>
+          </div>
+          
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>

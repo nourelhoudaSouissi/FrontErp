@@ -1,0 +1,104 @@
+.order-info img {
+    height: 200px;
+    width: 200px;
+  }
+  .form-rows mat-form-field::placeholder {
+    font-weight: bold;
+  }
+
+  .additionalFees-form-list {
+    .additionalFees-form-list-head-line {
+      background-color: lightgray;
+      padding: 10px;
+  
+      p {
+        font-weight: bold;
+      }
+    }
+  
+    .form-rows {
+      margin-top: 10px;
+  
+      mat-form-field {
+        margin-right: 10px;
+        width: 150px;
+      }
+    }
+  }
+  
+  .add-button {
+    margin-top: 20px;
+  }
+
+  ////////////////////////////////////////////////////////////////////////
+
+  .demo-table {
+    width: 100%;
+  }
+
+  .mat-column-number {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex : 0 0 2% !important;
+    width : 8%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    border-right: 1px solid #D3D3D3;
+    padding-left: 16px;
+
+    /*-ms-hyphens: auto;
+    -moz-hyphens: auto
+    -webkit-hyphens: auto;
+    width: 1px;
+    
+    */
+  }
+
+  .mat-column-profile {
+    padding-left: 16px;
+    flex : 0 0 22% !important;
+    width : 22%;
+    font-style: bold;
+    border-right: 1px solid #D3D3D3;
+  }
+  
+  .mat-column-candidateNumber {
+    //font-style: italic;
+    border-right: 1px solid #D3D3D3;
+    padding-left: 16px;
+  }
+  
+  .mat-column-period {
+    width: 12%;
+    text-align: center;
+    border-right: 1px solid #D3D3D3;
+    padding-left: 16px;
+    //font-weight: bold;
+  }
+
+  .mat-column-endDate {
+    //font-style: italic;
+    border-right: 1px solid #D3D3D3;
+    padding-left: 16px;
+  }
+
+  .mat-column-startDate {
+    //font-style: italic;
+    border-right: 1px solid #D3D3D3;
+    padding-left: 16px;
+  }
+
+  .mat-column-candidateDailyCost {
+    flex : 0 0 12% !important;
+    //font-style: italic;
+    border-right: 1px solid #D3D3D3;
+    padding-left: 16px;
+  }
+
+  .mat-column-total {
+    flex : 0 0 12% !important;
+    //font-style: italic;
+    padding-left: 16px;
+  }
+

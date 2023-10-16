@@ -1,0 +1,178 @@
+<mat-card class="p-0">
+    <mat-card-title class="">
+       <div class="card-title-text"><mat-icon>
+        info_outline </mat-icon> Informations prestation {{benefit.titled}}</div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="30">
+          <mat-card class="p-0">
+            <mat-card-content>
+              <!--div class="propic text-center">
+                <img src="assets/images/sq-face-220.jpg" alt="">
+              </div-->
+              <div class="profile-title text-center mb-16">
+                <div class="main-title"><h1>{{ benefit.titled }}</h1></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="30">
+          <mat-card class="p-0">
+            <mat-card-title class="">
+              <div class="card-title-text"><mat-icon class="mr-16">attach_money</mat-icon> Informations financières</div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item><strong>Coût journalier moyen:</strong>   {{ benefit.averageDailyCost }}</mat-list-item>
+                <mat-list-item><strong>Coût total:</strong>   {{ benefit.totalCost }}</mat-list-item>
+                <mat-list-item><strong>Coût HT:</strong>   {{ benefit.cost }}</mat-list-item>
+                <mat-list-item><strong>Rentabilité:</strong>   {{ benefit.costEfficiency }}</mat-list-item>
+                <mat-list-item><strong>Frais mensuels:</strong>   {{ benefit.monthlyFees }}</mat-list-item>
+                <mat-list-item><strong>Frais exceptionnels:</strong>   {{ benefit.exceptionalCosts }}</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <!--div fxFlex="100" fxFlex.gt-sm="40">
+          <mat-card class="p-0">
+            <mat-card-title class="">
+              <div class="card-title-text">Administrative Info</div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item><mat-icon class="mr-16">portrait</mat-icon> <strong>Civilité: </strong> {{ contact.civility }}</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">star_half</mat-icon> <strong>Privilège: </strong>  {{ contact.privilege }}</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">work</mat-icon> <strong>Service: </strong> {{ contact.service }}</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">comment</mat-icon>  <strong>Commentaire:</strong>{{ contact.comment }}</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">work</mat-icon> <strong>Work Field:</strong> {{ partner.workField }}</mat-list-item>
+                <mat-list-item><mat-icon class="mr-16">group_add</mat-icon> <strong>Staff Number:</strong> {{ partner.staffNumber }}</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div-->
+      </div>
+
+      <!--------------------------------------ACCORDION-------------------------------------------------->
+      <mat-accordion multi="false">
+            
+      <!--contacts here-->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon Orders
+            color="primary">list_alt</mat-icon>
+            <h6 class="text-18 mb-4"> <strong> Activités exceptionnelles</strong></h6>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <button mat-icon-button color="primary" type="button" (click)="openPopUp({},true)">
+          <mat-icon>add</mat-icon>
+        </button>
+        <mat-table [dataSource]="dataSource" matSort >
+
+          <ng-container matColumnDef="workingHoursNumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre d'heures de travail </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="workingHoursNumber"> {{row.workingHoursNumber}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="hourWage">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> moyenne des heures </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="hourWage"> {{row.hourWage}} </mat-cell>
+          </ng-container>
+       
+          <ng-container matColumnDef="performanceBonus">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Bonus de performance </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="performanceBonus"> {{row.performanceBonus}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="extraDutyType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> type de frais exceptionnel</mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="extraDutyType"> {{row.extraDutyType}} </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+           
+            <mat-cell *matCellDef="let row">
+              <button mat-icon-button mat-sm-button color="warn" (click)="deleteExtraDuty(row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      
+      </mat-expansion-panel>
+        
+      <!--Opportunités here-->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon Orders
+            color="primary">schedule</mat-icon>
+            <h6 class="text-18 mb-4"> <strong> Modalités de travail</strong></h6>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <button mat-icon-button color="primary" type="button" (click)="openPopUp2({},true)">
+          <mat-icon>add</mat-icon>
+        </button>
+        <mat-table [dataSource]="dataSource2" matSort >
+
+
+
+
+          <ng-container matColumnDef="dailyWage">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> cout journalier </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="dailyWage"> {{row.dailyWage}} </mat-cell>
+          </ng-container>
+      
+      
+      
+          <ng-container matColumnDef="workingDaysNumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> nombre des jours de travail </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="description"> {{row.workingDaysNumber}} </mat-cell>
+          </ng-container>
+      
+            
+  
+  
+              <ng-container matColumnDef="workModel">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> workModel </mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="workModel"> {{row.workModel}} </mat-cell>
+            </ng-container>
+  
+       
+    
+    
+          
+    
+          
+      
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button mat-icon-button mat-sm-button color="warn" (click)="deleteWorkArrangement(row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp2(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+        </mat-table>
+      
+      </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>

@@ -49,10 +49,10 @@ export class NavigationService {
       icon: 'list',
       sub: [
         //{name: 'Basic Table', state: 'tables/mat-table'},
-        {name: 'Partner', state: 'partner/partner-crud'},
+        {name: 'Partner', state: 'partnerTest/partner-crudTest'},
         //{name: 'Table variations', state: 'material/table'},
         //{name: 'contact', state: 'contact/contact-table'},
-        {name: 'Req', state: 'ggg/ahmed'},
+       /* {name: 'Req', state: 'ggg/ahmed'},*/
         {name: 'contact', state: 'll/hh'}
       ]
     },
@@ -129,13 +129,19 @@ export class NavigationService {
       tooltip: 'Shop',
       icon: 'shopping_cart',
       sub: [
-        { name: 'Contact', state: 'shop/products/5a9ae2106f155194e5c95d67' },
-        { name: 'Rendez-vous', state: 'shop/cart' },
-        { name:  'Partenaires', state: 'partner/partner-crud'},
-        { name: 'Contrats', state: 'shop' },
-        {name:  'Besoin', state: 'requirement/requirement-crud'},
-        { name: 'Vente & Commande', state: 'shop/cart' },
-        { name: 'Rapports', state: 'shop/checkout' }
+        { name: 'Contacts', state: 'contact/contact-list' },
+        { name: 'Rendez-vous', state: 'rendezVous/rendezVous' },
+        { name: 'Prospects & partenaires', state: 'partner/partner-crud'},
+        { name: 'Contrats partenaires', state: 'contract/liste-client-contracts' },
+        { name: 'Avenants contrats', state: 'endorsement/endorsement-crud' },
+        //{ name: 'Prestation', state: 'benefit/benefit-list' },
+        { name: 'Opportunités', state: 'requirement/requirement-crud'},
+        //{ name: 'Employés', state: 'employee/employee-crud' },
+        { name: 'Devis', state: 'quotation/quotation-crud' },
+        { name: 'Commandes', state: 'order/orders-crud' },
+        
+        /*{ name: 'Devis & Commandes', state: 'shop/cart' },
+        { name: 'Rapports', state: 'shop/checkout' }*/
       ]
     },
     {
@@ -196,7 +202,9 @@ export class NavigationService {
      // { name: 'Jour férié', state: 'holiday/holiday-crud' },
       { name: 'Questionnaire', state: 'TableReferentiel/referentielTable' },
       { name: 'Type de congé', state: 'leaveType/leaveType-crud' },
-      { name: 'Weekend', state: 'weekend/weekend-crud' }
+      { name: 'Weekend', state: 'weekend/weekend-crud' },
+      { name: 'Catalogue profils', state: 'catalog/catalog-crud' }    
+
     
     
     ]

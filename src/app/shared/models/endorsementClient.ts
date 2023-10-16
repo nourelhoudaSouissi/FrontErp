@@ -8,6 +8,7 @@ export class endorsementClient{
     endorsementDate ?:Date;
     object?:string;
     note?:string;
-    contractNum?:number;
+    contractId?:number;
     contract?:contractClient;
+    refContract?: string
 }

@@ -1,0 +1,300 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.title}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+</mat-toolbar>
+
+<form [formGroup]="itemForm">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Opportunité</mat-label>
+        <mat-select  [formControlName]="'requirementNum'">
+          <mat-option *ngFor="let requirementNum of listReq" [value]="requirementNum.id">{{ requirementNum.title }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Partenaire - Prospect</mat-label>
+        <mat-select  [formControlName]="'partnerNum'">
+          <mat-option *ngFor="let partnerNum of listPartner" [value]="partnerNum.id">{{ partnerNum.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Catalogue</mat-label>
+        <mat-select  [formControlName]="'catalogNum'">
+          <mat-option *ngFor="let catalogNum of listCatalog" [value]="catalogNum.id">{{ catalogNum.ref }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16" *ngIf="!data.isNew">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Etat devis</mat-label>
+        <mat-select  [formControlName]="'quotationStatus'">
+          <mat-option *ngFor="let status of quotationStatus" [value]="status">{{ quotationStatusMap[status] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Type de facturation</mat-label>
+        <mat-select  [formControlName]="'billingType'">
+          <mat-option *ngFor="let billingType of billingTypes" [value]="billingType">{{ billingTypeMap[billingType] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Instruction de facturation</mat-label>
+            <input
+              matInput
+              name="billingInstruction"
+              type="text"
+              [formControlName]="'billingInstruction'"
+              placeholder="Instruction de facturation">
+        </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Mode de paiement</mat-label>
+        <mat-select  [formControlName]="'paymentMode'">
+          <mat-option *ngFor="let paymentMode of paymentModes" [value]="paymentMode">{{ paymentModeMap[paymentMode] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16" *ngIf="isOtherPaymentMode()">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Autre mode de paiement</mat-label>
+          <input
+            matInput
+            name="otherPaymentMode"
+            type="text"
+            [formControlName]="'otherPaymentMode'"
+            placeholder="Veuillez spécifier le mode de paiement SVP">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Condition de paiement</mat-label>
+        <mat-select  [formControlName]="'paymentCondition'">
+          <mat-option *ngFor="let paymentCondition of paymentConditions" [value]="paymentCondition">{{ paymentConditionMap[paymentCondition] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Devise</mat-label>
+        <mat-select  [formControlName]="'currency'">
+          <mat-option *ngFor="let currency of currencies" [value]="currency">{{ currencyMap[currency] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>TVA</mat-label>
+          <input
+            matInput
+            name="tva"
+            type="text"
+            [formControlName]="'tva'"
+            placeholder="TVA">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16" *ngIf="isOtherPaymentMode()">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Montant HT</mat-label>
+          <input
+            matInput
+            name="htRevenue"
+            type="number"
+            [formControlName]="'htRevenue'"
+            placeholder="Montant HT">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16" *ngIf="isOtherPaymentMode()">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Montant TTC</mat-label>
+          <input
+            matInput
+            name="revenueOrd"
+            type="number"
+            [formControlName]="'revenueOrd'"
+            placeholder="Montant TTC">
+      </mat-form-field>
+    </div>
+
+    <div class="mini-container" >
+      <mat-form-field [style.width.cm]=22.2 class="example-full-width" appearance="outline">
+        <mat-label>Commentaire</mat-label>
+        <textarea matInput placeholder="Saisissez un commentaire si nécessaire."
+        [formControl]="itemForm.controls['comment']"></textarea>
+      </mat-form-field>
+    </div>
+
+    <mat-card class = "custom-card" *ngIf="isResourcesRequirement()">
+      <mat-card-title>
+        <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px" >
+          <span>{{data.titleP}}</span>
+          <button mat-icon-button *ngIf="data.isNew" (click)="toggleProfilesForm()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="!data.isNew" (click)="toggleUpdateProfilesForm()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-card-title>
+      <div formArrayName="profiles" *ngIf="showProfilesForm">
+        <div *ngFor="let profile of itemForm.get('profiles')?.controls; let i = index" [formGroupName]="i">
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Profil</mat-label>
+                <mat-select  [formControlName]="'profile'">
+                  <mat-option *ngFor="let profile of listProfiles" [value]="profile">{{ profile.function }} - {{ levelMap[profile.experience] }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre de ressources</mat-label>
+                <input
+                  matInput
+                  required
+                  type="number"
+                  name="candidateNumber"
+                  formControlName="candidateNumber"
+                  placeholder="Nombre de ressources"
+                />
+                <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
+                  Ce champs est requis.
+                </mat-error-->
+            </mat-form-field>
+            </div>
+
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre de jours</mat-label>
+                <input
+                  matInput
+                  required
+                  type="number"
+                  name="period"
+                  formControlName="period"
+                  placeholder="Nombre de jours"
+                />
+                <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
+                  Ce champs est requis.
+                </mat-error-->
+            </mat-form-field>
+            </div>
+
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Coût journalier candidat <!--(en {{ itemForm.get('currency').value }})--></mat-label>
+                <input
+                  matInput
+                  required
+                  type="number"
+                  name="candidateDailyCost"
+                  [formControlName]="'candidateDailyCost'"
+                  placeholder="Coût journalier candidat"
+                />
+                <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
+                  Ce champs est requis.
+                </mat-error-->
+            </mat-form-field>
+            </div>
+
+            <!--Code postal-->
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Date début</mat-label>
+                  <input
+                    matInput
+                    name="startDate"
+                    type="date" 
+                    [formControlName]="'startDate'"
+                  placeholder="Date début">
+                  <!--input  
+                      matInput [matDatepicker]="picker3" 
+                      formControlName="startDate" 
+                      placeholder="Date début" 
+                  >
+                  <mat-datepicker-toggle  matSuffix [for]="picker3"></mat-datepicker-toggle>
+                  <mat-datepicker #picker3></mat-datepicker-->
+              </mat-form-field>
+            </div>
+
+            <!--Ville-->
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Date fin</mat-label>
+                  <input
+                    matInput
+                    name="endDate"
+                    type="date" 
+                    [formControlName]="'endDate'"
+                  placeholder="Date fin">
+                  <!--input  
+                      matInput [matDatepicker]="picker4" 
+                      formControlName="endDate" 
+                      placeholder="Date fin" 
+                  >
+                  <mat-datepicker-toggle  matSuffix [for]="picker4"></mat-datepicker-toggle>
+                  <mat-datepicker #picker4></mat-datepicker-->
+              </mat-form-field>
+            </div>
+
+            <div class="mini-container" >
+              <mat-form-field [style.width.cm]=20.8 class="example-full-width" appearance="outline">
+                <mat-label>Commentaire</mat-label>
+                <textarea matInput placeholder="Saisissez un commentaire si nécessaire."
+                formControlName="comment"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="button-container">
+              <div>
+                <button class="left-button" mat-icon-button (click)="removeProfileFormGroup(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <div>
+                <button class="right-button" mat-icon-button (click)="addProfileFormGroup(i)">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <div fxFlex="100" class="mt-16">
+        <button mat-raised-button color="primary" (click)="submit()">Enregistrer</button>
+        <span fxFlex></span>
+        <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      </div>
+    </div>
+</form>

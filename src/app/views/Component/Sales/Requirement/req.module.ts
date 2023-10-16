@@ -29,17 +29,20 @@ import { RouterModule } from '@angular/router';
 import { ReqRoutes } from './req.routing';
 
 import { CrudPartnerService } from '../partner/crudPartner.service';
+import { ReqDetailComponent } from './req-detail/req-detail.component';
+import { ProfilePopComponent } from './profile-pop/profile-pop.component';
 
 
 
 @NgModule({
   declarations: [
     ReqpopComponent,
-    ReqlistComponent
+    ReqlistComponent,
+    ReqDetailComponent,
+    ProfilePopComponent
   ],
   providers: [ReqService,CrudPartnerService],
   imports: [
-    CommonModule,
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,

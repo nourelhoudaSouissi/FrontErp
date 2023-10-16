@@ -4,7 +4,7 @@ import { DetailCrudComponent } from './crud-detail/detail-crud/detail-crud.compo
 
 export const CrudsRoutes: Routes = [
   { 
-    path: 'partner-crud', 
+    path: 'partner-crudTest', 
     component: CrudNgxTableComponent, 
     data: { title: 'Table', breadcrumb: 'Table' } 
   },

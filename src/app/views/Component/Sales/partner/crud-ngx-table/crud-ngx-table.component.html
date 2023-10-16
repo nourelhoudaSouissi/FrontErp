@@ -1,11 +1,17 @@
 <div class="m-4" [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
 
 
-  <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)=" openPopUp({},true)"> Nouveau 
+  <button 
+  mat-raised-button 
+  class="mb-2" 
+  style="float: right ;"  
+  color="primary" 
+  routerLink = "/partner/add"
+  routerLinkActive="router-link-active"> Nouveau 
     partenaire </button>
 
   <mat-form-field  >
-    <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
     </mat-form-field> 
  
 </div>
@@ -14,45 +20,67 @@
     <mat-table [dataSource]="dataSource" matSort  >
 
 
+      <ng-container matColumnDef="logo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Logo
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="logo">
+          <div class="avatar">
+            <img [src]="row.logo" alt="logo" width = "80 px">
+          </div>
+        </mat-cell>
+      </ng-container>
+      
+      
+      <ng-container matColumnDef="companyStatus">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;">
+            <span>Type</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'companyStatus')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="CompanyStatus"> {{CompanyStatusMap[row.companyStatus]}} </mat-cell>
+      </ng-container>
 
+
+      <ng-container matColumnDef="ref">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;">
+            <span>Référence</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'ref')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="ref"> {{row.ref}} </mat-cell>
+      </ng-container>
+      
 
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;">
+            <span>Désignation</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'name')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
         <mat-cell *matCellDef="let row" data-label="name"> {{row.name}} </mat-cell>
       </ng-container>
-
-
-
-      <ng-container matColumnDef="ceoName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom CEO </mat-header-cell>
-        <mat-cell *matCellDef="let row" data-label="ceoName"> {{row.ceoName}} </mat-cell>
-      </ng-container>
-
-      
-     <ng-container matColumnDef="parentCompany">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom du groupe </mat-header-cell>
-        <mat-cell *matCellDef="let row" data-label="parentCompany"> {{row.parentCompany}} </mat-cell>
-      </ng-container>
-
-
-
       
 
-
-      <ng-container matColumnDef="Country">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Pays </mat-header-cell>
-        <mat-cell *matCellDef="let row" data-label="Country"> {{row.country}} </mat-cell>
+      <ng-container matColumnDef="blocked">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > 
+          <div style="display: flex; flex-direction: column; margin-top: 12px;">
+            <span>Etat</span>
+            <mat-form-field style="width:3cm; text-align: center;" >
+              <input matInput (input)="applyFilterr($event, 'blocked')" placeholder="Filtrer">
+           </mat-form-field>
+           </div> 
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="name"> {{mapBlockedStatus(row.blocked)}} </mat-cell>
       </ng-container>
-
-      
-
-
-      <ng-container matColumnDef="CompanyStatus">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Statut du partenaire </mat-header-cell>
-        <mat-cell *matCellDef="let row" data-label="CompanyStatus"> {{row.companyStatus}} </mat-cell>
-      </ng-container>
-
-
 
 
       <ng-container matColumnDef="actions">
@@ -75,16 +103,14 @@
           <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+          <button mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
             <mat-icon>delete</mat-icon>
           </button>
-          <button mat-icon-button mat-sm-button color="basic" [matMenuTriggerFor]="menu" >
-            <mat-icon>more_vert</mat-icon>
-          </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item [routerLink]="['/partner/requirements', row.id]"
+            <button mat-menu-item [routerLink]="['/partner/besoins', row.id]"
             routerLinkActive="router-link-active"
-            color="primary">Besoins</button>
+            color="primary">Opportunités</button>
+
             <button mat-menu-item [routerLink]="['/partner/contacts', row.id]"
             routerLinkActive="router-link-active">Contacts</button>
           </mat-menu>

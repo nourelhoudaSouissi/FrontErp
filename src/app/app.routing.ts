@@ -94,11 +94,11 @@ export const rootRouterConfig: Routes = [
         loadChildren: () => import('./views/dragndrop/dragndrop.module').then(m => m.DragndropModule),
         data: { title: 'Drag and Drop', breadcrumb: 'DND'}
       },
-      {
+     /* {
         path: 'ggg',
         loadChildren: () => import('./views/Requirement/req.module').then(m => m.ReqModule),
         data: { title: 'Tables', breadcrumb: 'TABLES'}
-      },
+      },*/
       {
         path: 'inbox',
         loadChildren: () => import('./views/app-inbox/app-inbox.module').then(m => m.AppInboxModule),
@@ -120,7 +120,7 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Chat', breadcrumb: 'CHAT'}
       },
       {
-        path: 'partner',
+        path: 'partnerTest',
         loadChildren: () => import('./views/cruds/cruds.module').then(m => m.CrudsModule),
         data: { title: 'CRUDs', breadcrumb: 'CRUDs'}
       },
@@ -357,8 +357,54 @@ export const rootRouterConfig: Routes = [
         path: 'expenseReportValidation',
         loadChildren: () => import('./views/Component/HumanResource/expenseReportValidation/expenseReportValidation.module').then(m => m.ExpenseReportValidationModule),
         data: { title: ' Validation Note de Frais', breadcrumb: 'Validation Note de Frais'}
-      }
+      },
+      {
+        path: 'contact',
+        loadChildren: () => import('./views/Component/Sales/contact/contact.module').then(m => m.ContactModule),
+        data: { title: 'Contact', breadcrumb: 'Contacts'}
+      },
       
+      {
+          path: 'rendezVous',
+          loadChildren: () => import('./views/Component/Sales/rendez-vous/rendez-vous.module').then(m => m.RendezVousModule),
+          data: { title: 'Rendez-vous', breadcrumb: 'Rendez-vous'}
+      },
+      {
+        path: 'order',
+        loadChildren: () => import('./views/Component/Sales/orders/orders.module').then(m => m.OrdersModule),
+        data: { title: 'Order', breadcrumb: 'Commandes'}
+      },
+      {
+        path: 'quotation',
+        loadChildren: () => import('./views/Component/Sales/quotation/quotation.module').then(m => m.QuotationModule),
+        data: { title: 'Quotation', breadcrumb: 'Devis'}
+      },
+
+{
+        path: 'partner',
+        loadChildren: () => import('./views/Component/Sales/partner/crudsPartner.module').then(m => m.PartnerModule),
+        data: { title: 'Partner', breadcrumb: 'Partenaires'}
+      },
+      {
+        path: 'contract',
+        loadChildren: () => import('./views/Component/Sales/contractProjet/contractClient.module').then(m => m.ContractClientModule),
+        data: { title: 'Contracts', breadcrumb: 'Contrats partenaires'}
+      },
+      {
+        path: 'endorsement',
+        loadChildren: () => import('./views/Component/Sales/endorsementClient/endorsement.module').then(m => m.EndorsementModule),
+        data: { title: 'Endorsements', breadcrumb: 'Avenants'}
+      },
+      {
+        path: 'requirement',
+        loadChildren: () => import('./views/Component/Sales/Requirement/req.module').then(m => m.ReqModule),
+        data: { title: 'Requirement', breadcrumb: 'Opportunités'}
+      },
+      {
+        path: 'catalog',
+        loadChildren: () => import('./views/Component/Sales/profile-catalog/profile-catalog.module').then(m => m.ProfileCatalogModule),
+        data: { title: 'Profile catalog', breadcrumb: 'Catalogue profils'}
+      },
     ]
   },
   {

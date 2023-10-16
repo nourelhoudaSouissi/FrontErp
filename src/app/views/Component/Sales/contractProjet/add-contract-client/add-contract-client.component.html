@@ -1,0 +1,161 @@
+<!-------------------------coordonnées contrat------------------------------------->
+<mat-card>
+<form [formGroup]="myFormContract">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+     
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-xs="50" style="padding-right: 8cm;">
+    <mat-form-field appearance="outline" [style.width.cm]=8>
+      <mat-label>Type du contrat</mat-label>
+      <mat-select formControlName="contractType">
+        <mat-option *ngFor="let contractType of ContractType" [value]="contractType">{{ContractClientMap[contractType] }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="clientContract()=='customer'" fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" [style.width.cm]=10>
+      <mat-label>Client</mat-label>
+      <mat-select  [formControlName]="'partnerNum'">
+        <mat-option *ngFor="let x of clientList" [value]="x.id">{{ x.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="clientContract()=='supplier'" fxFlex="100" fxFlex.gt-xs="50">
+    <mat-form-field appearance="outline" [style.width.cm]=10>
+      <mat-label>Fournisseur</mat-label>
+      <mat-select  [formControlName]="'partnerNum'">
+        <mat-option *ngFor="let x of supplierList" [value]="x.id">{{ x.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+</div>
+      
+       
+    
+        <div fxFlex="100"  class="pr-16" style="text-align: center;">
+          <mat-form-field appearance="outline" [style.width.cm]=16>
+            <mat-label>Titre du contrat</mat-label>
+            <input
+            matInput
+            name="titleContract"
+            formControlName="titleContract"
+            placeholder="Titre du contrat">
+          </mat-form-field>
+        </div>
+        
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="50" style="padding-right: 8cm;">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>Date de Début</mat-label>
+              <input
+              type="date"
+              matInput
+              name="startDate"
+              formControlName="startDate"
+              placeholder="Date de début"
+              required>
+            </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="50">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>Date de Fin</mat-label>
+              <input
+              type="date"
+              matInput
+              name="endDate"
+              formControlName="endDate"
+              placeholder="Date de fin "
+              required>
+            </mat-form-field>
+        </div>
+
+    </div>
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="50" style="padding-right: 8cm;">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>Date du contrat</mat-label>
+              <input
+              type="date"
+              matInput
+              name="dateContract"
+              formControlName="dateContract"
+              placeholder="Date du contrat "
+              required>
+            </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="50">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>Lieu du contrat</mat-label>
+              <input
+              matInput
+            name="lieuContract"
+            formControlName="lieuContract"
+            placeholder="Lieu du  contrat">
+            </mat-form-field>
+        </div>
+
+    </div>
+        <div fxFlex="100"  class="pr-16">
+          <mat-card class="p-0">
+            <mat-card-content class="p-0">
+              <quill-editor theme="snow" formControlName="introductionSoc" ></quill-editor>
+            </mat-card-content>
+          </mat-card>
+          </div>
+          <div fxFlex="100"  class="pr-16">
+            <mat-card class="p-0">
+              <mat-card-content class="p-0">
+                <quill-editor theme="snow" formControlName="introductionClient" ></quill-editor>
+              </mat-card-content>
+            </mat-card>
+            </div>
+      
+    
+    </div>
+
+
+<!-------------------------coordonnées article------------------------------------->
+
+<mat-card>
+    <mat-card-title>
+        Les articles
+    </mat-card-title>
+ <div formArrayName="articleClients" >
+  <div  *ngFor="let article of myArrayControls; let i = index" [formGroupName]="i">
+    <div fxLayout="row wrap"   >
+        <div fxFlex="100" fxFlex.gt-xs="50">
+          <div class="form-group mb-1 col-sm-12 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Numéro Article</mat-label>
+             <input matInput type="number" name="articleNumber" formControlName="articleNumber" placeholder="Numéro de l'article" readonly/>
+            </mat-form-field>
+          </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50">
+          <div class="form-group mb-1 col-sm-12 col-md-3">
+             <mat-form-field appearance="outline">
+                  <mat-label>Titre de l'article</mat-label>
+                  <input matInput  name="articleTitle" formControlName="articleTitle" placeholder="Titre de l'article" />
+              </mat-form-field>
+          </div>
+      </div>
+      </div> 
+       <div    style="padding-bottom: 60px;">
+            <quill-editor theme="snow" formControlName="description"></quill-editor>
+        </div> 
+        <div fxLayout="row" fxLayoutAlign="end center" style="margin-top: 16px;">
+            <button mat-icon-button (click)="addArticleFormGroup()">
+             <mat-icon>add</mat-icon>
+            </button>
+          </div>
+         
+   </div>
+   <div>
+    <button mat-raised-button color="primary"  style="float: right" (click)="addContract()" >Enregistrer</button>
+  </div>
+</div>
+        </mat-card>
+        </form>
+    </mat-card>
+    

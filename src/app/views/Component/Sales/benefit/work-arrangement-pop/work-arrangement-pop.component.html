@@ -1,0 +1,44 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+{{"Ajouter" | translate }} {{"Partenaire" | translate }}
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <mat-card class="p-0">
+<div fxLayout="row wrap" fxLayout.lt-sm="column">
+    
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width">
+        <input
+        matInput
+        name="dailyWage"
+        type="number"
+        [formControlName]="'dailyWage'"
+        placeholder="hourWage">
+      </mat-form-field>
+    </div> 
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          name="workingDaysNumber"
+          type="number"
+          [formControlName]="'workingDaysNumber'"
+          placeholder="workingDaysNumber">
+        </mat-form-field>
+      </div> 
+      <div fxFlex="50"  class="pr-16">
+
+        <mat-form-field class="full-width">
+          <mat-label>extraDutyType</mat-label>
+          <mat-select  [formControlName]="'workModel'">
+            <mat-option *ngFor="let x of workModel" [value]="x">{{ x }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" class="mt-16">
+        <button mat-raised-button color="primary" >{{"Enregsitrer" | translate }}</button>
+        <span fxFlex></span>
+        <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      </div>
+</div>
+
+

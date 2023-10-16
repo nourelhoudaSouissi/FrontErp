@@ -12,6 +12,7 @@ import { CrudPartnerService } from '../crudPartner.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-requirements-details',
   templateUrl: './requirements-details.component.html',
@@ -22,32 +23,43 @@ export class RequirementDetailsComponent implements OnInit {
     displayedColumns: any;
   
    // Declare requirements as an empty array
-    public dataSource: MatTableDataSource<any>;
+    public dataSource: MatTableDataSource<req>;
 id: number
-
+public getItemSub: Subscription;
   constructor(    private route: ActivatedRoute,
     private crudService: CrudPartnerService,private dialog: MatDialog,
     private snack: MatSnackBar,
   
     private confirmService: AppConfirmService,
-    private loader: AppLoaderService) {   this.dataSource = new MatTableDataSource<any>([]);}
+    private loader: AppLoaderService) {   this.dataSource = new MatTableDataSource<req>([]);}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['requirements/:iiid'];
+    this.id = this.route.snapshot.params['iiid']; 
+    console.log(this.id)
     this.getRequirements();
     this.displayedColumns = this.getDisplayedColumns();
     
 }
 getDisplayedColumns() {
-    return ['title','description','Criteria','plannedBudget',
+    return ['title','description','criteria',
     
-    'totalCandidateNumber','requirementType','requirementStatus','workField','availability','actions',
+    'totalCandidateNumber','requirementType','requirementStatus','availability'
     ];
   }
   getRequirements() {
     
-    this.crudService.getItem(this.id).subscribe((data: Partner) => {
-      this.dataSource.data = data.requirements;
+    this.crudService.getItemReq(this.id).subscribe((data) => {
+      {
+        this.dataSource = new MatTableDataSource(data);
+     
+       
+      }
+    },
+    
+      (error) => {
+        console.error(error);
+        this.loader.close(); // Close loader if there is an error
+      })}}
 
-    });
-  }}
+
+  
