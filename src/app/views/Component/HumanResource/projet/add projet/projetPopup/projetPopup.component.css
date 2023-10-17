@@ -1,0 +1,117 @@
+.error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+
+  .form-container {
+    padding: 16px;
+  }
+  
+  .table-container {
+    width: 100%;
+    padding: 16px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+  }
+  .example-form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .container{
+    margin-left: 2cm;
+    margin-right: 2cm;
+  }
+  .example-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  .example-field {
+    width: calc(50% - 8px);
+  }
+  @media (max-width: 600px) {
+    .example-field {
+      width: 100%;
+    }
+  }
+  .example-field {
+    width: calc(50% - 10px); /* set the width of each field to 50% of the container minus the desired separation */
+    margin-right: 3.5cm; /* add a margin to the right of the first field to create the separation */
+  }
+  .example-field:last-child {
+    margin-right: 0; /* remove the margin from the last field to avoid extra space */
+  }
+  .example-month-picker .mat-calendar-period-button {
+    pointer-events: none;
+  }
+  .example-month-picker .mat-calendar-arrow {
+    display: none;
+  }
+  .file-input-button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 9999;
+  }
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1cm;
+    padding-bottom: 1cm;
+  }
+  .left-button {
+    background-color: #AAA4A3; /* Set a custom background color */
+    color: #FFFFFF; /* Set a custom text color */
+  }
+  .left-button:hover {
+    background-color: #35E578; /* Set a custom background color on hover */
+  }
+  .right-button {
+    background-color: #AAA4A3; /* Set a custom background color */
+    color: #FFFFFF; /* Set a custom text color */
+    margin-left: auto; /* Add this line to push the button to the right */
+  }
+
+  .right-button:hover {
+    background-color: #35E578; /* Set a custom background color on hover */
+  }
+
+
+  .left-button {
+    background-color: #AAA4A3; /* Set a custom background color */
+    color: #FFFFFF; /* Set a custom text color */
+    margin-left: auto; /* Add this line to push the button to the right */
+  }
+
+  .left-button:hover {
+    background-color: #FF0000; /* Set a custom background color on hover */
+  }
+
+
+
+
+
+
+  .custom-card {
+    width: 920px; /* Adjust the width as needed */
+  }
+  
+  
+  

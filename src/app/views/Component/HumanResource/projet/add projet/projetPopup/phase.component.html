@@ -1,0 +1,75 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div formArrayName="formItems">
+    <div *ngFor="let formItem of formItems.controls; let i = index" [formGroupName]="i">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <input matInput [formControlName]="'name'" name="name" placeholder="Nom du phase" type="text">
+       
+          </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date début</mat-label>
+            <input matInput name="startDate" placeholder="Date début"  [formControlName]="'startDate'"  type="date" />
+           
+          </mat-form-field>
+       
+        </div>
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>Date fin</mat-label>
+            <input matInput name="endDate" placeholder="Date fin"  [formControlName]="'endDate'"  type="date" />
+       
+          </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <input matInput name="livrable" placeholder="Livrable" [formControlName]="'livrable'">
+         
+          </mat-form-field>
+        </div>
+      
+        <div fxFlex="50">
+          <mat-form-field appearance="outline" [style.width.cm]=19>
+            <textarea matInput  name="description" placeholder="Commentaire" [formControlName]="'description'"></textarea>
+         
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="button-container">
+
+        <div fxFlex="50" class="pr-16">
+          <button class="left-button" mat-icon-button (click)="removeFormItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <div fxFlex="50" class="pr-16">
+          <button type="button"  class="right-button" mat-icon-button (click)="addFormItem()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+      </div>
+
+     
+    </div>
+  </div>
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="50" class="pr-16" style="display: flex; justify-content: space-between;">
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      <button type="submit" style="margin-left: 5cm;" mat-raised-button color="primary" (click)="submit()">Enregistrer</button>
+    </div>
+    
+  </div>
+</form>

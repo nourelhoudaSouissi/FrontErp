@@ -405,6 +405,11 @@ export const rootRouterConfig: Routes = [
         loadChildren: () => import('./views/Component/Sales/profile-catalog/profile-catalog.module').then(m => m.ProfileCatalogModule),
         data: { title: 'Profile catalog', breadcrumb: 'Catalogue profils'}
       },
+       {
+        path:'projets',
+        loadChildren: () => import('./views/Component/HumanResource/projet/projet.module').then(m => m.ProjetModule),
+        data: { title: 'projet list', breadcrumb: 'Projets'}
+      } 
     ]
   },
   {

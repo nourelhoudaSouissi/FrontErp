@@ -1,0 +1,88 @@
+<div class="m-12" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+
+
+    <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({},true)"> Nouveau Projet </button>
+  
+    <mat-form-field  >
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+      </mat-form-field> 
+   
+  
+  <mat-card  style="border: 5px; ">
+    <mat-card-content class="p-0">
+      <mat-table [dataSource]="dataSource" matSort  >
+        <ng-container matColumnDef="Reference">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Reference
+             </mat-header-cell>
+            <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{row.projectReference}} </mat-cell>
+          </ng-container>
+    <ng-container matColumnDef="Titre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Titre
+        </mat-header-cell>
+      <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{row.name}} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="Type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Type
+        
+      </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color"> {{typeMap[row.projectType]}}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="Date début">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date début
+      
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color"> {{row.startDate | date:'dd-MM-yyyy'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Date fin">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date fin
+       
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color"> {{row.endDate | date:'dd-MM-yyyy'}} </mat-cell>
+      </ng-container>
+     <ng-container matColumnDef="Actions">
+       <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+       <mat-cell *matCellDef="let row">
+         <button matTooltip="Modifier le projet"   mat-icon-button mat-sm-button color="primary" class="mr-16 "  (click)="openPopUp(row)">
+           <mat-icon>edit</mat-icon>
+         </button>
+         <button matTooltip="Ajouter une phase"    mat-icon-button
+         color="primary"
+
+         (click)="openPopUp2(row.id)"
+       >
+         <mat-icon>note_add</mat-icon>
+       </button>
+         <button matTooltip="Voir les détails du projet"  
+         mat-icon-button
+         routerLink="/projets/{{ row.id }}"
+         routerLinkActive="router-link-active"
+         color="basic"
+       >
+         <mat-icon>visibility</mat-icon>
+       </button>
+       <button matTooltip="Ajouter les  tâches"  
+       mat-icon-button
+       routerLink="/projets/tache/{{ row.id }}"
+       routerLinkActive="router-link-active"
+       color="primary"
+     >
+       <mat-icon>assignment</mat-icon>
+     </button>
+       
+         <button  matTooltip="Supprimer un projet"  mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+           <mat-icon>delete</mat-icon>
+         </button>
+         
+       </mat-cell>
+     </ng-container>
+  
+     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+   </mat-table>
+   <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+  
+  </mat-card-content>
+  </mat-card>
+  </div>

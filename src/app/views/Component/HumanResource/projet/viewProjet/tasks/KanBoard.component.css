@@ -1,0 +1,75 @@
+.add-task-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.kanban-board {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  .expired-row {
+    background-color: rgb(184, 121, 121);  /* Apply red background color for expired rows */
+    color: white;           /* Apply white text color for expired rows */
+  }
+  .column {
+    flex: 1;
+    
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .card {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: grab;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  strong {
+    font-weight: bold;
+  }
+  .kanbanCard{
+    margin-top: 10px;
+  }
+  .status-todo {
+    background-color: rgb(4, 0, 255); /* Red */
+  }
+  
+  .status-in-progress {
+    background-color: #edfbbb; /* Blue */
+  }
+  
+  .status-done {
+    background-color: #c8e6c9; /* Green */
+  }
+  .satuts-test {
+    background-color: orange;
+  }
+  .card.in-delay {
+    background-color: rgb(47, 0, 255); /* or any other color of your choice */
+    /* Add any additional styling as needed */
+  }

@@ -1,0 +1,64 @@
+
+
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <!--div fxFlex="50"  class="pr-16">
+            <mat-form-field class="full-width">
+              <mat-label>Resource</mat-label>
+              <mat-select  [formControlName]="'resourceId'" multiple>
+                <mat-option *ngFor="let resource of resources" [value]="resource.id">{{resource.lastName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div-->
+        <mat-card  style="border: 5px; width: auto"  >
+          <mat-card-content class="p-0">
+         
+        <table mat-table [dataSource]="dataSource" style="width:100%">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select" style="width:30px">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="toggleSelectionAll($event)"></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (change)="toggleSelection($event, row)" [checked]="selection.isSelected(row)"></mat-checkbox>
+            </td>
+          </ng-container>
+  
+          <!-- Nom Column -->
+          <ng-container matColumnDef="Nom" style="width:200px">
+            <th mat-header-cell *matHeaderCellDef> Nom </th>
+            <td mat-cell *matCellDef="let element"> {{ element.lastName }} </td>
+          </ng-container>
+  
+          <!-- Prénom Column -->
+          <ng-container matColumnDef="Prénom"   style="width:200px">
+            <th mat-header-cell *matHeaderCellDef> Prénom </th>
+            <td mat-cell *matCellDef="let element"> {{ element.firstName }} </td>
+          </ng-container>
+          
+          <!-- Poste Column -->
+          <ng-container matColumnDef="Poste"  style="width:200px">
+            <th mat-header-cell *matHeaderCellDef> Poste </th>
+            <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
+          </ng-container>
+          
+          <!-- Header and Row Definitions -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+        </table>
+      
+  
+      
+  
+   </mat-card-content>
+   
+   </mat-card>
+            <div fxFlex="100" class="mt-16">
+                <button mat-raised-button color="primary" >{{"SAVE" | translate }} </button>
+                <span fxFlex></span>
+                <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Cancel</button>
+              
+        </div>
+        
+       
+      

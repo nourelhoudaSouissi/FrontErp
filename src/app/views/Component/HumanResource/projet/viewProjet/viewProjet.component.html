@@ -1,0 +1,137 @@
+<mat-card class="p-0">
+    <mat-card-title class="">
+      
+    </mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div fxFlex="300" fxFlex.gt-sm="200">
+          
+            <mat-card class="p-0" style="width: 450px;">
+                <mat-card-content>
+              <div class="profile-title text-center mb-16">
+                <div class="main-title" style="margin-top: 20px;"> <strong>Référence &nbsp;:&nbsp;</strong>{{ projet.projectReference }}</div>
+                <div class="subtitle mb-8"><strong>Titre &nbsp;:&nbsp;</strong> {{ projet.name }}</div>
+                <div class="main-title"> <mat-icon>location_on</mat-icon><strong>Lieu:</strong>{{ projet.lieu }}</div>
+                <div class="subtitle mb-8"><mat-icon>description</mat-icon><strong>Description&nbsp;:&nbsp; </strong>  {{ projet.description }}</div>
+               
+                </div>
+                </mat-card-content>
+                </mat-card>
+                
+                <div fxFlex="100" fxFlex.gt-sm="50">
+                    <mat-card class="p-0"  style="width: 550px;">
+                    <mat-card-content>
+              
+                    <div class="profile-title text-center mb-16">
+                   
+                      <div class="subtitle mb-8" style="margin-top: 20px;"><mat-icon colcor="primary" class="mr-16">event</mat-icon><strong>Date du début&nbsp;:&nbsp;</strong> {{ projet.startDate  | date:'dd-MM-yyyy' }}</div>
+                      <div class="subtitle mb-8"><mat-icon>event</mat-icon><strong>Date du fin&nbsp;:&nbsp; </strong>  {{ projet.endDate | date:'dd-MM-yyyy' }}</div>
+                      <div class="subtitle mb-8"><mat-icon>event</mat-icon><strong>Date réelle du début&nbsp;:&nbsp; </strong> </div>
+                      <div class="subtitle mb-8"><mat-icon>event</mat-icon><strong>Date réelle de fin&nbsp;:&nbsp;</strong> </div> 
+                    </div>
+                      </mat-card-content>
+                      </mat-card>
+            </div>
+            </div>
+            </div>
+            </mat-card-content>
+            </mat-card>
+           
+              <mat-card>
+                <mat-card-title> Liste des responsables</mat-card-title>
+              <div class="m-12">
+          <mat-card  style="border: 5px; "  >
+            <mat-card-content class="p-0">
+              <mat-table [dataSource]="dataSource2" matSort  >
+                <ng-container matColumnDef="Reference">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nom
+                      <div style="padding-left: 20px;">
+                        
+                       </div>
+                     </mat-header-cell>
+                    <mat-cell *matCellDef="let row"  [style.color]="row.color">{{row.lastName}} </mat-cell>
+                  </ng-container>
+            <ng-container matColumnDef="Titre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Prenom
+                <div style="padding-left: 20px;">
+                 
+                 </div> </mat-header-cell>
+              <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{row.firstName}} </mat-cell>
+            </ng-container>
+          
+            
+          
+            <ng-container matColumnDef="Date début">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Fonction
+                  <div style="padding-left: 20px;">
+                    
+                   </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.function}}</mat-cell>
+              </ng-container>
+               
+            
+             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+           </mat-table>
+           <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+          
+          </mat-card-content>
+          </mat-card>
+        </div>
+             
+      </mat-card> 
+              
+                
+               
+<mat-card>
+  <mat-card-title> Liste des ressources</mat-card-title>         
+               
+
+
+              <button mat-raised-button class="mb-2" style="float: right ; "  color="primary" (click)="openPopUp({},true)"> Affecter ressource </button>
+              <div style="clear: both;"></div>
+              <div class="m-12">
+              <mat-card  style="border: 5px; "  >
+                <mat-card-content class="p-0">
+                  <mat-table [dataSource]="dataSource" matSort  >
+                    <ng-container matColumnDef="Reference">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Nom
+                          <div style="padding-left: 20px;">
+                            
+                           </div>
+                         </mat-header-cell>
+                        <mat-cell *matCellDef="let row"  [style.color]="row.color">{{row.lastName}} </mat-cell>
+                      </ng-container>
+                <ng-container matColumnDef="Titre">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Prenom
+                    <div style="padding-left: 20px;">
+                     
+                     </div> </mat-header-cell>
+                  <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{row.firstName}} </mat-cell>
+                </ng-container>
+              
+                
+              
+                <ng-container matColumnDef="Date début">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Poste
+                      <div style="padding-left: 20px;">
+                        
+                       </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color">{{TitleMap[row.title]}}</mat-cell>
+                  </ng-container>
+                   
+                
+                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+               </mat-table>
+               <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+              
+              </mat-card-content>
+              </mat-card>
+            </div>
+          </mat-card>        
+            
+              
+         

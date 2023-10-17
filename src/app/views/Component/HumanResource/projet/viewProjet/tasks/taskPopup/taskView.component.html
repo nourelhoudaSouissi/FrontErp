@@ -1,0 +1,51 @@
+
+<div class="modal-body px-0">
+    <div style="overflow-y: hidden; height: calc(100vh - 15rem);">
+      <div class="px-2" style="overflow-y: auto; height: 100%;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="width: 50%; display: flex; display: inline-block; flex-grow: 2; height: 100%;">
+            <mat-card-title class="mx-auto my-24" style="text-align: center;">Suivi tache</mat-card-title>
+          </div>
+  
+         
+      
+        </div>
+  
+  
+        
+    
+            <!-- Contenu de la première carte -->
+            
+          <mat-card style="width: 610px;">
+            <mat-card-content class="pt-0">
+             <mat-list>
+              <mat-list-item><strong>Titre &nbsp;: &nbsp;</strong>{{task.title}}</mat-list-item>
+              <mat-list-item><strong>Reference &nbsp;:&nbsp; </strong> {{task.subTaskReference}}</mat-list-item>
+              <mat-list-item><strong>Affectée a &nbsp;:&nbsp; </strong> {{task.resource.lastName}}</mat-list-item>
+              
+              <mat-list-item><strong>Date réelle de début &nbsp;:&nbsp; </strong> {{task.realStartDate| date:'dd-MM-yyyy'}}</mat-list-item>
+              <mat-list-item><strong>Date réelle de fin &nbsp;:&nbsp; </strong>{{task.realEndDate| date:'dd-MM-yyyy'}}</mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+  
+          <!-- Contenu de la deuxième carte -->
+        <div style="display: flex;">
+          <div style="flex: 1;">
+            <mat-card style="height: 100%;">
+              <mat-card-content class="pt-0">
+                <mat-list>
+                  <mat-list-item><strong>Status de la tache &nbsp;:&nbsp; </strong>{{taskPhaseMap[task.taskPhase]}}</mat-list-item>
+                  <mat-list-item><strong>progression &nbsp;:&nbsp; </strong>{{task.progression}}%</mat-list-item>
+                    <mat-list-item><strong>reste a faire &nbsp;:&nbsp; </strong>{{task.remaining}}</mat-list-item>
+
+                  <mat-list-item><strong>Date réelle de Fin &nbsp;:&nbsp; </strong>{{task.realEndDate | date:'dd-MM-yyyy'}}</mat-list-item>
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          </div>
+            
+       
+       
+      </div>
+    </div>

@@ -1,0 +1,172 @@
+<mat-card class="p-0">
+  <mat-card-title>
+    
+  </mat-card-title>
+  <mat-card-content>
+    <div fxLayout="row wrap">
+      <div fxFlex="200" fxFlex.gt-sm="100" fxLayout="row">
+      
+        <mat-card class="p-0" style="width: 500px; padding-right:70px;" >
+          <mat-card-content>
+            <div fxLayout="row wrap">
+              <div class="profile-title text-center mb-16"  style="margin-top: 20px;">
+                <div class="main-title">
+                  <strong>Référence  &nbsp;:&nbsp;</strong>{{ projet.projectReference }}
+                </div>
+                <div class="subtitle mb-8">
+                  <strong>Titre &nbsp;:&nbsp;</strong> {{ projet.name }}
+                </div>
+                <div class="subtitle mb-8">
+                  <strong>Description &nbsp;:&nbsp; </strong> {{ projet.description }}
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="p-0" style="width:500px;">
+          <mat-card-content>
+            <div fxLayout="row wrap">
+              <div class="profile-title text-center mb-16">
+                
+                <div class="subtitle mb-8" style="margin-top: 20px;"><mat-icon>event</mat-icon>
+                  <strong>Date du début &nbsp;:&nbsp;</strong> {{ projet.startDate | date:'dd-MM-yyyy' }}
+                </div>
+                <div class="subtitle mb-8"><mat-icon>event</mat-icon>
+                  <strong>Date du fin  &nbsp;:&nbsp;</strong> {{ projet.endDate | date:'dd-MM-yyyy' }}
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+          <!--mat-card class="kanbanCard">
+            <mat-card-content>
+              <div dir="rtl" fxLayoutGap="20px">
+              <button class="add-task-button"
+         mat-icon-button
+         
+        color="primary"
+
+        (click)="openPopUp({},true)"
+>
+         <mat-icon>add_circle_outline</mat-icon>
+       </button>  </div>
+<div class="kanban-board">
+    <div class="column" *ngFor="let status of statuses" >
+      <h3>{{ status }}</h3>
+      <div (click)="task.showDetails = !task.showDetails" class="card" *ngFor="let task of getTasksByStatus(status)"  (dragstart)="onDragStart($event, task)" >
+        <h2 >{{ task.title }}</h2>
+        <div *ngIf="task.showDetails">
+        <p><strong>Description:</strong>{{ task.description}}</p>
+       
+        <p><strong>Date debut:</strong>{{ task.startDate | date:'dd-MM-yyyy'}}</p>
+        <p><strong>Date fin:</strong>{{ task.endDate | date:'dd-MM-yyyy' }}</p>
+        <p><strong>Progression:</strong>{{ task.progression}} %</p>
+       
+       
+      </div>
+    </div>
+  </div>
+  <mat-card-content>
+    </mat-card-content>
+    </div-->
+    <div class="m-12" >
+    
+
+      <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({},true)"> Ajouter tâche </button>
+    
+      <div style="clear: both;"></div>
+     
+    
+    <mat-card  style="border: 5px; ">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort  >
+          <ng-container matColumnDef="Tache">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Référence tâche
+              <div style="padding-left: 20px;">
+               
+               </div> </mat-header-cell>
+            <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{row.task.title}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Titre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Référence sous-tâche
+                <div style="padding-left: 20px;">
+                  
+                 </div>
+               </mat-header-cell>
+              <mat-cell *matCellDef="let row"  [style.color]="row.color">{{row.subTaskReference}} </mat-cell>
+           
+            </ng-container>
+            
+    
+      <ng-container matColumnDef="Description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Statut
+          <div style="padding-left: 20px;">
+           
+           </div> </mat-header-cell>
+        <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{taskPhaseMap[row.taskPhase]}} </mat-cell>
+      </ng-container>
+    
+     
+     
+      
+      <ng-container matColumnDef="DateDébut">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Date début
+            <div style="padding-left: 20px;">
+              
+             </div>
+          </mat-header-cell>
+          <mat-cell  *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.startDate| date:'dd-MM-yyyy'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="DateFin">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Date fin
+            <div style="padding-left: 20px;">
+              
+             </div>
+          </mat-header-cell>
+          <mat-cell  *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.endDate| date:'dd-MM-yyyy'}}</mat-cell>
+      
+        </ng-container>
+        <ng-container matColumnDef="Resource">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Ressource
+            <div style="padding-left: 20px;">
+             
+             </div> </mat-header-cell>
+          <mat-cell  *matCellDef="let row"  [style.color]="row.color"> {{row.resource.lastName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Etat">
+          <mat-header-cell *matHeaderCellDef> Etat </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-chip *ngIf="isEndDateExpired(row)">En cours</mat-chip>
+            <mat-chip color="red" *ngIf="!isEndDateExpired(row)">En retard</mat-chip>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button matTooltip="Modifier la tâche " mat-icon-button mat-sm-button color="primary" class="mr-16 "  (click)="openPopUpModif(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button matTooltip="Voir les détails d'une tâche" mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpView(row)">
+              <mat-icon>remove_red_eye </mat-icon>
+            </button>
+            <button matTooltip="Supprimer une tâche" mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            
+          </mat-cell>
+        </ng-container>
+      
+       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayedColumns;"  ></mat-row>
+     </mat-table>
+     <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+    </mat-card-content>
+    </mat-card>
+    
+    </div>

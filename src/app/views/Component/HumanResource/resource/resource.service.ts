@@ -114,6 +114,16 @@ private handleError(error: HttpErrorResponse) {
     'Something bad happened; please try again later.');
 }
 
+getItemResponsable():Observable<Employee[]>{
+  return this.http.get<Employee[]>(this.apiUrl + '/chefs').pipe(
+    catchError(this.handleError))
+}
+getItemNoResponsable():Observable<Employee[]>{
+  return this.http.get<Employee[]>(this.apiUrl + '/Nochefs').pipe(
+    catchError(this.handleError))
+}
+
+
 getSuperior(): Observable<Employee[]> {
   return this.http.get<Employee[]>(this.apiUrl + '/getAllSuperior').pipe(
     catchError(this.handleError)

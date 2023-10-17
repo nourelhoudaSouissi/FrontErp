@@ -150,11 +150,7 @@ export class NavigationService {
       tooltip: 'Shop',
       icon: 'work',
       sub: [
-        { name: 'Timesheet', state: 'shop' },
-        { name: 'Projets', state: 'project/project_crud' },
-        { name: 'Avis clients', state: 'client-review/client-review-crud' },
-        { name: 'Planification', state: 'shop/products/5a9ae2106f155194e5c95d67' },
-        { name: 'Suivi Projet', state: 'shop/checkout' },
+        { name :'Projet' , state : 'projets/projet'},
         { name: 'Rapports', state: 'shop/checkout' }
 
        

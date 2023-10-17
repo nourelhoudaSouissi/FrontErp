@@ -1,0 +1,143 @@
+<h1 matDialogTitle>Modifier tache</h1>
+
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      
+    
+     <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Resources</mat-label>
+          <mat-select [formControlName]="'resourceNum'">
+            <mat-option *ngFor="let res of resources" [value]="res.id">{{res.lastName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+      
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Tache</mat-label>
+          <mat-select [formControlName]="'taskNum'" >
+            <mat-option *ngFor="let task of dataSource" [value]="task.id">{{task.title}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Titre</mat-label>
+          <input
+          matInput
+          name="title"
+          type="text"
+          [formControlName]="'title'"
+          placeholder="Titre">
+        </mat-form-field>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Reference</mat-label>
+          <input
+          matInput
+          name="reference"
+          [formControlName]="'subTaskReference'"
+          placeholder="Reference">
+        </mat-form-field>
+      </div>
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+     
+        <mat-label>Date  début</mat-label>
+        <input matInput type="date" name="startDate" formControlName="startDate" [min]="projectStartDate" [max]="projectEndDate" placeholder="Date début"  />
+       
+      
+      </mat-form-field>
+      
+    </div>
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Date fin</mat-label>
+        <input matInput type="date" name="endDate" formControlName="endDate"   [min]="projectStartDate" [max]="projectEndDate" placeholder="Date fin"  />
+        
+      </mat-form-field>
+      
+     
+      <mat-error *ngIf="itemForm.get('endDate').errors?.min">
+        La date de fin doit être postérieure à la date de début.
+      </mat-error>
+    </div>
+    <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Date réelle de debut</mat-label>
+          <input matInput type="date" formControlName="realStartDate" matInput name="realStart"  />
+         
+        </mat-form-field>
+        
+       
+       </div>
+       <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Date réelle de fin</mat-label>
+          <input type="date" formControlName="realEndDate" matInput name="realEndDate"  />
+         
+        </mat-form-field>
+       
+       </div>
+        <div fxFlex="50"  class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>status du tache</mat-label>
+              <mat-select  [formControlName]="'taskPhase'">
+                  <mat-option *ngFor="let x of taskPhase" [value]="x">{{ x }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>progression</mat-label>
+              <input
+              matInput
+              name="progression"
+              type="number"
+              [formControlName]="'progression'"
+              placeholder="Progression">
+            </mat-form-field>
+          </div>
+       <div fxFlex="50"  class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>reste a faire</mat-label>
+              <input
+              matInput
+              type="number"
+              name="reamining"
+              [formControlName]="'remaining'"
+              placeholder="reste a faire">
+            </mat-form-field>
+        </div>
+        <div fxFlex="50"  class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <mat-label>estimation</mat-label>
+            <input
+            matInput
+            type="number"
+            name="estimation"
+            [formControlName]="'estimation'"
+            placeholder="estimation">
+          </mat-form-field>
+      </div>
+          <div fxFlex="50"  class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <mat-label>description</mat-label>
+              <input
+              matInput
+              name="description"
+              [formControlName]="'description'"
+              placeholder="commentaire">
+            </mat-form-field>
+          </div>
+         
+         
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" >{{"SAVE" | translate }}</button>
+      <span fxFlex></span>
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Cancel</button>
+    </div>
+  </div>
+  </form>
