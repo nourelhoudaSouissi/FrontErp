@@ -1,0 +1,56 @@
+<form [formGroup]="decaissementForm" class="form-container" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Catégorie</mat-label>
+    <mat-select formControlName="category">
+      <mat-option *ngFor="let category of categoryList" [value]="category">{{ category }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Description</mat-label>
+    <input matInput formControlName="description">
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div fxFlex="50" class="pr-16">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Numéro de facture</mat-label>
+      <mat-select formControlName="billId">
+        <ng-container *ngFor="let invoice of listInvoice">
+          <mat-option [value]="invoice.id" *ngIf="invoice.invoiceEtat === 'EN_ATTENTE'">
+            {{ invoice.invoiceNumber }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+ 
+  <div formGroupName="bankReconciliation" class="bankReconciliation-form" fxFlex="50" class="pr-16">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nom de société </mat-label>
+      <input matInput formControlName="company" placeholder="Company" required>
+    </mat-form-field>
+    
+  
+  </div>
+
+
+  <div class="button-group">
+
+    <div fxFlex="100" class="mt-16">
+      <button mat-raised-button color="primary" type="submit">{{ 'Enregistrer' | translate }}</button>
+      <span fxFlex></span>
+      <button mat-button color="black" type="button" (click)="closeDialog()">Annuler</button>
+    </div>
+   
+  </div>
+</form>

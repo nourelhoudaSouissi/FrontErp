@@ -1,0 +1,67 @@
+.page-container {
+  display: flex;
+  height: 100vh;
+}
+
+.cheque-container {
+  flex: 0 0 60%;
+  background-color: #b5d9f1;
+  padding: 20px;
+}
+
+.cheque-items-container {
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.cheque-items-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.cheque-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.cheque-index {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.cheque-details {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.cheque-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.cheque-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.add-button {
+  margin-bottom: 20px;
+}
+
+.edit-button,
+.delete-button {
+  margin-right: 10px;
+}
+
+.treasurer-image {
+  flex: 0 0 40%;
+  background-image: url(https://ma-compta-pro.fr/wp-content/uploads/2022/07/societe.jpg);
+  background-size: cover;
+  background-position: center;
+}

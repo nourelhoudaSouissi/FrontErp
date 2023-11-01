@@ -1,0 +1,73 @@
+<div class="page-container">
+  <div class="cheque-container">
+    <br><br><br><br>
+    
+    <div class="cheque-items-container">
+      <div class="cheque-items-left">
+        <div *ngFor="let element of itemsToDisplay" class="cheque-item">
+          <div class="cheque-index">{{ element.index }}</div>
+          <div class="cheque-details">
+           
+
+            <div class="cheque-row">
+              <div class="cheque-label">Etat de rapprochement:</div>
+              <div class="cheque-value">{{ element.rapprochementEtat }}</div>
+            </div>
+<div fxLayout="row" fxLayoutAlign="space-between" >
+            <div class="cheque-row">
+              <div class="cheque-label">Nom de la société:</div>
+              <div class="cheque-value">{{ element.company }}</div>
+            </div>
+            
+            <div class="cheque-row">
+              <div class="cheque-label">Numéro de compte:</div>
+              <div class="cheque-value">{{ element.iban }}</div>
+            </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-between">
+            <div class="cheque-row">
+              <div class="cheque-label">Numéro de facture:</div>
+              <div class="cheque-value">{{ element.disbursement?.bill?.invoiceNumber }}{{ element.collection?.billClient?.invoiceNumber }}{{ element.treasury?.categoryCaisse }}</div>
+            </div>
+<div fxLayout="row">
+            <div class="cheque-row">
+              <div class="cheque-label">Montant:</div>
+              <div class="cheque-value">{{ element.disbursement?.bill?.totalWithDiscount }}{{ element.collection?.billClient?.totalWithDiscount }}{{ element.treasury?.amount }}</div>
+            </div>
+            <div class="cheque-row">
+              <div class="cheque-value">{{ element.disbursement?.bill?.currency }}{{ element.collection?.billClient?.currency }}</div>
+            </div>
+</div>           
+</div>          
+           
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <div class="cheque-row">
+    <div class="cheque-label">Numéro D'opération</div>
+    <div class="cheque-value">{{ element.bankNumber }}</div>
+  </div>
+            <div class="cheque-row">
+              <div class="cheque-label">Date:</div>
+              <div class="cheque-value">{{ element.issueDate | date: 'dd/MM/yyyy' }}</div>
+            </div>
+          
+</div>         
+        
+            <div class="cheque-row">
+              <button mat-icon-button mat-sm-button color="primary" class="edit-button" (click)="openPopUp(element)">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteRapprochementById(element.id)" color="warn" class="delete-button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <br><br><br>
+    <mat-paginator [length]="rapprochementList.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons (page)="handlePageChange($event)"></mat-paginator>
+  </div>
+
+  <div class="treasurer-image"></div>
+</div>

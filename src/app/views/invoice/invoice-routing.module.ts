@@ -1,14 +1,13 @@
 import { InvoiceListComponent } from "./invoice-list/invoice-list.component";
-import { Component } from "@angular/core";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { InvoiceDetailsComponent } from "./invoice-details/invoice-details.component";
 
-const routes: Routes = [
+export const InvoiceRoutes: Routes = [
   {
     path: "list",
     component: InvoiceListComponent,
-    pathMatch: "full"
+    data: { title: 'Facture', breadcrumb: 'Facture' }  
   },
   {
     path: "add",
@@ -19,11 +18,12 @@ const routes: Routes = [
     path: ":id",
     component: InvoiceDetailsComponent,
     pathMatch: "full"
-  }
+  },
+ 
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(InvoiceRoutes)],
   exports: [RouterModule]
 })
 export class InvoiceRoutingModule {}

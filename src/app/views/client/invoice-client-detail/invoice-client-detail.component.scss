@@ -1,0 +1,31 @@
+.order-info img {
+    height: 200px;
+    width: 200px;
+  }
+  .form-rows mat-form-field::placeholder {
+    font-weight: bold;
+  }
+
+  .additionalFees-form-list {
+    .additionalFees-form-list-head-line {
+      background-color: lightgray;
+      padding: 10px;
+  
+      p {
+        font-weight: bold;
+      }
+    }
+  
+    .form-rows {
+      margin-top: 10px;
+  
+      mat-form-field {
+        margin-right: 10px;
+        width: 150px;
+      }
+    }
+  }
+  
+  .add-button {
+    margin-top: 20px;
+  }

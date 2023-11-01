@@ -1,5 +1,7 @@
+
 <!-- Edit Invoice -->
 <mat-card *ngIf="showEditOption">
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   <form [formGroup]="invoiceForm" (ngSubmit)="saveInvoice()">
     <div fxLayout="row" fxLayoutAlign="end center">
       <button
@@ -9,71 +11,95 @@
         *ngIf="!isLoading"
         (click)="showEditOption = !showEditOption"
       >
-        Cancel
+        Annuler
       </button>
 
       <button-loading
-        [loadingText]="'Saving...'"
+        [loadingText]="'Enregistrer...'"
         color="primary"
         [type]="'submit'"
         [loading]="isLoading"
-        >Save</button-loading
-      >
+        >Enregistrer</button-loading>
     </div>
 
+    
     <!-- order details -->
     <div fxLayout="row wrap" fxLayoutAlign="space-between" class="order-info">
       <div fxLayout="column" fxFlex="33.33%">
-        <h4><strong>Order Info</strong></h4>
-        <p>Order Number</p>
+        <div>
+        <h4><strong>Facture</strong></h4>
+      </div>
+      
+        <div fxLayout="column">
+        <h4><strong>Numero de facture</strong></h4>
         <mat-form-field>
           <input
-            formControlName="orderNo"
+            formControlName="invoiceNumber"
             matInput
             required
-            placeholder="Order No."
+            placeholder="numéro de facture."
           />
         </mat-form-field>
+        <mat-form-field>
+          <input
+            formControlName="orderNumber"
+            matInput
+            required
+            placeholder="numéro de commande."
+          />
+        </mat-form-field>
+        
+      </div>
       </div>
 
       <div fxLayout="column" fxFlex="33.33%" fxLayoutGap="20px">
+        <h4><strong>Informtion de la facture</strong></h4>
+        
+          <div fxLayout="column" fxLayoutAlign="start start">
+            <mat-form-field class="full-width">
+              <mat-label>Type de facture</mat-label>
+              <mat-select [formControlName]="'invoiceType'">
+                <mat-option *ngFor="let x of invoiceType" [value]="x">{{ x }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+      
         <div>
-          <mat-radio-group
-            formControlName="status"
-            fxLayout="column"
-            fxLayoutAlign="end end"
-            fxLayoutGap="5px"
-            required
-          >
-            <mat-radio-button labelPosition="before" value="pending"
-              >Pending</mat-radio-button
-            >
-            <mat-radio-button labelPosition="before" value="processing"
-              >Processing</mat-radio-button
-            >
-            <mat-radio-button labelPosition="before" value="delivered"
-              >Delivered</mat-radio-button
-            >
-          </mat-radio-group>
-        </div>
-
-        <div>
-          <p class="align-right">Order Date</p>
           <mat-form-field fxFill>
             <input
               matInput
-              [matDatepicker]="picker"
+              [matDatepicker]="emissionDatePicker"
               required
-              placeholder="Choose a date"
-              formControlName="date"
+              placeholder="date d'émission"
+              formControlName="issueDate"
             />
             <mat-datepicker-toggle
               matSuffix
-              [for]="picker"
+              [for]="emissionDatePicker"
             ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #emissionDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
+        <div>
+          <mat-form-field fxFill>
+            <input
+              matInput
+              [matDatepicker]="echeanceDatePicker"
+              required
+              placeholder="date d'échéance"
+              formControlName="dueDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="echeanceDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #echeanceDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        
+      
+       
+     
       </div>
     </div>
     <!-- end of order details -->
@@ -88,179 +114,153 @@
     >
       <!-- seller -->
       <div
-        formGroupName="seller"
-        fxLayout="column"
+
+      fxLayout="column"
         fxLayoutGap="20px"
         fxFlex="33.33%"
       >
-        <h4><strong>Bill From</strong></h4>
+      <div fxLayoutAlign="start center">
+      <h4><strong>Emis par</strong></h4>
+    </div>
         <mat-form-field>
           <input
-            formControlName="name"
+            formControlName="nameSeller"
             matInput
             required
-            placeholder="Name of Seller"
+            placeholder="nom"
           />
         </mat-form-field>
         <mat-form-field>
           <textarea
-            formControlName="address"
+          formControlName="addressSeller"
             matInput
             required
             matTextareaAutosize
-            placeholder="Address of Seller"
+            placeholder="Adresse"
           ></textarea>
         </mat-form-field>
       </div>
 
-      <!-- buyer -->
-      <div
-        formGroupName="buyer"
-        fxLayout="column"
-        fxLayoutAlign="center end"
-        fxLayoutGap="20px"
-        fxFlex="33.33%"
-      >
-        <h4><strong>Bill To</strong></h4>
-        <mat-form-field fxFill>
-          <input
-            formControlName="name"
-            matInput
-            required
-            placeholder="Name of Buyer"
-          />
-        </mat-form-field>
-        <mat-form-field fxFill>
-          <textarea
-            formControlName="address"
-            matInput
-            required
-            matTextareaAutosize
-            placeholder="Address of Buyer"
-          ></textarea>
-        </mat-form-field>
-      </div>
-    </div>
+     </div>
     <!-- end of billing details -->
 
-    <!-- item form table -->
-    <div formArrayName="item" class="item-form-list" fxLayout="column">
-      <div
-        class="item-form-list-head-line"
-        fxLayout="row"
-        fxLayoutAlign="space-around center"
-      >
-        <p>#</p>
-        <p>Item Name</p>
-        <p>Unit Price</p>
-        <p>Unit</p>
-        <p>Cost</p>
+    <!-- additionalFees form table -->
+
+    <div formArrayName="additionalFees" class="additionalFees-form-list" fxLayout="column">
+      <div class="additionalFees-form-list-head-line" fxLayout="row" fxLayoutAlign="space-around center">
+        <p>Référence article</p>
+        <p>Designation</p>
+        <p>Quantité</p>
+        <p>Unité</p>
+        <p>Prix unitaire</p>
+        <p>Remise</p>
+        <p>TVA</p>
         <p></p>
       </div>
+    
+      <ng-container *ngFor="let additionalFees of invoiceAdditionalFeesFormArray.controls; let i = index">
+        <div [formGroup]="additionalFees" class="form-rows" fxLayout="row" fxLayoutAlign="space-around center">
+          <span>{{ i + 1 }}</span>
 
-      <div
-        *ngFor="let item of invoiceItemFormArray.controls; let i = index"
-        [formGroup]="item"
-        class="form-rows"
-        fxLayout="row"
-        fxLayoutAlign="space-around center"
-      >
-        <span>{{ i + 1 }}</span>
-        <mat-form-field>
-          <input
-            formControlName="name"
-            matInput
-            placeholder="Item Name"
-            #name
-            required
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            type="number"
-            formControlName="price"
-            matInput
-            placeholder="Item Price"
-            #price
-            required
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            type="number"
-            formControlName="unit"
-            matInput
-            placeholder="Item Unit"
-            #unit
-            required
-          />
-        </mat-form-field>
-        <span>{{ unit.value * price.value }}</span>
-        <button mat-button type="button" (click)="deleteItemFromInvoice(i)">
-          Delete
-        </button>
-      </div>
-      <!-- end of item form table -->
-
-      <!-- add item button -->
-      <div class="add-button">
-        <button mat-button type="button" (click)="addNewItem(emptyFormObject)">
-          Add Item
-        </button>
-      </div>
-    </div>
-
-    <!-- total cost of item form -->
-    <div
-      class="form-total-cost"
-      fxLayout="column"
-      fxLayoutAlign="center end"
-      fxLayoutGap="10px"
-    >
-      <!-- sub total -->
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <span>Sub Total:</span>
-        <span>{{ currency }}{{ cost }}</span>
-      </div>
-
-      <!-- vat -->
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <span>Vat(%):</span>
-        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
           <mat-form-field>
-            <input
-              type="number"
-              formControlName="vat"
-              matInput
-              placeholder="vat"
-              required
-            />
+            <input type="text" formControlName="refFree" matInput placeholder="Référence article" required />
           </mat-form-field>
-          <span>{{ currency }}{{ vat }}</span>
+          <mat-form-field>
+            <input type="text" formControlName="designation" matInput placeholder="designation" required />
+          </mat-form-field>
+          <mat-form-field>
+            <input type="number" formControlName="quantity" matInput placeholder="Quantité" required />
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" formControlName="unite" matInput placeholder="unité" required />
+          </mat-form-field>
+          <mat-form-field>
+            <input type="number" formControlName="cost" matInput placeholder="prix unitaire" required />
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input type="number" formControlName="discount" matInput placeholder="Remise" required />
+          </mat-form-field>
+          <mat-form-field>
+            <input type="number" formControlName="tva" matInput placeholder="TVA" required />
+          </mat-form-field>
+    
+          <button-loading color="primary" mat-button type="button" (click)="deleteAdditionalFeesFromInvoice(i)">
+            Supprimer
+          </button-loading>
+        </div>
+    
+        <div class="form-rows" fxLayout="row">
+          <mat-form-field>
+            <strong>Totale HT :</strong> <input type="number" matInput required disabled [value]="(additionalFees.get('cost').value * additionalFees.get('quantity').value).toFixed(3)" />
+          </mat-form-field>
+          <mat-form-field>
+            <strong>Totale TTC :</strong><input type="number" matInput required disabled [value]="((additionalFees.get('cost').value * additionalFees.get('quantity').value) * ((additionalFees.get('tva').value / 100) + 1)).toFixed(3)" />
+          </mat-form-field>
+         
+        </div>
+    
+      </ng-container>
+    </div>
+    
+    <!-- end of additionalFees form table -->
+    
+    <!-- add additionalFees button -->
+    <div class="add-button" fxLayoutAlign="end center">
+      <button-loading color="primary" mat-button type="button" (click)="addNewAdditionalFees(emptyFormObject)">
+        Ajouter un article
+      </button-loading>
+    </div>
+    
+    
+    <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
+         <!-- payment -->
+         <div>
+          <mat-form-field class="full-width">
+            <mat-label>Devise</mat-label>
+            <mat-select [formControlName]="'currency'">
+              <mat-option *ngFor="let currency of currencies" [value]="currency.shortName">{{ currency.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Mode de payment</mat-label>
+              <mat-select [formControlName]="'paymentMethod'">
+                <mat-option *ngFor="let x of paymentMethod" [value]="x">{{ x }}</mat-option>
+              </mat-select>
+            </mat-form-field>          
+        </div>
+    <!-- total cost of Fees form -->
+    <div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Montant total :</span>
+          <span>{{ totalAmount.toFixed(3) }}</span>
+        </div>
+    
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Montant Remise :</span>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+            <h5><strong>{{ totalDiscount }}</strong></h5>
+
+          </div>
+        </div>
+    
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <h5><strong>Total avec remise :</strong></h5>
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+            <h5><strong>{{ totalWithDiscount }}</strong></h5>
+          </div>
         </div>
       </div>
 
-      <!-- grand total -->
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <h5><strong>Grand Total: </strong></h5>
-        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-          <mat-form-field>
-            <input
-              formControlName="currency"
-              matInput
-              placeholder="currency"
-              required
-            />
-          </mat-form-field>
-          <h5>
-            <strong>{{ currency }}{{ cost + vat }}</strong>
-          </h5>
-        </div>
-      </div>
-    </div>
+   
+    </div> 
+
+   
+    
     <!-- end of total cost -->
   </form>
 </mat-card>
+
 <!-- end of edit invoice -->
 <!-- =================================================== -->
 
@@ -279,24 +279,39 @@
       class="ml-16 mr-16"
       (click)="showEditOption = !showEditOption"
     >
-      Edit Invoice
+      Modifier Facture
     </button>
     <button mat-flat-button color="accent" (click)="print()">
-      Print Invoice
+      Imprimer Facture
     </button>
   </div>
   <div id="print-area">
     <!-- order details -->
-    <div class="order-info" fxLayout="row" fxLayoutAlign="space-between">
-      <div>
-        <h4><strong>Order Info</strong></h4>
-        <p>Order Number</p>
-        <p># {{ invoice?.orderNo }}</p>
-      </div>
+  
+        
 
+
+    <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
+      <!-- seller -->
       <div>
-        <p><strong>Order status: </strong> {{ invoice?.status }}</p>
-        <p><strong>Order date: </strong> {{ invoice?.date | date }}</p>
+        <h4><strong>Facture fournisseur: </strong> {{ invoice?.invoiceType }}</h4>
+        <br>
+        <p><strong>Numéro de facture :</strong> {{ invoice?.invoiceNumber }}</p>
+        <p><strong>Date de création :</strong> {{ invoice?.date | date: 'dd/MM/yyyy' }}</p>
+
+      </div>
+<div>
+  <br> <br>
+  <p><strong>Numéro de commande :</strong> {{ invoice?.orderNumber }}</p>
+  <p><strong>Date d'émission :</strong> {{ invoice?.issueDate | date: 'dd/MM/yyyy' }}</p>
+
+</div>
+      <!-- buyer -->
+      <div>
+        <p><strong>Etat de la facture :</strong> {{ invoice?.invoiceEtat }}</p>
+        <br>
+        <p><strong>Devise: </strong> {{ invoice?.currency}}</p>
+        <p><strong>Date d'échéance :</strong> {{ invoice?.dueDate | date: 'dd/MM/yyyy' }}</p>   
       </div>
     </div>
     <!-- end of order details -->
@@ -307,92 +322,105 @@
     <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
       <!-- seller -->
       <div>
-        <h4><strong>Bill From</strong></h4>
-        <p>{{ invoice?.seller?.name }}</p>
-        <p>{{ invoice?.seller?.address }}</p>
+        <h4><strong>Emis par</strong></h4>
+        <p>{{ invoice?.nameSeller }}</p>
+        <p>{{ invoice?.addressSeller }}</p>
       </div>
 
       <!-- buyer -->
       <div>
-        <h4><strong>Bill To</strong></h4>
-        <p>{{ invoice?.buyer?.name }}</p>
-        <p>{{ invoice?.buyer?.address }}</p>
+        <h4><strong>Facturé a</strong></h4>
+        <p>{{ invoice?.nameBuyer }}</p>
+        <p>{{ invoice?.addressBuyer }}</p>
       </div>
     </div>
     <!-- end of billing details -->
 
-    <!-- item table -->
-    <div class="item-table">
-      <mat-table [dataSource]="invoice.item" class="mat-elevation-z4" #table>
-        <!-- Number Column -->
-        <ng-container matColumnDef="{{ itemTableColumn[0] }}">
-          <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
-          <mat-cell *matCellDef="let element; let i = index">
-            {{ i + 1 }}
-          </mat-cell>
-        </ng-container>
+    <div class="additionalFees-table">
+      <div>
+        <mat-table [dataSource]="invoiceAdditionalFeesFormArray.controls" class="mat-elevation-z4" #table>
+          <ng-container matColumnDef="number">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+          </ng-container>
+      
 
-        <!-- Item Name Column -->
-        <ng-container matColumnDef="{{ itemTableColumn[1] }}">
-          <mat-header-cell *matHeaderCellDef>
-            {{ itemTableColumn[1] }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="refFree">
+            <mat-header-cell *matHeaderCellDef>Référence article</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('refFree').value }}</mat-cell>
+          </ng-container>
+      
+          <!-- Description Column -->
+          <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef>Designation</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('designation').value }}</mat-cell>
+          </ng-container>
 
-        <!-- Unit price Column -->
-        <ng-container matColumnDef="{{ itemTableColumn[2] }}">
-          <mat-header-cell *matHeaderCellDef>
-            {{ itemTableColumn[2] }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.price }} </mat-cell>
-        </ng-container>
+   <!-- Quantité Column -->
+   <ng-container matColumnDef="quantity">
+    <mat-header-cell *matHeaderCellDef>Quantité</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.get('quantity').value }}</mat-cell>
+  </ng-container>
 
-        <!-- Unit Column -->
-        <ng-container matColumnDef="{{ itemTableColumn[3] }}">
-          <mat-header-cell *matHeaderCellDef>
-            {{ itemTableColumn[3] }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.unit }} </mat-cell>
-        </ng-container>
+          <ng-container matColumnDef="unite">
+            <mat-header-cell *matHeaderCellDef>Unité</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('unite').value }}</mat-cell>
+          </ng-container>
 
-        <!-- Cost column -->
-        <ng-container matColumnDef="{{ itemTableColumn[4] }}">
-          <mat-header-cell *matHeaderCellDef>
-            {{ itemTableColumn[4] }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.unit * element.price }}
-          </mat-cell>
-        </ng-container>
+          <!-- Tarif Column -->
+          <ng-container matColumnDef="cost">
+            <mat-header-cell *matHeaderCellDef>Prix unitaire</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('cost').value }}</mat-cell>
+          </ng-container>
 
-        <mat-header-row *matHeaderRowDef="itemTableColumn"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: itemTableColumn"></mat-row>
-      </mat-table>
+          <ng-container matColumnDef="discount">
+            <mat-header-cell *matHeaderCellDef>Remise</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('discount').value }}</mat-cell>
+          </ng-container>
+
+          <!-- TVA Column -->
+          <ng-container matColumnDef="tva">
+            <mat-header-cell *matHeaderCellDef>TVA</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('tva').value }}</mat-cell>
+          </ng-container>
+
+           <!-- Montant HT Column -->
+           <ng-container matColumnDef="priceWithoutTax">
+            <mat-header-cell *matHeaderCellDef>Montant HT</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.get('priceWithoutTax').value).toFixed(3) }}</mat-cell>
+          </ng-container>
+
+           <!-- Montant TTC Column -->
+           <ng-container matColumnDef="priceWithAllTaxIncluded">
+            <mat-header-cell *matHeaderCellDef>Montant TTC</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.get('priceWithAllTaxIncluded').value).toFixed(3) }}</mat-cell>
+          </ng-container>
+          
+          <!-- Column definitions -->
+          <mat-header-row *matHeaderRowDef="['number', 'refFree', 'designation', 'quantity', 'unite','cost', 'discount', 'tva', 'priceWithoutTax', 'priceWithAllTaxIncluded']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['number', 'refFree', 'designation', 'quantity', 'unite','cost', 'discount','tva', 'priceWithoutTax', 'priceWithAllTaxIncluded']"></mat-row>
+        </mat-table>
+      </div>
     </div>
+    
+    
     <!-- end of table -->
 
     <!-- total cost -->
-    <div
-      class="total-cost"
-      fxLayout="row"
-      fxLayoutAlign="end"
-      fxLayoutGap="50px"
-    >
+    <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
+      <!-- seller -->
       <div>
-        <p>Sub Total:</p>
-        <p>Vat:</p>
-        <h5><strong>Grand Total: </strong></h5>
-      </div>
-
+        <p><strong>Mode de payment: </strong> {{ invoice?.paymentMethod }}</p>
+</div>
+      <!-- buyer -->
       <div>
-        <p>{{ currency }}{{ cost }}</p>
-        <p>{{ currency }}{{ vat.toFixed(2) }}</p>
-        <h5>
-          <strong>{{ currency }}{{ (cost + vat).toFixed(2) }}</strong>
-        </h5>
+        <p><strong>Montant totale :  </strong>{{ totalAmount.toFixed(3) }}</p>
+        <p><strong>Remise(%):  </strong>{{ invoice?.totalDiscount }}</p>
+        <h5><strong><strong>Totale avec remise :  </strong>{{ invoice?.totalWithDiscount }}</strong></h5>
       </div>
     </div>
+
+ 
     <!-- end of total cost -->
   </div>
 </mat-card>

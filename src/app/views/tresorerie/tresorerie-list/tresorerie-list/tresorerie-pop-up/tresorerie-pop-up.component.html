@@ -1,0 +1,40 @@
+<form [formGroup]="decaissementForm" class="form-container" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Categorie</mat-label>
+    <mat-select [formControlName]="'categoryCaisse'">
+      <mat-option *ngFor="let x of categoryCaisse" [value]="x">{{ x }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Montant</mat-label>
+      <input matInput formControlName="amount" type="number">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="form-field" class="pr-16">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+   
+    
+
+
+    <div class="button-group">
+  
+      <div fxFlex="100" class="mt-16">
+        <button mat-raised-button color="primary" >{{"Enregistrer" | translate }}</button>
+        <span fxFlex></span>
+        <button mat-button color="black" type="button" (click)="dialogRef.close(false)">Annuler</button>
+      </div>
+     
+    </div>
+  </form>
+  

@@ -163,9 +163,9 @@ export class NavigationService {
       tooltip: 'Shop',
       icon: 'monetization_on',
       sub: [
-        { name: 'Facture', state: 'invoice/5a9ae2106518248b68251fd1' },
-        { name: 'Trésorerie', state: 'invoice/list' },
-        { name: 'Reporting', state: 'shop/cart' }
+        { name: 'Facture', state: 'invoice/list' },
+        { name: 'Trésorerie', state: 'tresorerie/encaissement' },
+        { name: 'Rapprochement', state: 'rapprochement/list' }
       ]
     },
    

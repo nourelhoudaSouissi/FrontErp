@@ -409,7 +409,19 @@ export const rootRouterConfig: Routes = [
         path:'projets',
         loadChildren: () => import('./views/Component/HumanResource/projet/projet.module').then(m => m.ProjetModule),
         data: { title: 'projet list', breadcrumb: 'Projets'}
-      } 
+      },
+      {
+        path: 'rapprochement',
+        loadChildren: () => import('./views/rapprochement/rapprochement.module').then(m => m.RapprochementModule)
+      },
+      {
+        path: 'tresorerie',
+        loadChildren: () => import('./views/tresorerie/tresorerie.module').then(m => m.TresorerieModule)
+      },
+      {
+        path: 'client',
+        loadChildren: () => import('./views/client/client.module').then(m => m.ClientModule)
+      }
     ]
   },
   {

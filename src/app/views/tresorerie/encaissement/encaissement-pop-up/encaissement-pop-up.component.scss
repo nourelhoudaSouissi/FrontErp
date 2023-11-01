@@ -1,0 +1,33 @@
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    
+    .form-field {
+      flex-basis: 24%;
+      margin-bottom: 20px;
+      max-width: 24%;
+    
+      .mat-form-field {
+        width: 100%;
+      }
+    
+      input {
+        width: 100%;
+      }
+    }
+    
+    .button-group {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin-top: 20px;
+    
+      button {
+        margin-left: 10px;
+      }
+    }
+  }
+  
