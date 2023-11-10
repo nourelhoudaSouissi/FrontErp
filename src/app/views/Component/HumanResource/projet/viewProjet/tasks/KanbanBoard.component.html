@@ -136,7 +136,7 @@
             <div style="padding-left: 20px;">
              
              </div> </mat-header-cell>
-          <mat-cell  *matCellDef="let row"  [style.color]="row.color"> {{row.resource.lastName}} </mat-cell>
+          <mat-cell  *matCellDef="let row"  [style.color]="row.color"> {{row.employee.lastName}} {{row.employee.firstName}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Etat">
           <mat-header-cell *matHeaderCellDef> Etat </mat-header-cell>

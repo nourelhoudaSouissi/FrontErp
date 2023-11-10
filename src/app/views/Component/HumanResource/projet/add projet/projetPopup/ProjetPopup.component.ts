@@ -41,6 +41,10 @@ export class ProjetPopupComponent implements OnInit {
   selection = new SelectionModel<Employee>(true, []);
   selectedResourceIds: number[] = [];
 
+
+  selectedFonctions: string[] = [];
+
+
   formWidth = 200; // declare and initialize formWidth property
   formHeight = 1000; // declare and initialize formHeight property
   selectedResources: number[] = [];
@@ -56,9 +60,11 @@ export class ProjetPopupComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private responsableFb : FormBuilder,
     private crudService: ProjetService,  
-    private resourceService : ResourceService
-  ) {    
+    private resourceService : ResourceService,
+    private projectService : ProjetService,
     
+  ) {    
+   
     this.dataSource = new MatTableDataSource<Employee>([]);
   }
  
@@ -82,7 +88,7 @@ export class ProjetPopupComponent implements OnInit {
       endDate : [ item.endDate||'', Validators.required],
       projectType: [item.projectType||'', Validators.required],
       projectStatus : [ 'NOT_STARTED', Validators.required],
-      resourceIds:[this.selectedRowIds.values|| '', Validators.required],
+      employeeIds:[this.selectedRowIds.values|| '', Validators.required],
       responsableNum:[item.responsableNum|| '',Validators.required],
       realStartDate:[item.realStartDate||'',Validators.required],
       realEndDate:[item.realEndDate||'',Validators.required],
@@ -132,7 +138,23 @@ if (item.responsables && item.responsables.length > 0) {
  });
  this.responsableClients = this.form.get('responsableClients') as FormArray;*/
   }
+
+
+  ngAfterViewInit() {
+    // Access form controls after the view is initialized
+    this.selectedFonctions = [this.itemForm.get('responsables').get('0').get('function').value];
+    const functionControl = this.itemForm.get('responsables.0.function');
+    if (functionControl) {
+      functionControl.valueChanges.subscribe((value) => {
+        this.selectedFonctions = [value];
+      });
+    }
+  
+  }
+  
+
   ngOnInit() {
+
     
     this.myResponsableForm = this._formBuilder.group({
           responsables: this._formBuilder.array([])  // Initialize holidays as an empty FormArray
@@ -165,7 +187,7 @@ if (item.responsables && item.responsables.length > 0) {
       }
   getRessources(){
     this.isLoading = true;
-    this.resourceService.getItems().subscribe((data:any) =>{
+    this.projectService.getAllResources().subscribe((data:any) =>{
 this.dataSource.data=data;
 this.isLoading = false;
     })
@@ -233,7 +255,7 @@ createRepeatForm(): FormGroup {
   }
  
    getResources(){
-    this.resourceService.getItems().subscribe((data :any )=>{
+    this.projectService.getAllResources().subscribe((data :any )=>{
       this.resources = data
      // this.partnerId = this.data.partnerId;
     });
@@ -281,7 +303,7 @@ createRepeatForm(): FormGroup {
       this.selectedRowIds = this.selection.selected.map(row => row.id);
     }
     updateResourceIds() {
-      this.itemForm.get('resourceIds').setValue(this.selectedRowIds); // Update the resourceIds form control value
+      this.itemForm.get('employeeIds').setValue(this.selectedRowIds); // Update the resourceIds form control value
     }
     
 addHolidayFormGroup(): void {
@@ -296,8 +318,21 @@ addHolidayFormGroup(): void {
           function:['']
          
         });
+        const functionControl = holidayarticleFormGroup.get('function');
+
+        // Subscribe to changes in the 'function' control of the new repeat form
+        functionControl.valueChanges.subscribe((value) => {
+          if (!this.isFonctionSelected(value)) {
+            this.selectedFonctions.push(value);
+          }
+        });
+
         holidaysFormArray.push(holidayarticleFormGroup);
       }
+      
+isFonctionSelected(fonction: string): boolean {
+  return this.selectedFonctions.includes(fonction);
+}
 
       typeMap={
         [ProjectType.INTERN] :'Interne',
@@ -305,4 +340,18 @@ addHolidayFormGroup(): void {
         [ProjectType.EXTERN_T_AND_M] : 'T_et_M_Externe'
       
        }
+
+
+      /* isFonctionSelected(fonction: string, currentIndex: number): boolean {
+        const fonctionsArray = this.myResponsableForm.get('function') as FormArray;
+      
+        for (let i = 0; i < currentIndex; i++) {
+          const selectedFonction = fonctionsArray.at(i)?.value;
+          if (selectedFonction === fonction) {
+            return true;
+          }
+        }
+        return false;
+      }*/
+      
   }

@@ -177,6 +177,7 @@ export class OrdersDetailComponent implements OnInit {
     this.orderService.getOrder(this.orderId).subscribe((order: Order) => {
       this.order = order;
       console.log(order)
+      this.loadOrderAddress(order)
       this.getPartner(order.partnerNum)
       this.getQuotation(order.quotationId)
       /*this.buildUpdateQuotationForm(this.quotation);
@@ -504,9 +505,8 @@ export class OrdersDetailComponent implements OnInit {
   }
 
   getPartnerList(){
-    this.partnerService.getItems().subscribe((data :any )=>{
+    this.partnerService.getItems().subscribe((data : Partner[] )=>{
       this.listPartner = data
-      console.log(data)
     })
     console.log(this.listPartner)
   }
@@ -558,7 +558,8 @@ export class OrdersDetailComponent implements OnInit {
           console.error('Error fetching profiles:', error);
         }
       );
-    } /*else {
+    } 
+    /*else {
       this.listProfiles = []; // Clear the profiles list if no catalog is selected
     }
     this.loadProfileByUpdatedProfile(this.order.profiles)*/
@@ -592,8 +593,8 @@ export class OrdersDetailComponent implements OnInit {
         console.log(parseInt(this.quotation.addressBuyer))
         this.orderForm.get('addressBuyer').patchValue(parseInt(this.quotation.addressBuyer));
         /*this.orderForm.get('paymentMode').patchValue(this.partner.paymentMode);
-        this.orderForm.get('paymentCondition').patchValue(this.partner.paymentCondition);*/
-      /*}
+        this.orderForm.get('paymentCondition').patchValue(this.partner.paymentCondition);
+      }
       else{
         this.itemForm.get('partnerNum').patchValue(this.partner.id);
       }*/
@@ -712,9 +713,13 @@ export class OrdersDetailComponent implements OnInit {
   }
 
   loadOrderAddress(res : Order){
-    this.addressService.getAddress(parseInt(res.addressBuyer)).subscribe((data: any) => {
+    this.quotationService.getQuotation(res.quotationId).subscribe((quotation : Quotation) =>{
+      this.order.addressBuyer = quotation.addressBuyer
+      console.log(this.order.addressBuyer)
+      this.addressService.getAddress(parseInt(this.order.addressBuyer)).subscribe((data: any) => {
       const address = data
       this.address = address
+    })
     })
   }
     

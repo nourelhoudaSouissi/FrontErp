@@ -37,9 +37,11 @@ import { DatePipe } from "@angular/common";
     public projet : any 
     public dataSource: MatTableDataSource<Employee>;
     public displayedColumns: any;
+    public displayedColumnsPhases: any;
     public getItemSub: Subscription;
     public Responsables : any[];
     public dataSource2 : MatTableDataSource<any>
+    public dataSourcePhases : MatTableDataSource<any>
   
     constructor(
       private router : ActivatedRoute,
@@ -51,7 +53,8 @@ import { DatePipe } from "@angular/common";
       private datePipe: DatePipe,
      
     ) {this.dataSource = new MatTableDataSource<Employee>([]); 
-      this.dataSource2= new MatTableDataSource<any>([])
+      this.dataSource2= new MatTableDataSource<any>([]);
+      this.dataSourcePhases= new MatTableDataSource<any>([])
 
     }
   
@@ -61,17 +64,30 @@ import { DatePipe } from "@angular/common";
       this.getItem()
      
       this.displayedColumns = this.getDisplayedColumns();
+      this.displayedColumnsPhases= this.getDisplayedColumnsPhases();
       this.getRessources();
       this.getResp();
+      this.getPhases();
     }
     getDisplayedColumns() {
         return ['Reference','Titre' , 'Date début' ];
       }
+
+      getDisplayedColumnsPhases() {
+        return ['name','description' , 'startDate', 'endDate', 'livrable'];
+      }
+
     getItem(){
         this.crudService.getItem(this.id).subscribe((data:any) =>{
     this.projet=data
         })
     }
+    getPhases(){
+      this.crudService.ProjectPhase(this.id).subscribe((data:any) =>{
+  this.dataSourcePhases=data
+      })
+  }
+
     getRessources(){
         this.crudService.getResources(this.id).subscribe((data:any) =>{
     this.dataSource=data

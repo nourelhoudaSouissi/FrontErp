@@ -132,6 +132,68 @@
               </mat-card>
             </div>
           </mat-card>        
+
+          
             
-              
+          
+          
+          <mat-card>
+            <mat-card-title> Liste des Phases</mat-card-title>
+          <div class="m-12">
+      <mat-card  style="border: 5px; "  >
+        <mat-card-content class="p-0">
+          <mat-table [dataSource]="dataSourcePhases" matSort  >
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Titre
+                  <div style="padding-left: 20px;">
+                    
+                   </div>
+                 </mat-header-cell>
+                <mat-cell *matCellDef="let row"  [style.color]="row.color">{{row.name}} </mat-cell>
+              </ng-container>
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Description
+            <div style="padding-left: 20px;">
+             
+             </div> </mat-header-cell>
+          <mat-cell *matCellDef="let row"  [style.color]="row.color"> {{row.description}} </mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Date de début
+              <div style="padding-left: 20px;">
+                
+               </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.startDate}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Date de fin
+              <div style="padding-left: 20px;">
+                
+               </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.endDate}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="livrable">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Livrable
+              <div style="padding-left: 20px;">
+                
+               </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.livrable}}</mat-cell>
+          </ng-container>
+           
+        
+         <mat-header-row *matHeaderRowDef="displayedColumnsPhases"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumnsPhases;"></mat-row>
+       </mat-table>
+       <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      
+      </mat-card-content>
+      </mat-card>
+    </div>
          
+  </mat-card> 

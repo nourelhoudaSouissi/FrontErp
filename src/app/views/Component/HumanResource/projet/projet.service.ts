@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Employee } from "app/shared/models/Employee";
 import { EgretCalendarEvent } from "app/shared/models/event.model";
 import { Projet } from "app/shared/models/Projet";
-import { catchError, Observable } from "rxjs";
+import { catchError, Observable, throwError } from "rxjs";
 
 @Injectable()
 export class ProjetService {
@@ -11,6 +11,7 @@ export class ProjetService {
   private apiUrl2 = 'http://localhost:8085/task';
   private apiUrl3 = 'http://localhost:8085/subTask';
   private apiUrl4 = 'http://localhost:8085/phase';
+  private apiUrl5 = 'http://localhost:8085/rh/employee';
   
  
   public events: EgretCalendarEvent[];
@@ -94,9 +95,9 @@ export class ProjetService {
     const url = `${this.apiUrl+ '/getResp'}/${id}`;
     return this.http.get<any>(url).pipe();
   }
-  addResourceToProject(projectId: number, resourceIds: number[]) {
+  addResourceToProject(projectId: number, employeeIds: number[]) {
     const url = `${this.apiUrl}/${projectId}/resources`;
-    return this.http.post(url, resourceIds);
+    return this.http.post(url, employeeIds);
   }
   ProjectTask(projectId: number) {
     const url = `${this.apiUrl}/${projectId}/tasks`;
@@ -106,4 +107,27 @@ export class ProjetService {
     const url = `${this.apiUrl}/${id}/phases`;
     return this.http.get<any>(url).pipe();
   }
+
+   // Get All Resources (Internal/ External)
+   getAllResources(): Observable<Employee[]> {
+  return this.http.get<Employee[]>(this.apiUrl5 + '/getAllResources').pipe(
+    catchError(this.handleError)
+  );
+}
+
+private handleError(error: HttpErrorResponse) {
+  if (error.error instanceof ErrorEvent) {
+    // A client-side or network error occurred. Handle it accordingly.
+    console.error('An error occurred:', error.error.message);
+  } else {
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong.
+    console.error(
+      `Backend returned code ${error.status}, ` +
+      `body was: ${error.error}`);
+  }
+  // Return an observable with a user-facing error message.
+  return throwError(
+    'Something bad happened; please try again later.');
+}
   }

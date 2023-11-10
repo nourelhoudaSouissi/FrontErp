@@ -274,7 +274,7 @@
   <mat-form-field appearance="outline" [style.width.cm]=10>
     <mat-label>Fonction</mat-label>
     <mat-select formControlName="function">
-      <mat-option  *ngFor="let x of fonction" [value]="x">{{x}}</mat-option>
+      <mat-option  *ngFor="let x of fonction" [value]="x" [disabled]="isFonctionSelected(x)">{{x}}</mat-option>
     </mat-select>
      </mat-form-field>
  </div>

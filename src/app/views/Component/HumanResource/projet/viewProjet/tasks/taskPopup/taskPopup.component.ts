@@ -47,7 +47,7 @@ import { Employee } from "app/shared/models/Employee";
          
           projectNum:[this.data.projectId],
           status :[item.status],
-          resourceNum : [item.resourceNum],
+          employeeNum : [item.employeeNum],
           phaseNum : [item.phaseNum],
           taskNum:[item.taskNum],
           reference:[item.reference],

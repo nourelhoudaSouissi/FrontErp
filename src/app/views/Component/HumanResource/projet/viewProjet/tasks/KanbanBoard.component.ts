@@ -147,6 +147,7 @@ this.resources=data
     this.crudService.getResources(this.id).subscribe((resources: any) => {
     let dialogRef: MatDialogRef<any> = this.dialog.open(TaskPopupComponent, {
       width: '1000px',
+     
 
       disableClose: true,
       data: { title: title, payload: data , isNew: isNew , resources : this.resources , phases :this.phases , projectId : this.id , projet : this.projet , tasks : this.tasks}
@@ -187,7 +188,7 @@ this.resources=data
     this.crudService.getResources(this.id).subscribe((resources: any) => {
     let dialogRef: MatDialogRef<any> = this.dialog.open(ModifTaskComponent, {
       width: '1000px',
-
+      height:'620px',
       disableClose: true,
       data: { title: title, payload: data , isNew: isNew , resources : this.resources , phases :this.phases , projectId : this.id , projet : this.projet , tasks : this.tasks}
     })

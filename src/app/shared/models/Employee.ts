@@ -1,6 +1,10 @@
 import { LeaveType } from "./leaveType";
 
 export class Employee {
+
+
+
+    
     
     id?: number;
     lastName ?:string;

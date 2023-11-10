@@ -49,7 +49,7 @@ import { Employee } from "app/shared/models/Employee";
           progression:[item.progression||''],
           projectNum:[this.data.projectId],
           status :[item.status],
-          resourceNum : [this.data.payload.resource.id],
+          employeeNum : [this.data.payload.resource.id],
           taskNum:[this.data.payload.task.id],
           subTaskReference:[item.subTaskReference]
            });
