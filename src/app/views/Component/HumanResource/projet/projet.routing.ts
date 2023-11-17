@@ -3,6 +3,7 @@ import { ProjetComponent } from "./add projet/projet.component";
 import { KanbanBoardComponent } from "./viewProjet/tasks/KanbanBoard.component";
 import { TaskPopupComponent } from "./viewProjet/tasks/taskPopup/taskPopup.component";
 import { ViewProjetComponent } from "./viewProjet/viewProjet.component";
+import { ViewPhaseComponent } from "./viewProjet/viewPhase/view-phase/view-phase.component";
 
 
 export const ProjetRoutes: Routes = [
@@ -26,6 +27,11 @@ export const ProjetRoutes: Routes = [
         path: "pop/:id",
         component:TaskPopupComponent ,
         pathMatch: "full"
+      },
+      { 
+        path: 'viewPhase', 
+        component: ViewPhaseComponent, 
+       
       }
     
 ]

@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Employee } from "app/shared/models/Employee";
 import { EgretCalendarEvent } from "app/shared/models/event.model";
+import { Order } from "app/shared/models/Order";
 import { Projet } from "app/shared/models/Projet";
 import { catchError, Observable, throwError } from "rxjs";
 
@@ -12,7 +13,8 @@ export class ProjetService {
   private apiUrl3 = 'http://localhost:8085/subTask';
   private apiUrl4 = 'http://localhost:8085/phase';
   private apiUrl5 = 'http://localhost:8085/rh/employee';
-  
+  private apiUrlOrders = 'http://localhost:8085/crm/orders';
+
  
   public events: EgretCalendarEvent[];
   constructor(private http: HttpClient) {}
@@ -46,12 +48,7 @@ export class ProjetService {
     const apiUrlWithAdd = this.apiUrl + '/add'; // Append /add to the apiUrl
     return this.http.post<any>(apiUrlWithAdd, projet).pipe();
   }
-  addPhase(phases: any[], id: number): Observable<any> {
-    const apiUrlWithAdd = `${this.apiUrl4}/addphases`;
-    const payload = phases; // Only pass the array of phases as the payload
-    
-    return this.http.post<any[]>(apiUrlWithAdd, payload, { params: { projectId: id.toString() } }).pipe();
-  }
+  
   
   getItem(id: number): Observable<Projet> {
     const url = `${this.apiUrl+ '/getById'}/${id}`;
@@ -130,4 +127,44 @@ private handleError(error: HttpErrorResponse) {
   return throwError(
     'Something bad happened; please try again later.');
 }
+
+
+/**************** Crud phase ***************************************** */
+addPhase(phases: any[], id: number): Observable<any> {
+  const apiUrlWithAdd = `${this.apiUrl4}/addphases`;
+  const payload = phases; // Only pass the array of phases as the payload
+  
+  return this.http.post<any[]>(apiUrlWithAdd, payload, { params: { projectId: id.toString() } }).pipe();
+}
+
+deletePhase(id: number): Observable<any> {
+  const url = `${this.apiUrl4+'/delete'}/${id}`;
+  return this.http.delete<any>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+getPhaseById(id: number): Observable<any[]> {
+const url = `${this.apiUrl4}/${id}/getById`;
+return this.http.get<any[]>(url).pipe(
+  catchError(this.handleError)
+);
+}
+// PUT an existing item
+updatePhase(id: number, phase: any): Observable<any> {
+const url = `${this.apiUrl4 +'/update'}/${id}`;
+return this.http.put<any>(url, phase).pipe(
+  catchError(this.handleError)
+);
+}
+
+
+/*********************** Récupération de la liste des ordre d'opportuniteé PROJECT et dans n'a pas etait transferer en projet */
+
+getProjectOrders(): Observable<Order[]> {
+  return this.http.get<Order[]>(this.apiUrlOrders + '/getProjectOrders').pipe(
+    catchError(this.handleError)
+  );
+}
+
   }

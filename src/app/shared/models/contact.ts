@@ -19,6 +19,8 @@ export interface contact {
     civility: Civility
     service: string
     societe : string
+    appointmentMaking: boolean
+    privilegedContact: boolean
     
 }
 

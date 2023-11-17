@@ -69,18 +69,29 @@
         </mat-form-field>
        
       </div>
+   
+      
       <div fxFlex="50"  class="pr-16">
         <mat-form-field appearance="outline" [style.width.cm]=10>
           <mat-label>Référence de la commande</mat-label>
-          <input
-          matInput
-          name="commande"
-          type="text"
-          [formControlName]="'commande'"
-          placeholder="Référence de la commande">
-         
+          <mat-select [formControlName]="'orderNum'">
+            <mat-option *ngFor="let x of listOrdersProject" [value]="x.id">{{ x.ref }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
+
+
+      <!--<div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Référence de la commande</mat-label>
+          <mat-select [formControlName]="'orderNum'" (selectionChange)="onOrderNumSelectionChange($event.value)">
+            <mat-option *ngFor="let x of listOrdersProject" [value]="x.id">{{ x.ref }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>-->
+      
+
+
       <div fxFlex="50"  class="pr-16">
         <mat-form-field appearance="outline" [style.width.cm]=10>
           <mat-label>Lieu</mat-label>

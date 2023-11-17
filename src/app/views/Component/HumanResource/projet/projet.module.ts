@@ -40,6 +40,8 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { PhaseComponent } from "./add projet/projetPopup/phase.component";
 import { TaskViewComponent } from "./viewProjet/tasks/taskPopup/taskView.component";
 import { ModifTaskComponent } from "./add projet/modifTaskPopup/modifTask.component";
+import { ViewPhaseComponent } from './viewProjet/viewPhase/view-phase/view-phase.component';
+import { UpdatePhaseComponent } from './viewProjet/update-phase/update-phase.component';
 
 
 
@@ -79,7 +81,7 @@ import { ModifTaskComponent } from "./add projet/modifTaskPopup/modifTask.compon
     
     RouterModule.forChild(ProjetRoutes),
   ],
-  declarations: [ ProjetComponent , ProjetPopupComponent, ViewProjetComponent, AffectationComponent, KanbanBoardComponent, TaskPopupComponent, PhaseComponent, TaskViewComponent, ModifTaskComponent],
+  declarations: [ ProjetComponent , ProjetPopupComponent, ViewProjetComponent, AffectationComponent, KanbanBoardComponent, TaskPopupComponent, PhaseComponent, TaskViewComponent, ModifTaskComponent, ViewPhaseComponent, UpdatePhaseComponent],
   providers: [ ProjetService,DatePipe]
 })
 export class ProjetModule { }

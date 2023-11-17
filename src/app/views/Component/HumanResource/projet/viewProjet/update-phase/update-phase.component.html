@@ -1,0 +1,94 @@
+<div class="popup-container">
+  <mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">Modifier la phase </span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      
+      <div fxFlex="100" class="pr-16" style="text-align: center; margin-top:20px;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <input matInput 
+          [formControl]="itemForm.controls['name']"
+          name="name" 
+          placeholder="Nom de la phase" 
+          type="text">
+        </mat-form-field>  
+        </div>
+
+
+      <div fxFlex="100" class="pr-16" style="text-align: center; margin-top:20px;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Date de début</mat-label>
+          <input
+            matInput
+            [formControl]="itemForm.controls['startDate']"
+            type="date"
+            name="startDate"
+            placeholder="Date de début"
+          />
+
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Date de fin</mat-label>
+          <input
+            matInput
+            type="date"
+            name="endDate"
+            [formControl]="itemForm.controls['endDate']"
+            placeholder="Date de fin"
+           
+          />
+        
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="pr-16" style="text-align: center; margin-top:20px;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Livrable</mat-label>
+          <input
+            matInput
+            type="text"
+            name="livrable"
+           [formControl]="itemForm.controls['livrable']"
+            placeholder="Livrable"
+          />
+        </mat-form-field>
+      </div>
+
+   
+
+      <div fxFlex="100" class="pr-16" style="text-align: center;">
+        <mat-form-field appearance="outline" [style.width.cm]="17">
+          <mat-label>Commentaire</mat-label>
+          <textarea 
+          matInput  
+          name="description" 
+          placeholder="Commentaire" 
+          [formControl]="itemForm.controls['description']"
+          
+          >
+        </textarea>
+         
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="mt-16">
+        <div style="display: flex; justify-content: space-between;">
+          <button mat-button color="gray" type="button" (click)="dialogRef.close(false)" style="order: 1;">Annuler</button>
+          <button mat-raised-button color="primary" style="order: 2;">{{"Modifier" | translate }}</button>
+         
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+

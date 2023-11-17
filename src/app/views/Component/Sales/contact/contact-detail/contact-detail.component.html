@@ -1,118 +1,91 @@
-<mat-card class="p-0">
-    <mat-card-title class="">
+
+<mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+  <mat-card-title class="cardColor">
+    <div class="card-title-text">
+      <div class="name-text">{{ CivilityMap[contact.civility] }} {{ contact.lastName.toUpperCase()}} {{ contact.firstName}}</div>
+      <div class="privilege-text">{{PrivilegeMap[contact.privilege]}}</div>
+    </div>
+  </mat-card-title>
+  
       
-    </mat-card-title>
-    <mat-card-content>
-      <mat-card style="margin-top: 20px;margin-bottom: 20px;">
-        <mat-card-title class="">
-          <div class="card-title-text">Infos générales</div>
-        </mat-card-title>
-        <mat-card-content >
-          <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
-            <mat-list fxFlex="50%" fxFlex.xs="100%">
-              <mat-list-item><div class="main-title" style="font-weight: bold;color: rgb(134, 134, 139);"><h2>{{ CivilityMap[contact.civility] }} <strong>{{ contact.lastName.toUpperCase()}} {{ contact.firstName}} </strong></h2></div></mat-list-item>
-            </mat-list>
-          
-            <mat-list fxFlex="30%" fxFlex.xs="100%" *ngIf="!partnerContact()">
-              <mat-list-item class="cc1-title">
-                <mat-icon color="primary" class="mr-16">localisation_on</mat-icon>
-                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Mobile</span>
-              </mat-list-item>
-              <mat-list-item><strong>{{ contact.localisation }}</strong></mat-list-item>
-            </mat-list>
-          
-            <mat-list fxFlex="20%" fxFlex.xs="100%">
-              <button mat-button (click)="openComment()"> 
-              <mat-list-item class="cc1-title">
-                <mat-icon color="primary" class="mr-16">comment</mat-icon>
-                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Commentaire</span>
-              </mat-list-item>
-              </button>
-            </mat-list>
-          </div>
-          
-        </mat-card-content>
-  
-        <mat-card-title class="">
-          <div class="card-title-text">Infos contact</div>
-        </mat-card-title>
-        <mat-card-content >
-          <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
-           
-            <mat-list fxFlex="30%" fxFlex.xs="100%">
-              <mat-list-item class="cc1-title">
-                <mat-icon color="primary" class="mr-16">smartphone</mat-icon>
-                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Mobile</span>
-              </mat-list-item>
-              <mat-list-item><strong>{{ contact.mobilePhoneNumber }}</strong></mat-list-item>
-            </mat-list>
-          
-            <mat-list fxFlex="30%" fxFlex.xs="100%">
-              <mat-list-item class="cc1-title">
-                <mat-icon color="primary" class="mr-16">phone</mat-icon>
-                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Téléphone</span>
-              </mat-list-item>
-              <mat-list-item><strong>{{ contact.phoneNumber }}</strong></mat-list-item>
-            </mat-list>
-            <mat-list fxFlex="30%" fxFlex.xs="100%">
-              <mat-list-item class="cc1-title">
-                <mat-icon color="primary" class="mr-16">mail</mat-icon>
-                <span  style="font-weight: bold;color: rgb(134, 134, 139);">Mail</span>
-              </mat-list-item>
-              <mat-list-item><strong>{{ contact.email }}</strong></mat-list-item>
-            </mat-list>
-          </div>
-          
-        </mat-card-content>
 
-        <mat-card-title class="">
-          <div class="card-title-text">Infos administratives</div>
-        </mat-card-title>
-        <mat-card-content>
-          <div class="coord-card1" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
-           
-              <mat-list fxFlex="50%" fxFlex.xs="100%" *ngIf="!partnerContact()">
-                <mat-list-item class="cc1-title">
-                  <mat-icon color="primary" class="mr-16">business</mat-icon>
-                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Société/Groupe : </span>
-                </mat-list-item>
-                <mat-list-item><strong>{{ contact.company }}</strong></mat-list-item>
-              </mat-list>
+      <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start center">
+        <!-- First Section -->
+        <div fxFlex="25%" fxFlex.xs="100%">
+           <mat-icon color="primary" class="mr-16">business</mat-icon>
+            <strong style="padding-right: 10px;">Prospect/partenaire : </strong>{{ partner.name }}
+        </div>
+      
+        <!-- Second Section -->
+        <div fxFlex="25%" fxFlex.xs="100%">
+        <mat-icon color="primary" class="mr-16">business</mat-icon>
+            <strong style="padding-right: 10px;">Société/Groupe : </strong>{{ contact.societe }}
+			</div>
+      
+        <!-- Third Section -->
+        <div fxFlex="25%" fxFlex.xs="100%">
+          <mat-icon color="primary" class="mr-16">work</mat-icon>
+            <strong style="padding-right: 10px;">Fonction : </strong>{{ contact.function }}
+        </div>
+      
+        <!-- Fourth Section -->
+        <div fxFlex="25%" fxFlex.xs="100%">
+  <mat-icon color="primary" class="mr-16">work</mat-icon>
+            <strong style="padding-right: 10px;">Service: </strong>{{ contact.service }}
+        </div>
+      </mat-card-content>
+      
+      <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start center">
+        <!-- First Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+            <mat-icon color="primary" class="mr-16">location_on</mat-icon>
+            <strong style="padding-right: 10px;">Localisation : </strong>{{ contact.localisation }}
+        </div>
+      
+        <!-- Second Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+          <mat-icon color="primary" class="mr-16">work</mat-icon>
+            <strong style="padding-right: 10px;"> Contact privilégié : </strong>{{ contact.privilegedContact ? 'Oui' : 'Non'}}
+        </div>
+      
+        <!-- Third Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+        <mat-icon color="primary" class="mr-16">perm_contact_calendar</mat-icon>
+            <strong style="padding-right: 10px;">Prise de rendez-vous : </strong>{{ contact.appointmentMaking  ? 'Oui' : 'Non'}}
+        </div>
+      </mat-card-content>
+      
+      <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start center">
+        <!-- First Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+          <mat-icon color="primary" class="mr-16">smartphone</mat-icon>
+            <strong style="padding-right: 10px;">Mobile : </strong>{{ contact.mobilePhoneNumber }}
+        </div>
+      
+        <!-- Second Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+        <mat-icon color="primary" class="mr-16">phone</mat-icon>
+            <strong style="padding-right: 10px;">Fixe: </strong>{{ contact.phoneNumber }}
+        </div>
+      
+        <!-- Third Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+           <mat-icon color="primary" class="mr-16">mail</mat-icon>
+            <strong style="padding-right: 10px;">Mail : </strong>{{ contact.email }}
+        </div>
+      </mat-card-content>
+      
 
-              <mat-list fxFlex="50%" fxFlex.xs="100%" *ngIf="partnerContact()">
-                <mat-list-item class="cc1-title">
-                  <mat-icon color="primary" class="mr-16">business</mat-icon>
-                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Prospect/partenaire : </span>
-                </mat-list-item>
-                <mat-list-item><strong>{{ partner.name }}</strong></mat-list-item>
-              </mat-list>
-  
-              <mat-list fxFlex="50%" fxFlex.xs="100%">
-                <mat-list-item class="cc1-title">
-                  <mat-icon color="primary" class="mr-16">work</mat-icon>
-                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Service : </span>
-                </mat-list-item>
-                <mat-list-item><strong>{{ contact.service }}</strong></mat-list-item>
-              </mat-list>
 
-              <mat-list fxFlex="50%" fxFlex.xs="100%">
-                <mat-list-item class="cc1-title">
-                  <mat-icon color="primary" class="mr-16">work</mat-icon>
-                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Fonction : </span>
-                </mat-list-item>
-                <mat-list-item><strong>{{ contact.function }}</strong></mat-list-item>
-              </mat-list>
+      <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start center">
+        <!-- First Section -->
+        <div fxFlex="33%" fxFlex.xs="100%">
+            <mat-icon color="primary" class="mr-16">comment</mat-icon>
+            <strong style="padding-right: 10px;">Commentaire : </strong>{{ contact.comment }}
+        </div>
+      </mat-card-content>
 
-              <mat-list fxFlex="50%" fxFlex.xs="100%" *ngIf ="partnerContact()">
-                <mat-list-item class="cc1-title">
-                  <mat-icon color="primary" class="mr-16">star_half</mat-icon>
-                  <span  style="font-weight: bold;color: rgb(134, 134, 139);">Classification : </span>
-                </mat-list-item>
-                <mat-list-item><strong>{{PrivilegeMap[contact.privilege]}}</strong></mat-list-item>
-              </mat-list>
-          </div>
-          
-        </mat-card-content>
+
       </mat-card>
       <!--------------------------------------------------------------------------------------------->
             <mat-accordion multi="false">
@@ -212,5 +185,5 @@
                   </div>   
               </mat-expansion-panel>
             </mat-accordion>
-    </mat-card-content>
-  </mat-card>
+    <!--</mat-card-content>-->
+

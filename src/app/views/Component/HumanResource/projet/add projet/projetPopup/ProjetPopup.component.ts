@@ -11,6 +11,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PeriodicElement } from 'assets/examples/material/pagination-table/pagination-table.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Order } from 'app/shared/models/Order';
+import { OrderService } from 'app/views/order/order.service';
+import { OrdersService } from 'app/views/Component/Sales/orders/orders.service';
 
 
 @Component({
@@ -43,7 +46,7 @@ export class ProjetPopupComponent implements OnInit {
 
 
   selectedFonctions: string[] = [];
-
+  listOrdersProject : Order [] = []
 
   formWidth = 200; // declare and initialize formWidth property
   formHeight = 1000; // declare and initialize formHeight property
@@ -53,6 +56,9 @@ export class ProjetPopupComponent implements OnInit {
   repeatForm : FormGroup;
   responsables : FormArray;
   myResponsableForm : FormGroup
+
+
+  order : Order
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ProjetPopupComponent>,
@@ -60,6 +66,7 @@ export class ProjetPopupComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private responsableFb : FormBuilder,
     private crudService: ProjetService,  
+    private orderService: OrdersService,  
     private resourceService : ResourceService,
     private projectService : ProjetService,
     
@@ -95,7 +102,7 @@ export class ProjetPopupComponent implements OnInit {
       lieu:[item.lieu|| ''],
       workingHourNumber:[item.workingHourNumber||''],
       devise:[item.devise||''],
-      commande : [item.commande||''],
+      orderNum: [item.orderNum || ''],
       responsables : this.fb.array([])  
       
        },);
@@ -155,6 +162,9 @@ if (item.responsables && item.responsables.length > 0) {
 
   ngOnInit() {
 
+    this.getProjectOrdersList()
+    //this.orderNum = this.data.orderNum;
+
     
     this.myResponsableForm = this._formBuilder.group({
           responsables: this._formBuilder.array([])  // Initialize holidays as an empty FormArray
@@ -192,6 +202,16 @@ this.dataSource.data=data;
 this.isLoading = false;
     })
 }
+
+getProjectOrdersList(){
+  this.projectService.getProjectOrders().subscribe((data :Order[] )=>{
+    this.listOrdersProject = data
+    
+  })
+}
+
+
+
 get myArrayControls() {
   return (this.myResponsableForm.get('responsables') as FormArray).controls;
 }
@@ -353,5 +373,39 @@ isFonctionSelected(fonction: string): boolean {
         }
         return false;
       }*/
-      
-  }
+
+      get budget(){
+        return this.itemForm.get('budget').value
+      }
+
+    /*  loadBugetFromOrder(orderId : number){
+        this.orderService.getOrder(orderId).subscribe((data: any) => {
+          this.order = data
+          console.log(this.order)
+            this.itemForm.get('budget').patchValue(this.order.);
+  
+        })
+      }
+      */
+
+      loadBudgetFromOrder(orderId: number) {
+        this.orderService.getOrder(orderId).subscribe((data: any) => {
+          const budgetFromOrder = data.budget; // Assurez-vous que le nom de la clé correspond à celle dans votre réponse API
+          this.itemForm.get('budget').patchValue(budgetFromOrder);
+        });
+      }
+
+      onOrderNumSelectionChange(selectedOrderId: number) {
+        this.loadBudgetFromOrder(selectedOrderId);
+      }
+
+     /* onChangeOrderNum(selectedOrderNum: number) {
+        // Appelez ici votre service ou fonction pour récupérer le budget associé à l'orderNum sélectionné
+        // Supposons que vous ayez une méthode dans votre service 'orderService' pour obtenir le budget d'une commande
+        this.orderService.getBudgetByOrderNum(selectedOrderNum).subscribe((budget: number) => {
+          // Mettez à jour la valeur du champ de budget dans le formulaire avec le budget récupéré
+          this.itemForm.get('budget').setValue(budget);
+        });
+      }
+    */
+    }

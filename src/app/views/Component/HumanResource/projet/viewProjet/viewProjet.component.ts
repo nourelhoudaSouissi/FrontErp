@@ -20,6 +20,9 @@ import { ResourceService } from "../../resource/resource.service";
 import { ProjetService } from "../projet.service";
 import { AffectationComponent } from "./affectationResource/affecatation.component";
 import { DatePipe } from "@angular/common";
+import { AppConfirmService } from "app/shared/services/app-confirm/app-confirm.service";
+import { ViewPhaseComponent } from "./viewPhase/view-phase/view-phase.component";
+import { UpdatePhaseComponent } from "./update-phase/update-phase.component";
 
 @Component({
     selector: 'Viewprojet-crud',
@@ -42,14 +45,13 @@ import { DatePipe } from "@angular/common";
     public Responsables : any[];
     public dataSource2 : MatTableDataSource<any>
     public dataSourcePhases : MatTableDataSource<any>
-  
+    private confirmService: AppConfirmService
     constructor(
       private router : ActivatedRoute,
       private snack: MatSnackBar,
       private dialog: MatDialog,
       private loader : AppLoaderService,
       private crudService: ProjetService,
-      private resourceService: ResourceService,
       private datePipe: DatePipe,
      
     ) {this.dataSource = new MatTableDataSource<Employee>([]); 
@@ -74,7 +76,7 @@ import { DatePipe } from "@angular/common";
       }
 
       getDisplayedColumnsPhases() {
-        return ['name','description' , 'startDate', 'endDate', 'livrable'];
+        return ['name','description' , 'startDate', 'endDate', 'livrable','actions'];
       }
 
     getItem(){
@@ -134,5 +136,73 @@ import { DatePipe } from "@angular/common";
         //}
         );
       }
+
+
+
+
+
+      /********************************************** Crud Phase *****************************************/
+      deletePhase(row) {
+       console.log("open confirm delete pop up")
+        this.confirmService.confirm({message: `Voulez vous Supprimer la phase?`})
+          .subscribe(res => {
+            if (res) {
+              console.log("open confirm delete pop up")
+              this.loader.open('supprimer la phase');
+              this.crudService.deletePhase(row.id)
+              .subscribe((data:any)=> {
+                  this.dataSourcePhases = data;
+                  this.loader.close();
+                  this.snack.open('phase supprimée!', 'OK', { duration: 4000 })
+                  this.getPhases() 
+                })
+            }
+          })
+      }
+  
+
       
+  openPopUpViewPhase(row: any): void {
+    const dialogRef = this.dialog.open(ViewPhaseComponent, {
+      width: '600px',
+      data:  { phase : row},
+    });
+  
+    dialogRef.afterOpened().subscribe(() => {
+      console.log('Dialog opened successfully.');
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed with result:', result);
+      // Code executed after the dialog is closed
+    }, error => {
+      console.error('An error occurred while opening the dialog:', error);
+      // Handle the error appropriately (e.g., display an error message)
+    });
+  }
+  openPopUpUpdatePhase(data: any): void {
+
+    const dialogRef: MatDialogRef<any> = this.dialog.open(UpdatePhaseComponent, {
+      width: '720px',
+      disableClose: true,
+      data: { payload: data }
+    });
+  
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.loader.open('Modifier phase');
+        this.crudService.updatePhase(data.id, res).subscribe((updatedData: any) => {
+     
+          this.snack.open('Phase modifiée!', 'OK', { duration: 4000 });
+          this.loader.close();
+          this.getPhases();
+        });
+      } else {
+        // If user presses cancel
+        return;
+      }
+    });
+  }
+
+
     }

@@ -34,13 +34,15 @@ import { RendezVousRoutes } from './rendez-vous.routing';
 import { RendezVouslistComponent } from './rendez-vous-list/rendez-vous.component';
 
 import { ContactService } from '../contact/contact.service';
+import { ViewRendezVousComponent } from './view-rendez-vous/view-rendez-vous.component';
 
 
 
 @NgModule({
   declarations: [
     RendezVousPopupComponent,
-    RendezVouslistComponent
+    RendezVouslistComponent,
+    ViewRendezVousComponent
     
   ],
   providers: [RendezVousService,ContactService, DatePipe],

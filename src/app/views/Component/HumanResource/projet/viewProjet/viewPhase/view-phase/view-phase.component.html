@@ -1,0 +1,42 @@
+<div fxFlex.gt-md="550px">
+    
+      <mat-card-header>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="header-content">
+          <mat-card-title >Détails de la phase</mat-card-title>
+          <div fxLayout="row" fxLayoutAlign="end center" >
+            <button style="margin-inline-start: 180px;" mat-icon-button class="close-button" (click)="closeDialog()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="pt-0">
+        <mat-list>
+
+          <mat-list-item>
+            <h2><strong>Titre de la phase &nbsp;:&nbsp;</strong> {{ phase.name }}</h2>
+          </mat-list-item>
+         
+          <mat-list-item>
+            <mat-icon color="primary" class="mr-16">schedule</mat-icon>
+            <strong>Date de début  &nbsp;:&nbsp;</strong> {{ phase.startDate }} jours
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon color="primary" class="mr-16">schedule</mat-icon>
+            <strong>Date de fin &nbsp;:&nbsp;</strong> {{ phase.endDate }} jours
+          </mat-list-item>
+          
+          <mat-list-item>
+            <mat-icon color="primary" class="mr-16">assignment</mat-icon>
+            <strong>Livrable &nbsp;:&nbsp;</strong> {{phase.livrable}}
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon color="primary" class="mr-16">comment</mat-icon>
+            <strong>Commentaire &nbsp;:&nbsp;</strong> {{ phase.description }}
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+  </div>
+  

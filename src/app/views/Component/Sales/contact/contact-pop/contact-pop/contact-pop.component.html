@@ -11,8 +11,26 @@
     <div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top:50px ;">
 
 
-    <div fxFlex="50"  class="pr-16">
 
+      <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
+        <label>
+          Contact d'un partenaire/prospect existant
+          <input type="checkbox" [checked]="showDiv" [formControlName]="'partnerCont'" (change)="toggleDiv()">
+        </label>
+      </div>
+
+
+      <div  fxFlex="50"  class="pr-16" *ngIf="showDiv">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Nom partenaire</mat-label>
+            <mat-select  [formControlName]="'partnerNum'">
+              <mat-option *ngFor="let partner of listPartner" [value]="partner.id">{{partner.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+      
+      
+    <div fxFlex="50"  class="pr-16">
       <mat-form-field class="full-width" appearance="outline">
         <mat-label>Civilité</mat-label>
         <mat-select  [formControlName]="'civility'">
@@ -46,12 +64,7 @@
 
     
 
-    <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
-      <label>
-        Contact d'un partenaire/prospect existant
-        <input type="checkbox" [checked]="showDiv" [formControlName]="'partnerCont'" (change)="toggleDiv()">
-      </label>
-    </div>
+    
 
     <div fxFlex="50"  class="pr-16" *ngIf="!showDiv">
       <mat-form-field class="full-width" appearance="outline">
@@ -65,14 +78,7 @@
       </mat-form-field>
     </div>
 
-    <div  fxFlex="50"  class="pr-16" *ngIf="showDiv">
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Nom partenaire</mat-label>
-          <mat-select  [formControlName]="'partnerNum'">
-            <mat-option *ngFor="let partner of listPartner" [value]="partner.id">{{partner.name}}</mat-option>
-          </mat-select>
-      </mat-form-field>
-    </div>
+  
 
     <div fxFlex="50"  class="pr-16" *ngIf="showDiv">
 
@@ -83,6 +89,18 @@
         </mat-select>
       </mat-form-field>
     </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Fonction</mat-label>
+        <input
+        matInput
+        name="function"
+        [formControlName]="'function'"
+        placeholder="Fonction">
+      </mat-form-field>
+    </div>
+
 
     <div fxFlex="50"  class="pr-16">
     <mat-form-field class="full-width" appearance="outline">
@@ -108,16 +126,7 @@
     </mat-form-field>
   </div>
   
-    <div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Fonction</mat-label>
-        <input
-        matInput
-        name="function"
-        [formControlName]="'function'"
-        placeholder="Fonction">
-      </mat-form-field>
-    </div>
+   
 
     <div fxFlex="50"  class="pr-16">
       <mat-form-field class="full-width" appearance="outline">

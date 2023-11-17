@@ -1,0 +1,49 @@
+<div fxFlex.gt-md="550px">
+    
+    <mat-card-header>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="header-content">
+        <mat-card-title >Détails du rendez-vous</mat-card-title>
+        <div fxLayout="row" fxLayoutAlign="end center" >
+          <button style="margin-inline-start: 180px;" mat-icon-button class="close-button" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="pt-0">
+      <mat-list>
+
+          <mat-list-item>
+          <h2><strong> {{ rendezVous.contactFullName }}</strong></h2>
+        </mat-list-item>
+
+         
+        <mat-list-item>
+            <mat-icon color="primary" class="mr-16">date_range</mat-icon>
+            <strong>Date  &nbsp;:&nbsp;</strong> {{ rendezVous.date }} jours
+          </mat-list-item>
+
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">access_time</mat-icon>
+          <strong>Heure  &nbsp;:&nbsp;</strong> {{ rendezVous.time }} jours
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">av_timer</mat-icon>
+          <strong>Durée &nbsp;:&nbsp;</strong> {{ rendezVous.duration }} jours
+        </mat-list-item>
+        
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">location_on  </mat-icon>
+          <strong>Lieu &nbsp;:&nbsp;</strong> {{rendezVous.location}}
+        </mat-list-item>
+
+        
+
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">comment</mat-icon>
+          <strong>Commentaire &nbsp;:&nbsp;</strong> {{ rendezVous.subject }}
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+</div>

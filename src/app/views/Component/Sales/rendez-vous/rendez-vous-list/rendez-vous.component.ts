@@ -17,6 +17,7 @@ import { ContactService } from '../../contact/contact.service';
 import { contact } from 'app/shared/models/contact';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
+import { ViewRendezVousComponent } from '../view-rendez-vous/view-rendez-vous.component';
 
 
 @Component({
@@ -186,6 +187,28 @@ applyFilterBoolean(event: Event, key: string) {
     }
     return dataValue.toString().trim().toLowerCase().indexOf(filter) !== -1;
   };
+}
+
+
+
+      
+openPopUpViewRendezVous(row: any): void {
+  const dialogRef = this.dialog.open(ViewRendezVousComponent, {
+    width: '600px',
+    data:  { rendezVous : row},
+  });
+
+  dialogRef.afterOpened().subscribe(() => {
+    console.log('Dialog opened successfully.');
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog closed with result:', result);
+    // Code executed after the dialog is closed
+  }, error => {
+    console.error('An error occurred while opening the dialog:', error);
+    // Handle the error appropriately (e.g., display an error message)
+  });
 }
 
 }

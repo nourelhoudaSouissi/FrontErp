@@ -1,3 +1,5 @@
+import { Order } from "./Order";
+
 export interface Projet {
 id ?: number ;
 projectReference ?: string ;
@@ -9,7 +11,8 @@ endDate?: Date ;
 type?: string
 projectStatus?: ProjectStatus
 projectType?: ProjectType
-responsables?:any[]
+responsables?:any[],
+order?:Order;
 }
 
 export enum ProjectStatus{

@@ -227,5 +227,11 @@ export class ContactDetailComponent implements OnInit {
     [Privilege.MEDIUM]:'Moyen',
     [Privilege.LOW] : 'Faible'
   };
+
+  appointmentMakingMap = {
+    'true': 'Oui',
+    'false': 'Non'
+  };
+  
 }
 

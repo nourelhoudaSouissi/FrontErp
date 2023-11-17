@@ -186,6 +186,24 @@
             <mat-cell *matCellDef="let row" data-label="title" [style.color]="row.color">{{row.livrable}}</mat-cell>
           </ng-container>
            
+
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+           <button matTooltip="Modifier phase" mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUpUpdatePhase(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+               <button matTooltip="Voir phase" mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpViewPhase(row)">
+                <mat-icon>remove_red_eye </mat-icon>
+              </button>
+              
+              <button matTooltip="Supprimer Phase"  mat-icon-button mat-sm-button color="warn" (click)="deletePhase(row)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
         
          <mat-header-row *matHeaderRowDef="displayedColumnsPhases"></mat-header-row>
          <mat-row *matRowDef="let row; columns: displayedColumnsPhases;"></mat-row>
