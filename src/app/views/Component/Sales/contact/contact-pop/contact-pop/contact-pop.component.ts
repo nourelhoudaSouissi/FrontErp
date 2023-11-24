@@ -1,10 +1,11 @@
 import { Component, OnInit ,Inject}  from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {  Validators,  FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { Privilege,Civility } from 'app/shared/models/contact';
+import {  Validators,  FormGroup, FormBuilder, FormControl, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
+import { Privilege,Civility, contact } from 'app/shared/models/contact';
 import { ContactService } from '../../contact.service';
 import { Partner } from 'app/shared/models/Partner';
 import { CrudPartnerService } from '../../../partner/crudPartner.service';
+import { Observable, map, of, switchMap } from 'rxjs';
 @Component({
   selector: 'app-contact-pop',
   templateUrl: './contact-pop.component.html',
@@ -12,6 +13,7 @@ import { CrudPartnerService } from '../../../partner/crudPartner.service';
 })
 export class ContactPopComponent implements OnInit {
   showDiv = false; 
+  contact : contact[] = [];
   toggleDiv() {
     this.showDiv = !this.showDiv;
   }
@@ -31,6 +33,9 @@ export class ContactPopComponent implements OnInit {
     this.buildItemForm(this.data.payload)
     this.getPartner()
     this.partnerNum = this.data.partnerId;
+    
+    this.setFullNameValidator();
+
   }
 
   buildItemForm(item){
@@ -52,6 +57,43 @@ export class ContactPopComponent implements OnInit {
       appointmentMaking : [item.appointmentMaking || '', Validators.required],
       partnerNum: [this.data.partnerId || null, Validators.required]
     });
+}
+
+setFullNameValidator(): void {
+  const firstNameControl = this.itemForm.get('firstName');
+  const lastNameControl = this.itemForm.get('lastName');
+
+  if (firstNameControl && lastNameControl) {
+    firstNameControl.setValidators([Validators.required]);
+    lastNameControl.setValidators([Validators.required]);
+
+    const fullNameValidator = this.uniqueFullNameValidator();
+
+    firstNameControl.setAsyncValidators(fullNameValidator);
+    lastNameControl.setAsyncValidators(fullNameValidator);
+
+    firstNameControl.updateValueAndValidity();
+    lastNameControl.updateValueAndValidity();
+  }
+}
+
+uniqueFullNameValidator(): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    const firstName = this.itemForm.get('firstName')?.value?.toLowerCase() || '';
+    const lastName = this.itemForm.get('lastName')?.value?.toLowerCase() || '';
+    const fullName = `${firstName} ${lastName}`;
+
+    return this.contactService.getItems().pipe(
+      map((contacts: any[]) => {
+        const isDuplicate = contacts.some(
+          contact =>
+            `${contact.firstName.toLowerCase()} ${contact.lastName.toLowerCase()}` === fullName
+        );
+
+        return isDuplicate ? { duplicateFullName: true } : null;
+      })
+    );
+  };
 }
 
 getPartner(){

@@ -137,9 +137,10 @@ export class ContactDetailComponent implements OnInit {
   openPopUp(data: any = {}, isNew?) {
     let title = isNew ? 'Nouveau rendez-vous' : 'Mettre à jour rendez-vous';
     let dialogRef: MatDialogRef<any> = this.dialog.open(RendezVousPopComponent, {
-      width: '720px',
+      width: '920px',
+      height: '620px',
       disableClose: true,
-      data: { title: title, payload: data ,  contactId : this.contact.contactId }
+      data: { title: title, payload: data ,  contactId : this.contact.contactId,  isNew: isNew }
     })
     dialogRef.afterClosed()
       .subscribe(res => {

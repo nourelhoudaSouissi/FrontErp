@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CompanyStatus, ControlType, Currency, LegalStatus, PaymentCondition, PaymentMode, WorkField } from 'app/shared/models/Partner';
+import { CompanyStatus, ControlType, Currency, LegalStatus, Partner, PaymentCondition, PaymentMode, WorkField } from 'app/shared/models/Partner';
 import { Civility, Privilege } from 'app/shared/models/contact';
 import { CrudPartnerService } from '../crudPartner.service';
-import { Subscription, catchError, of } from 'rxjs';
+import { Observable, Subscription, catchError, of } from 'rxjs';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -107,6 +107,37 @@ export class PartnerStepperComponent implements OnInit {
     private datePipe: DatePipe,
   ) {}
 
+// Validator pour vérifier si le nom commence par une majuscule
+ capitalLetterValidator2: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const name = control.value;
+  if (name && name.trim() !== '' && name.charAt(0) !== name.charAt(0).toUpperCase()) {
+    return { capitalLetter: true }; // Le nom ne commence pas par une majuscule
+  }
+  return null; // Le nom commence par une majuscule ou est vide
+};
+
+// Validator pour vérifier l'unicité du nom
+ uniqueNameValidator: AsyncValidatorFn = (control: AbstractControl): Observable<ValidationErrors | null> => {
+  return new Observable<ValidationErrors | null>((observer) => {
+    const name = control.value;
+
+    this.partnerService.getItems().subscribe((partners: Partner[]) => {
+      const nameExists = partners.some(partner => partner.name === name);
+
+      if (nameExists) {
+        observer.next({ nameExists: true }); // Le nom existe déjà
+      } else {
+        observer.next(null); // Le nom est unique
+      }
+      observer.complete();
+    }, (error) => {
+      observer.error('Une erreur est survenue lors de la récupération des partenaires.');
+      observer.complete();
+    });
+  });
+};
+
+
   ngOnInit(): void {
     this.partnerForm = new UntypedFormGroup({
       name: new UntypedFormControl('', [
@@ -116,17 +147,11 @@ export class PartnerStepperComponent implements OnInit {
         this.capitalLetterValidator
       ]),
       companyStatus: new UntypedFormControl('', [Validators.required]),
-      legalStatus: new UntypedFormControl('', [Validators.required]),
-      externalReference : new UntypedFormControl('', [Validators.required]),
-      legalIdentifier: new UntypedFormControl('', [
-        Validators.required,
-        Validators.maxLength(30)
-      ]),
-      tvaIdentifier: new UntypedFormControl('',[
-        Validators.required,
-        Validators.maxLength(30)
-      ] ),
-      nafCode: new UntypedFormControl('',[Validators.maxLength(30)] ),
+      legalStatus: new UntypedFormControl('', []),
+      externalReference :  new UntypedFormControl('', []),
+      legalIdentifier: new UntypedFormControl('', []),
+      tvaIdentifier: new UntypedFormControl('',[] ),
+      nafCode: new UntypedFormControl('',[] ),
       logo: new UntypedFormControl('',[Validators.required] ),
       ref: new UntypedFormControl('',[Validators.required, 
         Validators.pattern(/^[a-zA-Z0-9]{10}$/)] ),
@@ -137,92 +162,484 @@ export class PartnerStepperComponent implements OnInit {
     this.initializeAccountForm()
     this.initializeContactForm()
 
-    /*this.bankAccountForm = this.fb.group({
-      value : new FormArray([])
-     });
-     (this.bankAccountForm.get('value') as FormArray).push(this.fb.group({
-      bankName :new UntypedFormControl('',[Validators.required]),
-      rib: new UntypedFormControl('', [
-        Validators.required,
-        Validators.pattern(/^(0[1-9]|[1-8]\d|9[0-7])$/)
-      ]),
-      bic: new UntypedFormControl('', [Validators.required,
-        Validators.pattern(/^[A-Z]{4}[-]{0,1}[A-Z]{2}[-]{0,1}[A-Z0-9]{2}[-]{0,1}[0-9]{3}$/)]),
-      iban: new UntypedFormControl('', [Validators.required, ValidatorService.validateIban]),
-      bankAddress: new UntypedFormControl('', [Validators.required])
-    }))*/
-
-    /*this.contactForm = this.fb.group({
-      value : new FormArray([])
-     });
-     (this.contactForm.get('value') as FormArray).push(this.fb.group({
-      civility :new UntypedFormControl('',[Validators.required]),
-      firstName: new UntypedFormControl('', [
-        Validators.required,
-        this.capitalLetterValidator
-      ]),
-      lastName: new UntypedFormControl('', [
-        Validators.required,
-        this.capitalLetterValidator
-      ]),
-      privilege: new UntypedFormControl('', [Validators.required]),
-      privilegedContact: new UntypedFormControl(false),
-      appointmentMaking: new UntypedFormControl(false),
-      service: new UntypedFormControl('', [Validators.required]),
-      function: new UntypedFormControl('', [Validators.required]),
-      email: new UntypedFormControl('', [
-        Validators.required,
-        Validators.email,
-        Validators.maxLength(50)
-      ]),
-      mobilePhoneNumber: new UntypedFormControl('', [Validators.required]),
-      phoneNumber: new UntypedFormControl('', []),
-      comment: new UntypedFormControl('', []),
-    }))*/
-
+    
     this.coordonneesForm = this.fb.group({
-      phoneNumber: new UntypedFormControl('', [
-        Validators.required,
-        Validators.pattern(/^[\d\s\-+]*$/)
-      ]),
-      mobilePhoneNumber: new UntypedFormControl('', [
-        Validators.required,
-        Validators.pattern(/^[\d\s\-+]*$/)
-      ]),
+      phoneNumber: new UntypedFormControl('', []),
+      mobilePhoneNumber: new UntypedFormControl('', []),
       email: new UntypedFormControl('', [
         Validators.required,
         Validators.email,
         Validators.maxLength(50)
       ]),
-      webSite: new UntypedFormControl('', [
-        Validators.required
-      ]),
+      webSite: new UntypedFormControl('', []),
     });
 
     this.financialInfoForm = this.fb.group({
-      currency: new UntypedFormControl('', [Validators.required]),
-      paymentMode: new UntypedFormControl('', [Validators.required]),
-      paymentCondition : new UntypedFormControl('', [Validators.required])
+      currency: new UntypedFormControl('', []),
+      paymentMode: new UntypedFormControl('', []),
+      paymentCondition : new UntypedFormControl('', [])
     });
 
     this.complInfoForm = this.fb.group({
-      partnerShipDate: new UntypedFormControl('', [Validators.required]),
-      activityStartDate: new UntypedFormControl('', [Validators.required]),
-      activityEndDate: new UntypedFormControl('', [Validators.required]),
-      foundedSince: new UntypedFormControl('', [Validators.required]),
-      inProgressAuthorized: new UntypedFormControl('', [Validators.required]),
-      classification: new UntypedFormControl('', [Validators.required]),
-      controlType: new UntypedFormControl('', [Validators.required]),
-      insurancePolicy: new UntypedFormControl('', [Validators.required]),
-      insuranceCompany: new UntypedFormControl('', [Validators.required]),
+      partnerShipDate: new UntypedFormControl('', []),
+      activityStartDate: new UntypedFormControl('', []),
+      activityEndDate: new UntypedFormControl('', []),
+      foundedSince: new UntypedFormControl('', []),
+      inProgressAuthorized: new UntypedFormControl('', []),
+      classification: new UntypedFormControl('', []),
+      controlType: new UntypedFormControl('', []),
+      insurancePolicy: new UntypedFormControl('', []),
+      insuranceCompany: new UntypedFormControl('', []),
       
-      capital: new UntypedFormControl('', [Validators.required]),
-      comment: new UntypedFormControl('', [Validators.required]),
-      toleranceRate: new UntypedFormControl('', [
-        Validators.required,
-        Validators.max(5)
-      ])
+      capital: new UntypedFormControl('', []),
+      comment: new UntypedFormControl('', []),
+      toleranceRate: new UntypedFormControl('', [])
     });
+
+    const nameControl = this.partnerForm.get('name');
+
+
+    if (nameControl) {
+      nameControl.setAsyncValidators(this.uniqueNameValidator);
+      nameControl.setValidators([Validators.required, this.capitalLetterValidator]);
+    }
+
+    
+
+    /*********************************** Controle General Info Fields *******************************************/
+    const companyStatusControl = this.partnerForm.get('companyStatus');
+    
+    /*********************************** Controle externalReference Field *******************************************/
+   
+    const externalReferenceControl = this.partnerForm.get('externalReference');
+    if (companyStatusControl && externalReferenceControl) {
+      companyStatusControl.valueChanges.subscribe((status: string) => {
+        if (status === 'PROSPECT') {
+          externalReferenceControl.clearValidators(); // Remove required validator
+          externalReferenceControl.setValue(null);
+          externalReferenceControl.updateValueAndValidity();
+        } else {
+          externalReferenceControl.setValidators([Validators.required]); // Set as required
+          externalReferenceControl.updateValueAndValidity();
+        }
+      });
+    }
+      /*********************************** Controle legalIdentifier Field *******************************************/
+
+    const legalIdentifierControl = this.partnerForm.get('legalIdentifier');
+    if (companyStatusControl && legalIdentifierControl){
+      companyStatusControl.valueChanges.subscribe((status: string) => {
+        const legalIdentifierControl = this.partnerForm.get('legalIdentifier');
+  
+        if (legalIdentifierControl) {
+          if (status === 'PROSPECT') {
+            legalIdentifierControl.clearValidators(); // Remove required validator
+            legalIdentifierControl.setValue(null);
+          //  legalIdentifierControl.disable();
+            legalIdentifierControl.updateValueAndValidity();
+          } else {
+            legalIdentifierControl.setValidators([Validators.required, Validators.maxLength(30)]); // Set as required
+        //    legalIdentifierControl.enable();
+            legalIdentifierControl.updateValueAndValidity();
+          }
+        }
+      });
+    }
+
+          /*********************************** Controle legalStatus Field *******************************************/
+          const legalStatusControl = this.partnerForm.get('legalStatus');
+          if (companyStatusControl && legalStatusControl){
+            companyStatusControl.valueChanges.subscribe((status: string) => {
+              const legalStatusControl = this.partnerForm.get('legalStatus');
+        
+              if (legalStatusControl) {
+                if (status === 'PROSPECT') {
+                  legalStatusControl.clearValidators(); // Remove required validator
+                  legalStatusControl.setValue(null);
+                 // legalStatusControl.disable();
+                  legalStatusControl.updateValueAndValidity();
+                } else {
+                  legalStatusControl.setValidators([Validators.required, Validators.maxLength(30)]); // Set as required
+                //  legalStatusControl.enable();
+                  legalStatusControl.updateValueAndValidity();
+                }
+              }
+            });
+          }
+
+
+          /*********************************** Controle tvaIdentifier Field *******************************************/
+
+    const tvaIdentifierControl = this.partnerForm.get('tvaIdentifier');
+    if (companyStatusControl && tvaIdentifierControl){
+      companyStatusControl.valueChanges.subscribe((status: string) => {
+        const tvaIdentifierControl = this.partnerForm.get('tvaIdentifier');
+  
+        if (tvaIdentifierControl) {
+          if (status === 'PROSPECT') {
+            tvaIdentifierControl.clearValidators(); // Remove required validator
+            tvaIdentifierControl.setValue(null);
+            // tvaIdentifierControl.disable();
+            tvaIdentifierControl.updateValueAndValidity();
+          } else {
+            tvaIdentifierControl.setValidators([Validators.required]); // Set as required
+           // tvaIdentifierControl.enable();
+            tvaIdentifierControl.updateValueAndValidity();
+          }
+        }
+      });
+    }
+
+     /*********************************** Controle nafCode Field *******************************************/
+
+     const nafCodeControl = this.partnerForm.get('nafCode');
+     if (companyStatusControl && nafCodeControl){
+      companyStatusControl.valueChanges.subscribe((status: string) => {
+         const nafCodeControl = this.partnerForm.get('nafCode');
+   
+         if (nafCodeControl) {
+           if (status === 'PROSPECT') {
+            nafCodeControl.clearValidators(); // Remove required validator
+            nafCodeControl.setValue(null);
+           // nafCodeControl.disable();
+            nafCodeControl.updateValueAndValidity();
+           } else {
+            nafCodeControl.setValidators([Validators.required]); // Set as required
+          //  nafCodeControl.enable();
+            nafCodeControl.updateValueAndValidity();
+           }
+         }
+       });
+     }
+     /*********************************** Controle "Coordonnées" Fields *******************************************/
+    
+     /*********************************** Controle phoneNumber Field *******************************************/
+    
+     const phoneNumberControl = this.coordonneesForm.get('phoneNumber');
+     if (companyStatusControl && phoneNumberControl) {
+       companyStatusControl.valueChanges.subscribe((status: string) => {
+         if (status === 'PROSPECT') {
+          phoneNumberControl.clearValidators(); // Remove required validator
+          phoneNumberControl.setValue(null);
+          phoneNumberControl.updateValueAndValidity();
+         } else {
+          phoneNumberControl.setValidators([  Validators.required, Validators.pattern(/^[\d\s\-+]*$/)]); 
+          phoneNumberControl.updateValueAndValidity();
+         }
+       });
+     }
+     /*********************************** Controle phoneNumber Field *******************************************/
+    
+     const mobilePhoneNumberControl = this.coordonneesForm.get('mobilePhoneNumber');
+     if (companyStatusControl && mobilePhoneNumberControl) {
+       companyStatusControl.valueChanges.subscribe((status: string) => {
+         if (status === 'PROSPECT') {
+          mobilePhoneNumberControl.clearValidators(); // Remove required validator
+          mobilePhoneNumberControl.setValue(null);
+          mobilePhoneNumberControl.updateValueAndValidity();
+         } else {
+          mobilePhoneNumberControl.setValidators([  
+            Validators.required,
+            Validators.pattern(/^[\d\s\-+]*$/)]); 
+            mobilePhoneNumberControl.updateValueAndValidity();
+         }
+       });
+     }
+
+     
+
+      /*********************************** Controle webSite Field *******************************************/
+  
+      const webSiteControl = this.coordonneesForm.get('webSite');
+      if (companyStatusControl && webSiteControl) {
+        companyStatusControl.valueChanges.subscribe((status: string) => {
+          if (status === 'PROSPECT') {
+            webSiteControl.clearValidators(); // Remove required validator
+            webSiteControl.setValue(null);
+            webSiteControl.updateValueAndValidity();
+          } else {
+            webSiteControl.setValidators([  
+             Validators.required]); 
+             webSiteControl.updateValueAndValidity();
+          }
+        });
+      }
+
+      
+      /*********************************** Controle email Field *******************************************/
+ 
+      const emailControl = this.coordonneesForm.get('email');
+      if (companyStatusControl && emailControl) {
+        companyStatusControl.valueChanges.subscribe((status: string) => {
+          if (status === 'PROSPECT') {
+            emailControl.clearValidators(); // Remove required validator
+            emailControl.setValue(null);
+            emailControl.updateValueAndValidity();
+          } else {
+            emailControl.setValidators([  
+              Validators.required,
+              Validators.email,
+              Validators.maxLength(50)]); 
+             emailControl.updateValueAndValidity();
+          }
+        });
+      }
+
+        /*********************************** Controle "Infos financières" Fields *******************************************/
+    
+     /*********************************** Controle currency Field *******************************************/
+    
+     
+     const currencyControl = this.financialInfoForm.get('currency');
+     if (companyStatusControl && currencyControl) {
+       companyStatusControl.valueChanges.subscribe((status: string) => {
+         if (status === 'PROSPECT') {
+          currencyControl.clearValidators(); // Remove required validator
+          currencyControl.setValue(null);
+          currencyControl.updateValueAndValidity();
+         } else {
+          currencyControl.setValidators([  Validators.required]); 
+          currencyControl.updateValueAndValidity();
+         }
+       });
+     }
+
+       /*********************************** Controle paymentMode Field *******************************************/
+    
+       const paymentModeControl = this.financialInfoForm.get('paymentMode');
+       if (companyStatusControl && paymentModeControl) {
+         companyStatusControl.valueChanges.subscribe((status: string) => {
+           if (status === 'PROSPECT') {
+            paymentModeControl.clearValidators(); // Remove required validator
+            paymentModeControl.setValue(null);
+            paymentModeControl.updateValueAndValidity();
+           } else {
+            paymentModeControl.setValidators([  Validators.required]); 
+            paymentModeControl.updateValueAndValidity();
+           }
+         });
+       }
+
+      
+         /*********************************** Controle paymentMode Field *******************************************/
+    
+         const paymentConditionControl = this.financialInfoForm.get('paymentCondition');
+         if (companyStatusControl && paymentConditionControl) {
+           companyStatusControl.valueChanges.subscribe((status: string) => {
+             if (status === 'PROSPECT') {
+              paymentConditionControl.clearValidators(); // Remove required validator
+              paymentConditionControl.setValue(null);
+              paymentConditionControl.updateValueAndValidity();
+             } else {
+              paymentConditionControl.setValidators([  Validators.required]); 
+              paymentConditionControl.updateValueAndValidity();
+             }
+           });
+         }
+
+          /*********************************** Controle "Infos complémentaires" Fields *******************************************/
+      
+     /*********************************** Controle complInfoForm Field *******************************************/
+    
+     const partnerShipDateControl = this.complInfoForm.get('partnerShipDate');
+     if (companyStatusControl && partnerShipDateControl) {
+       companyStatusControl.valueChanges.subscribe((status: string) => {
+         if (status === 'PROSPECT') {
+          partnerShipDateControl.clearValidators(); // Remove required validator
+          partnerShipDateControl.setValue(null);
+          partnerShipDateControl.updateValueAndValidity();
+         } else {
+          partnerShipDateControl.setValidators([  Validators.required]); 
+          partnerShipDateControl.updateValueAndValidity();
+         }
+       });
+     }
+
+
+     /*********************************** Controle activityStartDate Field *******************************************/
+    
+     const activityStartDateControl = this.complInfoForm.get('activityStartDate');
+     if (companyStatusControl && activityStartDateControl) {
+       companyStatusControl.valueChanges.subscribe((status: string) => {
+         if (status === 'PROSPECT') {
+          activityStartDateControl.clearValidators(); // Remove required validator
+          activityStartDateControl.setValue(null);
+          activityStartDateControl.updateValueAndValidity();
+         } else {
+          activityStartDateControl.setValidators([  Validators.required]); 
+          activityStartDateControl.updateValueAndValidity();
+         }
+       });
+     }
+
+
+
+       /*********************************** Controle activityEndDate Field *******************************************/
+    
+       const activityEndDateControl = this.complInfoForm.get('activityEndDate');
+       if (companyStatusControl && activityEndDateControl) {
+         companyStatusControl.valueChanges.subscribe((status: string) => {
+           if (status === 'PROSPECT') {
+            activityEndDateControl.clearValidators(); // Remove required validator
+            activityEndDateControl.setValue(null);
+            activityEndDateControl.updateValueAndValidity();
+           } else {
+            activityEndDateControl.setValidators([  Validators.required]); 
+            activityEndDateControl.updateValueAndValidity();
+           }
+         });
+       }
+
+        /*********************************** Controle foundedSince Field *******************************************/
+    
+        const foundedSinceControl = this.complInfoForm.get('foundedSince');
+        if (companyStatusControl && foundedSinceControl) {
+          companyStatusControl.valueChanges.subscribe((status: string) => {
+            if (status === 'PROSPECT') {
+              foundedSinceControl.clearValidators(); // Remove required validator
+              foundedSinceControl.setValue(null);
+              foundedSinceControl.updateValueAndValidity();
+            } else {
+              foundedSinceControl.setValidators([  Validators.required]); 
+              foundedSinceControl.updateValueAndValidity();
+            }
+          });
+        }
+
+            /*********************************** Controle inProgressAuthorized Field *******************************************/
+    
+            const inProgressAuthorizedControl = this.complInfoForm.get('inProgressAuthorized');
+            if (companyStatusControl && inProgressAuthorizedControl) {
+              companyStatusControl.valueChanges.subscribe((status: string) => {
+                if (status === 'PROSPECT') {
+                  inProgressAuthorizedControl.clearValidators(); // Remove required validator
+                  inProgressAuthorizedControl.setValue(null);
+                  inProgressAuthorizedControl.updateValueAndValidity();
+                } else {
+                  inProgressAuthorizedControl.setValidators([  Validators.required]); 
+                  inProgressAuthorizedControl.updateValueAndValidity();
+                }
+              });
+            }
+
+            
+            /*********************************** Controle classification Field *******************************************/
+    
+            const classificationControl = this.complInfoForm.get('classification');
+            if (companyStatusControl && classificationControl) {
+              companyStatusControl.valueChanges.subscribe((status: string) => {
+                if (status === 'PROSPECT') {
+                  classificationControl.clearValidators(); // Remove required validator
+                  classificationControl.setValue(null);
+                  classificationControl.updateValueAndValidity();
+                } else {
+                  classificationControl.setValidators([  Validators.required]); 
+                  classificationControl.updateValueAndValidity();
+                }
+              });
+            }
+
+             
+            /*********************************** Controle controlType Field *******************************************/
+    
+            const controlTypeControl = this.complInfoForm.get('controlType');
+            if (companyStatusControl && controlTypeControl) {
+              companyStatusControl.valueChanges.subscribe((status: string) => {
+                if (status === 'PROSPECT') {
+                  controlTypeControl.clearValidators(); // Remove required validator
+                  controlTypeControl.setValue(null);
+                  controlTypeControl.updateValueAndValidity();
+                } else {
+                  controlTypeControl.setValidators([  Validators.required]); 
+                  controlTypeControl.updateValueAndValidity();
+                }
+              });
+            }
+
+
+            /*********************************** Controle insurancePolicy Field *******************************************/
+    
+            const insurancePolicyControl = this.complInfoForm.get('insurancePolicy');
+            if (companyStatusControl && insurancePolicyControl) {
+              companyStatusControl.valueChanges.subscribe((status: string) => {
+                if (status === 'PROSPECT') {
+                  insurancePolicyControl.clearValidators(); // Remove required validator
+                  insurancePolicyControl.setValue(null);
+                  insurancePolicyControl.updateValueAndValidity();
+                } else {
+                  insurancePolicyControl.setValidators([  Validators.required]); 
+                  insurancePolicyControl.updateValueAndValidity();
+                }
+              });
+            }
+
+             /*********************************** Controle insuranceCompany Field *******************************************/
+    
+             const insuranceCompanyControl = this.complInfoForm.get('insuranceCompany');
+             if (companyStatusControl && insuranceCompanyControl) {
+               companyStatusControl.valueChanges.subscribe((status: string) => {
+                 if (status === 'PROSPECT') {
+                  insuranceCompanyControl.clearValidators(); // Remove required validator
+                  insuranceCompanyControl.setValue(null);
+                  insuranceCompanyControl.updateValueAndValidity();
+                 } else {
+                  insuranceCompanyControl.setValidators([  Validators.required]); 
+                  insuranceCompanyControl.updateValueAndValidity();
+                 }
+               });
+             }
+
+             /*********************************** Controle capital Field *******************************************/
+    
+             const capitalControl = this.complInfoForm.get('capital');
+             if (companyStatusControl && capitalControl) {
+               companyStatusControl.valueChanges.subscribe((status: string) => {
+                 if (status === 'PROSPECT') {
+                  capitalControl.clearValidators(); // Remove required validator
+                  capitalControl.setValue(null);
+                  capitalControl.updateValueAndValidity();
+                 } else {
+                  capitalControl.setValidators([  Validators.required]); 
+                  capitalControl.updateValueAndValidity();
+                 }
+               });
+             }
+
+               /*********************************** Controle comment Field *******************************************/
+    
+               const commentControl = this.complInfoForm.get('comment');
+               if (companyStatusControl && commentControl) {
+                 companyStatusControl.valueChanges.subscribe((status: string) => {
+                   if (status === 'PROSPECT') {
+                    commentControl.clearValidators(); // Remove required validator
+                    commentControl.setValue(null);
+                    commentControl.updateValueAndValidity();
+                   } else {
+                    commentControl.setValidators([  Validators.required]); 
+                    commentControl.updateValueAndValidity();
+                   }
+                 });
+               }
+
+                 /*********************************** Controle toleranceRate Field *******************************************/
+              
+                 const toleranceRateControl = this.complInfoForm.get('toleranceRate');
+                 if (companyStatusControl && toleranceRateControl) {
+                   companyStatusControl.valueChanges.subscribe((status: string) => {
+                     if (status === 'PROSPECT') {
+                      toleranceRateControl.clearValidators(); // Remove required validator
+                      toleranceRateControl.setValue(null);
+                      toleranceRateControl.updateValueAndValidity();
+                     } else {
+                      toleranceRateControl.setValidators([   
+                        Validators.required,
+                        Validators.max(5)]); 
+                      toleranceRateControl.updateValueAndValidity();
+                     }
+                   });
+                 }
+  
+  
   }
 
   initializeAddressForm(): void {
@@ -284,11 +701,7 @@ export class PartnerStepperComponent implements OnInit {
       appointmentMaking: new UntypedFormControl(false),
       service: new UntypedFormControl('', [Validators.required]),
       function: new UntypedFormControl('', [Validators.required]),
-      email: new UntypedFormControl('', [
-        Validators.required,
-        Validators.email,
-        Validators.maxLength(50)
-      ]),
+      email: new UntypedFormControl('', []),
       mobilePhoneNumber: new UntypedFormControl('', [Validators.required]),
       phoneNumber: new UntypedFormControl('', []),
       comment: new UntypedFormControl('', []),
@@ -774,8 +1187,10 @@ export class PartnerStepperComponent implements OnInit {
   companyStatusMap = {
     [CompanyStatus.PROSPECT]:'Prospect',
     [CompanyStatus.SUPPLIER]:'Fournisseur',
-    [CompanyStatus.CLIENT]:'Client'
-  };
+    [CompanyStatus.CLIENT]:'Client',
+    [CompanyStatus.CLIENT_SUPPLIER]: 'Client-Fournisseur',
+    [CompanyStatus.INTERN_GROUP]:'Interne au Groupe'
+    };
 
   workFieldMap = {
     [WorkField.IT]:'IT',
@@ -790,7 +1205,11 @@ export class PartnerStepperComponent implements OnInit {
 
   legalStatusMap = {
     [LegalStatus.SA]:'SA',
-    [LegalStatus.SARL]:'SARL'
+    [LegalStatus.SARL]:'SARL',
+    [LegalStatus.SUARL]:'SUARL',
+    [LegalStatus.FREELANCE]:'FREELANCE',
+    [LegalStatus.SP]:'SP'
+
   }
 
   paymentConditionMap = {
@@ -808,7 +1227,7 @@ export class PartnerStepperComponent implements OnInit {
 
   paymentModeMap = {
     [PaymentMode.CASH]:'Cash',
-    [PaymentMode.CREDIT]:'Crédit',
+    [PaymentMode.CREDIT]:'Note de Crédit',
     [PaymentMode.DEBIT_CARD]:'Carte de débit',
     [PaymentMode.BANK_TRANSFER] :'Virement bancaire',
     [PaymentMode.PAYPAL] :'Paypal',

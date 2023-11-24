@@ -2,12 +2,20 @@
 <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
   <mat-card-title class="cardColor">
     <div class="card-title-text">
-      <div class="name-text">{{ CivilityMap[contact.civility] }} {{ contact.lastName.toUpperCase()}} {{ contact.firstName}}</div>
-      <div class="privilege-text">{{PrivilegeMap[contact.privilege]}}</div>
+      <div class="name-text"> <strong style="padding-right: 10px;">{{ CivilityMap[contact.civility] }} {{ contact.lastName.toUpperCase()}} {{ contact.firstName}}</strong> </div>
     </div>
   </mat-card-title>
   
-      
+
+  <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start center">
+    <!-- First Section -->
+    <div fxFlex="25%" fxFlex.xs="100%">
+     
+       <strong style="padding-right: 10px;">Niveau d'accessibilité : </strong>{{PrivilegeMap[contact.privilege]}}
+      </div>
+  
+  </mat-card-content>
+  
 
       <mat-card-content fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start center">
         <!-- First Section -->

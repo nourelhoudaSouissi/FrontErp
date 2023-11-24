@@ -115,8 +115,9 @@ export class RendezVouslistComponent implements OnInit , OnDestroy {
     let title = isNew ? 'Nouveau rendez-vous' : 'Modifier rendez-vous';
     let dialogRef: MatDialogRef<any> = this.dialog.open(RendezVousPopupComponent, {
       width: '920px',
+      height:'620px',
       disableClose: true,
-      data: { title: title, payload: data }
+      data: { title: title, payload: data, isNew: isNew  }
     })
     dialogRef.afterClosed()
       .subscribe(res => {
@@ -194,7 +195,7 @@ applyFilterBoolean(event: Event, key: string) {
       
 openPopUpViewRendezVous(row: any): void {
   const dialogRef = this.dialog.open(ViewRendezVousComponent, {
-    width: '600px',
+    width: '920px',
     data:  { rendezVous : row},
   });
 

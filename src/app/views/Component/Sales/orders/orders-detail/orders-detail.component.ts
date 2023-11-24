@@ -147,15 +147,9 @@ export class OrdersDetailComponent implements OnInit {
       this.selectedQuotationId = selectedQuotationId;
       this.loadquotationDetails(selectedQuotationId)
       console.log(this.selectedQuotationId)
-      /*this.getReqByQotId(selectedQuotationId)
-      this.getPartnerByReqId(selectedReqId)*/
-      //this.getRequirement(selectedReqId)
+  
     });
-    /*this.orderForm.get('catalogNum').valueChanges.subscribe((selectedCatalogId: number) => {
-      this.selectedCatalogId = selectedCatalogId;
-      this.loadProfilesList();
-      this.getCatalog()
-    });*/
+   
     this.orderForm.get('requirementNum').valueChanges.subscribe((reqId: number) => {
       this.reqId = reqId;
       this.getPartnerByReqId(reqId)
@@ -204,21 +198,7 @@ export class OrdersDetailComponent implements OnInit {
     });
   }
 
-  /*updateOrder() {
-    this.showEditOption = !this.showEditOption;
-    
-    
-    this.loadOrderAddress()
-    this.getCatalogById(this.order.catalogNum);
-    this.loadQuotationReq(this.order.reqNum);
 
-    this.orderForm.get('catalogNum').valueChanges.subscribe((selectedCatalogId: number) => {
-      this.selectedCatalogId = selectedCatalogId;
-      this.loadProfilesList();
-      this.getCatalog()
-    });
-    //this.loadProfileByUpdatedProfile(this.order.profiles);
-}*/
   
 
   buildOrderForm(order?: any) {
@@ -263,93 +243,6 @@ export class OrdersDetailComponent implements OnInit {
     });
 
   }
-
-  /*buildUpdateQuotationForm(quotation?: any) {
-    this.quotationForm = this.fb.group({
-      billingType: [quotation ? quotation.billingType : ''],
-      billingInstruction: [quotation ? quotation.billingInstruction : ''],
-      addressBuyer: [quotation ? quotation.addressBuyer : ''],
-      requirementNum: [quotation ? quotation.requirementId : '' ],
-      partnerNum: [ quotation ? quotation.partnerNum : ''],
-      currency: [ quotation ? quotation.currency : ''],
-      catalogCurrency: [ quotation ? quotation.catalogCurrency : ''],
-      customerAgreement: [quotation ? quotation.customerAgreement : ''],
-      catalogNum: [quotation ? quotation.catalogNum : ''],
-      tva: [quotation ? quotation.tva : ''],
-      ref: [quotation ? quotation.ref : ''],
-      quotationDate: [quotation ? quotation.quotationDate : ''],
-      quotationStatus: [quotation ? quotation.quotationStatus : ''],
-      htRevenue: [quotation ? quotation.htRevenue : 0],
-      changeRate: [quotation ? quotation.changeRate : ''],
-      discount: [quotation ? quotation.discount : ''],
-      discountAmount: [quotation ? quotation.discountAmount : ''],
-      revenue: [quotation ? quotation.revenue : ''],
-      tvaCost: [quotation ? quotation.tvaCost : 0],
-      revenueOrd: [quotation ? quotation.revenueOrd : 0],
-      paymentCondition: [quotation ? quotation.paymentCondition : ''],
-      paymentMode: [quotation ? quotation.paymentMode : ''],
-      otherPaymentMode: [quotation ? quotation.otherPaymentMode : ''],      
-      comment: [quotation ? quotation.comment : ''],
-      profiles: this.fb.array(
-        (quotation?.profiles || []).map(pro => this.fb.group({
-          id: [pro.id || ''],
-          candidateNumber: [pro.candidateNumber || ''],
-          candidateDailyCost: [(pro.candidateDailyCost || '').toFixed(3)],
-          period: [pro.period || ''],
-          function: [pro.function || ''],
-          experience: [pro.experience || ''],
-          startDate: [pro.startDate || ''],
-          total: [(pro.total || '').toFixed(3)],
-          endDate: [pro.endDate || ''],
-          comment: [pro.comment || ''],
-          profileNum: [pro.profileId || '']
-        }))
-      )
-    });
-
-  }
-
-  profilesEmptyList(): boolean{
-    const profiles = this.quotationForm.get('profiles') as FormArray
-    if(profiles.length == 0)
-      return true
-    else return false
-  }
-
-  addNewUpdatedProfile(profile?: UpdatedProfile) {
-    
-    const newFormGroup = this.fb.group({
-      id: [profile ? profile.id : ''],
-      candidateNumber: [profile ? profile.candidateNumber : ''],
-      period: [profile ? profile.period : ''],
-      startDate: [profile ? profile.startDate : ''],
-      endDate: [profile ? profile.endDate : ''],
-      candidateDailyCost: [profile ? profile.candidateDailyCost : ''],
-      experience: [profile ? profile.experience : ''],
-      total: [profile ? profile.total : ''],
-      function: [profile ? profile.function : ''],
-      profile: [profile? profile.profileId : '']
-    })
-  this.getProfilesFormArray().push(newFormGroup);
-  console.log('1')
-  // Subscribe to value changes of 'profile' field
-  this.profileSelectionSubscription?.unsubscribe();
-  console.log('2')
-  this.profileSelectionSubscription = newFormGroup.get('profile')?.valueChanges.subscribe((selectedProfileId: any) => {
-    console.log('3')
-    console.log('Selected Profile ID:', selectedProfileId);
-
-    if (selectedProfileId) {
-      const profile = this.listProfiles.find(p => p.id === selectedProfileId.id);
-      console.log(profile)
-      if (profile) {
-        newFormGroup.patchValue({ candidateDailyCost: profile.candidateDailyCost * this.quotationForm.get('changeRate').value});
-        newFormGroup.patchValue({ function: profile.function });
-        newFormGroup.patchValue({ experience: profile.experience });
-      }
-    }
-  });
-}*/
 
 
   addUpdateNewUpdatedProfile(profile?: UpdatedProfile) {
@@ -723,27 +616,6 @@ export class OrdersDetailComponent implements OnInit {
     })
   }
     
-
-  /*loadProfileByUpdatedProfile(profilesC: any[]){
-    let profileC : any
-    const profilesD = this.orderForm.get('profiles') as FormArray
-    console.log(profilesD)
-    console.log(profilesC)
-      profilesD.controls.forEach((profileD: FormGroup) => {
-        console.log('test')
-        let i = 0
-        let id = profilesC[i].profileId
-        console.log(id)
-        this.catalogService.getProfile(id).subscribe((data: any) => {
-        profileC = data.id
-        console.log(profileC)
-        console.log(profileD)
-        profileD.get('profile').patchValue(profileC)
-        i += 1
-      });
-      
-    })
-  }*/
 
   currencyMap: {[key: string]: string} = {
     'AFN': 'AFN - Afghani afghan',

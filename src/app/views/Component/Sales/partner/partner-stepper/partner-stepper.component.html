@@ -39,8 +39,14 @@
                                               formControlName="name"
                                               placeholder= "Désignation(nom)"
                                             />
-                                            <mat-error *ngIf="partnerForm.get('name').invalid && partnerForm.get('name').touched">
-                                              La désignation est requise et doit commencer par une majuscule.
+                                            <mat-error *ngIf="partnerForm.get('name').hasError('required')">
+                                              La désignation est requise.
+                                            </mat-error>
+                                            <mat-error *ngIf="partnerForm.get('name').hasError('capitalLetter')">
+                                              La désignation doit commencer par une majuscule.
+                                            </mat-error>
+                                            <mat-error *ngIf="partnerForm.get('name').hasError('nameExists') && (partnerForm.get('name').dirty || partnerForm.get('name').touched)">
+                                              Ce nom est déjà utilisé. Veuillez choisir un nom unique.
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
@@ -71,6 +77,7 @@
                                             matInput
                                             required
                                             name="externalReference"
+                                            
                                             formControlName="externalReference"
                                             placeholder="Référence externe"
                                           />
@@ -83,7 +90,7 @@
                                     <div class="pb-16">
                                       <!--Identifiant juridique entreprise-->
                                         <mat-form-field appearance="outline" [style.width.cm]="10">
-                                            <mat-label>Identifiant juridique entreprise</mat-label>
+                                            <mat-label>Matricule Fiscale</mat-label>
                                             <input
                                               matInput
                                               required
@@ -573,12 +580,7 @@
                                           </mat-form-field>
                                       </div>
                                     </div>
-                                <!--div class="form-group col-sm-12 col-md-3 d-flex justify-content-center align-items-center">
-                                  <label >Enregistrer et ajouter un autre compte bancaire</label>
-                                  <button mat-icon-button color="primary" type="button" (click)="saveBankAccount(i)">
-                                    <mat-icon>check</mat-icon>
-                                  </button>
-                                </div-->
+                               
                                 <div class="button-container">
                                   <div >
                                     <button class="left-button" mat-fab 
@@ -870,11 +872,7 @@
                                     type="date" 
                                     [formControlName]="'partnerShipDate'"
                                     placeholder="Date de partenariat">
-                                    <!--input matInput [matDatepicker]="picker" 
-                                    formControlName="partnerShipDate" 
-                                    placeholder="Date de partenariat" >
-                                    <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker-->
+                                  
                                   </mat-form-field>
                               </div>
                           </mat-grid-tile>
@@ -889,11 +887,7 @@
                                         type="date" 
                                         [formControlName]="'activityStartDate'"
                                         placeholder="Date de début d'activité">
-                                        <!--input matInput [matDatepicker]="picker1" 
-                                        formControlName="activityStartDate" 
-                                        placeholder="Date de début d'activité" >
-                                        <mat-datepicker-toggle  matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker1></mat-datepicker-->
+                                       
                                       </mat-form-field>
                                   </div>
                               </mat-grid-tile>
@@ -908,11 +902,7 @@
                                         type="date" 
                                         [formControlName]="'activityEndDate'"
                                         placeholder="Date de fin d'activité">
-                                        <!--input matInput [matDatepicker]="picker2" 
-                                        formControlName="activityEndDate" 
-                                        placeholder="Date de fin d'activité" >
-                                        <mat-datepicker-toggle  matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker2></mat-datepicker-->
+                                      
                                       </mat-form-field>
                                   </div>
                               </mat-grid-tile>
@@ -927,12 +917,7 @@
                                         type="date" 
                                         [formControlName]="'foundedSince'"
                                         placeholder="Date de création de l'entreprise">
-                                        <!--input matInput [matDatepicker]="picker3" 
-                                        formControlName="foundedSince" 
-                                        placeholder="Date de création" 
-                                        >
-                                        <mat-datepicker-toggle  matSuffix [for]="picker3"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker3></mat-datepicker-->
+                                       
                                       </mat-form-field>
                                   </div>
                               </mat-grid-tile>
@@ -1088,22 +1073,7 @@
         
 
         <!--------------------------------CALENDRIER------------------------------->
-        <!--mat-step [stepControl]="step6" >
-            <div>
-                <ng-template matStepLabel>Calendrier</ng-template>
-            </div>
-            <div>
-              <button 
-              mat-raised-button
-              style="float: right ;" 
-              class="mb-2"
-              color="primary" 
-              routerLink = "/partner/partner-crud"
-              routerLinkActive="router-link-active"
-              >Terminer
-              </button>
-            </div>
-        </mat-step-->
+    
 
  </mat-horizontal-stepper>
 </mat-card>

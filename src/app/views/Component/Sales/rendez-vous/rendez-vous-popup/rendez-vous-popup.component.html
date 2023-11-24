@@ -27,33 +27,9 @@
           type="date" 
           [formControlName]="'date'"
           placeholder="Date">
-          <!--input
-            formControlName="date"
-            matInput
-            name = "Date"
-            [matDatepicker]="picker"
-            placeholder="Date"
-            required
-          >
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker-->
-         
+        
         </mat-form-field>
       </div>
-
-    <!--div fxFlex="50"  class="pr-16">
-      <mat-form-field class="full-width">
-        <input
-        matInput
-        formControlName="time"
-        ngxMatTimepicker="timepicker" 
-        placeholder="Heure"
-      />
-      <ngx-mat-timepicker-toggle matSuffix [for]="timepicker"></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker #timepicker></ngx-mat-timepicker>
-    
-      </mat-form-field>
-    </div--> 
 
   
     <div fxFlex="50" class="pr-16">
@@ -67,6 +43,61 @@
           placeholder="Heure">
       </mat-form-field>
     </div>
+
+    
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Durée</mat-label>
+        <input
+        matInput
+        name="duration"
+        type="number"
+        [formControlName]="'duration'"
+        placeholder="Durée en heures">
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="50"  class="pr-16">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Type de rendez-vous</mat-label>
+        <mat-select  [formControlName]="'appointmentType'" (selectionChange)="onAppontmentTypeChange($event)">
+            <mat-option *ngFor="let appointmentType of appointmentType" [value]="appointmentType" >
+                {{appointmentTypeMap[appointmentType]}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+
+    <!-- ... existing form elements -->
+<div fxFlex="50" class="pr-16" *ngIf="showMobilePhoneNumber">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Mobile Phone</mat-label>
+    <input
+      matInput
+      name="contactPhone"
+      [formControl]="itemForm.get('contactPhone')"
+      disabled
+    >
+  </mat-form-field>
+</div>
+
+<div fxFlex="50" class="pr-16" *ngIf="showEmail">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      name="contactEmail"
+      [formControl]="itemForm.get('contactEmail')"
+      disabled
+    >
+  </mat-form-field>
+</div>
+<!-- ... rest of the form -->
+
+
+
 
 
     <div fxFlex="50"  class="pr-16">
@@ -82,24 +113,36 @@
     </div>
    
 
-   
-
-    
       
-          <div fxFlex="50"  class="pr-16">
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Durée</mat-label>
-              <input
-              matInput
-              name="duration"
-              type="number"
-              [formControlName]="'duration'"
-              placeholder="Durée en heures">
-            </mat-form-field>
-          </div>
           <div class="mini-container">
             <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
-              <mat-label>Commentaire</mat-label>
+              <mat-label>Note Avant</mat-label>
+              <textarea
+              matInput
+              name="noteBefore"
+              type="text"
+              [formControlName]="'noteBefore'"
+              placeholder="Saisissez vos note avant le rendez-vous.">
+              </textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="mini-container"  *ngIf="!data.isNew">
+            <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+              <mat-label>Note Après</mat-label>
+              <textarea
+              matInput
+              name="noteAfter"
+              type="text"
+              [formControlName]="'noteAfter'"
+              placeholder="Saisissez vos note après le rendez-vous.">
+              </textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="mini-container">
+            <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+              <mat-label>Sujet</mat-label>
               <textarea
               matInput
               name="subject"

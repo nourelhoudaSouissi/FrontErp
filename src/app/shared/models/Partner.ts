@@ -72,7 +72,8 @@ export interface Partner {
     SUPPLIER = "SUPPLIER", 
     CLIENT ="CLIENT", 
     CLIENT_SUPPLIER = "CLIENT_SUPPLIER",
-    ARCHIVED = "ARCHIVED"
+    ARCHIVED = "ARCHIVED",
+    INTERN_GROUP= "INTERN_GROUP"
   }
 
 
@@ -91,7 +92,10 @@ export interface Partner {
 
   export enum LegalStatus {
     SARL = "SARL",
-    SA = "SA"
+    SA = "SA",
+    SUARL = "SUARL",
+    SP = "SP",
+    FREELANCE ="FREELANCE"
   }
 
   export enum Provenance {

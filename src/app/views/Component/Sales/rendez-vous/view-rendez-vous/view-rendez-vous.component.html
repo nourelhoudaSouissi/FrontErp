@@ -16,21 +16,28 @@
           <mat-list-item>
           <h2><strong> {{ rendezVous.contactFullName }}</strong></h2>
         </mat-list-item>
-
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">phone_iphone </mat-icon>
+          <strong>Numérode téléphone  &nbsp;:&nbsp;</strong> {{ rendezVous.contactPhone }} 
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">email</mat-icon>
+          <strong>E-mail  &nbsp;:&nbsp;</strong> {{ rendezVous.contactEmail }} 
+        </mat-list-item>
          
         <mat-list-item>
             <mat-icon color="primary" class="mr-16">date_range</mat-icon>
-            <strong>Date  &nbsp;:&nbsp;</strong> {{ rendezVous.date }} jours
+            <strong>Date  &nbsp;:&nbsp;</strong> {{ rendezVous.date }} 
           </mat-list-item>
 
         <mat-list-item>
           <mat-icon color="primary" class="mr-16">access_time</mat-icon>
-          <strong>Heure  &nbsp;:&nbsp;</strong> {{ rendezVous.time }} jours
+          <strong>Heure  &nbsp;:&nbsp;</strong> {{ rendezVous.time }} 
         </mat-list-item>
 
         <mat-list-item>
           <mat-icon color="primary" class="mr-16">av_timer</mat-icon>
-          <strong>Durée &nbsp;:&nbsp;</strong> {{ rendezVous.duration }} jours
+          <strong>Durée &nbsp;:&nbsp;</strong> {{ rendezVous.duration }} Minutes
         </mat-list-item>
         
         <mat-list-item>
@@ -38,7 +45,15 @@
           <strong>Lieu &nbsp;:&nbsp;</strong> {{rendezVous.location}}
         </mat-list-item>
 
-        
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">speaker_notes </mat-icon>
+          <strong>Note Avant &nbsp;:&nbsp;</strong> {{rendezVous.noteBefore}}
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-icon color="primary" class="mr-16">speaker_notes </mat-icon>
+          <strong>Note Après &nbsp;:&nbsp;</strong> {{rendezVous.noteAfter}}
+        </mat-list-item>
 
         <mat-list-item>
           <mat-icon color="primary" class="mr-16">comment</mat-icon>

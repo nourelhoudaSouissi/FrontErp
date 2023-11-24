@@ -74,7 +74,8 @@
           </mat-form-field>
         </div>
         
-        <div fxFlex="50" class="pr-16" *ngIf="isStartDayVisible()">
+        <!--<div fxFlex="50" class="pr-16" *ngIf="isStartDayVisible()">-->
+      <div fxFlex="50" class="pr-16" >
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Date prévue de démarrage</mat-label>
             <input
@@ -83,19 +84,12 @@
               type="date" 
               [formControlName]="'startDate'"
             placeholder="Date prévue de démarrage">
-            <!--input  
-              matInput [matDatepicker]="picker2" 
-              formControlName="startDate" 
-              placeholder="Date prévue de démarrage" 
-            >
-            <mat-datepicker-toggle  matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker-->
           </mat-form-field>
         </div>
 
     <div fxFlex="50"  class="pr-16">
       <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Type budgétisation</mat-label>
+        <mat-label>Origine du Buget</mat-label>
         <mat-select  [formControlName]="'budgetingType'">
           <mat-option *ngFor="let budgetingType of budgetingTypes" [value]="budgetingType">{{ budgetingTypeMap[budgetingType] }}</mat-option>
         </mat-select>
@@ -148,13 +142,7 @@
             type="date" 
             [formControlName]="'responseDate'"
           placeholder="Date de réponse">
-            <!--input  
-              matInput [matDatepicker]="picker" 
-              formControlName="responseDate" 
-              placeholder="Date de réponse" 
-            >
-            <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker-->
+           
         </mat-form-field>
       </div>
 
@@ -170,13 +158,7 @@
                 type="date" 
                 [formControlName]="'closureDate'"
               placeholder="Date prévue de clôture">
-                <!--input  
-                  matInput [matDatepicker]="picker1" 
-                  formControlName="closureDate" 
-                  placeholder="Date prévue de clôture" 
-                >
-                  <mat-datepicker-toggle  matSuffix [for]="picker1"></mat-datepicker-toggle>
-                  <mat-datepicker #picker1></mat-datepicker-->
+             
             </mat-form-field>
         </div>
         

@@ -112,8 +112,8 @@ export class ReqDetailComponent implements OnInit {
   }
 
   budgetingTypeMap = {
-    [BudgetingType.PROPOSED_BUDGET]:'Budget proposé (client)',
-    [BudgetingType.ESTIMATED_BUDGET]:'Budget estimé'
+    [BudgetingType.PROPOSED_BUDGET]:'Estimé Client',
+    [BudgetingType.ESTIMATED_BUDGET]:'Estimé Interne'
   }
 
   reqStatusMap = {

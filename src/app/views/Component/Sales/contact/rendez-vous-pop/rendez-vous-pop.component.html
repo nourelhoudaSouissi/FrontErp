@@ -58,17 +58,7 @@
       </mat-form-field>
     </div>
 
-    <div fxFlex="50"  class="pr-16">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Lieu</mat-label>
-          <input
-          matInput
-          name="location"
-          type="text"
-          [formControlName]="'location'"
-          placeholder="Lieu">
-        </mat-form-field>
-    </div>
+  
 
     <div fxFlex="50"  class="pr-16">
         <mat-form-field class="full-width" appearance="outline">
@@ -84,17 +74,99 @@
 
 
     <div fxFlex="50"  class="pr-16">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Sujet</mat-label>
-          <input
-          matInput
-          name="subject"
-          type="text"
-          [formControlName]="'subject'"
-          placeholder="Sujet">
-        </mat-form-field>
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Type de rendez-vous</mat-label>
+        <mat-select  [formControlName]="'appointmentType'" (selectionChange)="onAppontmentTypeChange($event)">
+            <mat-option *ngFor="let appointmentType of appointmentType" [value]="appointmentType" >
+                {{appointmentTypeMap[appointmentType]}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
+
+
+    <!-- ... existing form elements -->
+<div fxFlex="50" class="pr-16" *ngIf="showMobilePhoneNumber">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Mobile Phone</mat-label>
+    <input
+      matInput
+      name="contactPhone"
+      [formControl]="itemForm.get('contactPhone')"
+      disabled
+    >
+  </mat-form-field>
+</div>
+
+<div fxFlex="50" class="pr-16" *ngIf="showEmail">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      name="contactEmail"
+      [formControl]="itemForm.get('contactEmail')"
+      disabled
+    >
+  </mat-form-field>
+</div>
+<!-- ... rest of the form -->
+
+
+<div fxFlex="50"  class="pr-16">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Lieu</mat-label>
+    <input
+    matInput
+    name="location"
+    type="text"
+    [formControlName]="'location'"
+    placeholder="Lieu">
+  </mat-form-field>
+</div>
+
+
+<div class="mini-container">
+  <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+    <mat-label>Note Avant</mat-label>
+    <textarea
+    matInput
+    name="noteBefore"
+    type="text"
+    [formControlName]="'noteBefore'"
+    placeholder="Saisissez vos note avant le rendez-vous.">
+    </textarea>
+  </mat-form-field>
+</div>
+
+<div class="mini-container"  *ngIf="!data.isNew">
+  <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+    <mat-label>Note Après</mat-label>
+    <textarea
+    matInput
+    name="noteAfter"
+    type="text"
+    [formControlName]="'noteAfter'"
+    placeholder="Saisissez vos note après le rendez-vous.">
+    </textarea>
+  </mat-form-field>
+</div>
+
+  
+
+
+    <div class="mini-container">
+      <mat-form-field [style.width.cm]=22.6 class="example-full-width" appearance="outline">
+        <mat-label>Sujet</mat-label>
+        <textarea
+        matInput
+        name="subject"
+        type="text"
+        [formControlName]="'subject'"
+        placeholder="Saisissez un commentaire si nécessaire.">
+        </textarea>
+      </mat-form-field>
+    </div>
     
 
 

@@ -7,5 +7,17 @@ export interface RendezVous {
     subject ?: string;
     contactNum :number ;
     contactFullName : string;
-    contactId : number
+    contactId : number;
+    noteBefore ?: string;
+    noteAfter ?: string;
+    appointmentType ?:AppointmentType;
+    contactPhone ?: number;
+    contactEmail ?: number;
+
+}
+
+export enum AppointmentType {
+    VISIO_CONFERENCE = 'VISIO_CONFERENCE', 
+    FACE_TO_FACE = 'FACE_TO_FACE', 
+    PHONE_CALL = 'PHONE_CALL'
 }

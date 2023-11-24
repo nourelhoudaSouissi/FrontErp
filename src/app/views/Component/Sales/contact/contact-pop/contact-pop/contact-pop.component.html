@@ -46,9 +46,14 @@
         matInput
         name="lastName"
         type="text"
-        [formControlName]="'lastName'"
+        [formControl]="itemForm.get('lastName')"
+        
         placeholder="Nom">
+        <mat-error *ngIf="itemForm.hasError('duplicateFullName', ['lastName'])">
+          Ce nom complet existe déjà.
+        </mat-error>
       </mat-form-field>
+     
     </div>
 
     <div fxFlex="50"  class="pr-16">
@@ -57,12 +62,21 @@
         <input
         matInput
         name="firstName"
-        [formControlName]="'firstName'"
+        [formControl]="itemForm.get('firstName')"
         placeholder="Prénom">
+        <mat-error *ngIf="itemForm.hasError('duplicateFullName', ['firstName'])">
+          Ce nom complet existe déjà.
+        </mat-error>
       </mat-form-field>
+
     </div>
 
     
+<div *ngIf="itemForm.get('fullName')?.hasError('duplicateFullName') && (itemForm.get('firstName').dirty || itemForm.get('lastName').dirty)">
+  <mat-error>
+    Ce nom complet existe déjà.
+  </mat-error>
+</div>
 
     
 

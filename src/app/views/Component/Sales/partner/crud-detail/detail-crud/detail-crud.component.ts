@@ -481,8 +481,10 @@ public accounts: BankAccount[]
             [CompanyStatus.PROSPECT]:'Prospect',
             [CompanyStatus.SUPPLIER]:'Fournisseur',
             [CompanyStatus.CLIENT]:'Client',
-            [CompanyStatus.CLIENT_SUPPLIER]:'Client / Fournisseur'
-          }
+            [CompanyStatus.CLIENT_SUPPLIER]: 'Client-Fournisseur',
+            [CompanyStatus.INTERN_GROUP]:'Interne au Groupe'
+            };
+        
         
           provenanceMap = {
             [Provenance.JOBS_FORUM]:'Salon des entreprises',
@@ -504,7 +506,11 @@ public accounts: BankAccount[]
         
           legalStatusMap = {
             [LegalStatus.SA]:'SA',
-            [LegalStatus.SARL]:'SARL'
+            [LegalStatus.SARL]:'SARL',
+            [LegalStatus.SUARL]:'SUARL',
+            [LegalStatus.FREELANCE]:'FREELANCE',
+            [LegalStatus.SP]:'SP'
+        
           }
 
           paymentConditionMap = {
