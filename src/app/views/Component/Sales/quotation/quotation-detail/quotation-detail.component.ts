@@ -17,6 +17,8 @@ import { ProfileCatalogService } from '../../profile-catalog/profile-catalog.ser
 import { Catalog } from 'app/shared/models/Catalog';
 import { address } from 'app/shared/models/address';
 import { AddAddressService } from '../../add-address/add-address.service';
+import { contact } from 'app/shared/models/contact';
+import { ContactService } from '../../contact/contact.service';
 
 @Component({
   selector: 'app-quotation-detail',
@@ -41,6 +43,9 @@ export class QuotationDetailComponent implements OnInit {
   listPartner : Partner [] = [] 
   listProfiles : Profile [] = []
   listAddress : address [] = []
+  contact : contact
+  listContact : contact [] = []
+
   private profileId : number
   private reqId : number
   private selectedCatalogId : number
@@ -53,6 +58,7 @@ export class QuotationDetailComponent implements OnInit {
   selectedValue: string;
   showOptions: boolean = false;
   total = 0;
+  totalDiscount = 0;
   vat = 0;
   showEditOption = false;
   isLoading = false;
@@ -68,6 +74,7 @@ export class QuotationDetailComponent implements OnInit {
     partnerId: null,
     comment: '',
     addressBuyer: '',
+    contactBuyer: '',
     orderId: 0,
     currency: '',
     catalogCurrency: ''
@@ -82,6 +89,8 @@ profile : UpdatedProfile[];
     endDate: '',
     period: null,
     total: null,
+    totalDiscount: null,
+    profileDiscount: null,
     candidateDailyCost: null,
     comment: '',
     profile: null,
@@ -97,6 +106,9 @@ profile : UpdatedProfile[];
     'profileId',
     'experience',
     'candidateDailyCost',
+    'profileDiscount',
+    'totalDiscount'
+
     /*'tva',
     'priceWithoutTax',
     'priceWithAllTaxIncluded'*/
@@ -113,6 +125,7 @@ profile : UpdatedProfile[];
     private partnerService : CrudPartnerService,
     private catalogService: ProfileCatalogService,
     private addressService: AddAddressService,
+    private contactService: ContactService,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -158,6 +171,7 @@ profile : UpdatedProfile[];
       console.log(quotation)
       this.getPartner(quotation.partnerNum)
       this.getAddress(parseInt(quotation.addressBuyer))
+      this.getContacts(parseInt(quotation.contactBuyer))
       this.buildUpdateQuotationForm(this.quotation);
       this.profilesEmptyList()
       this.cdr.markForCheck();
@@ -177,6 +191,7 @@ profile : UpdatedProfile[];
     
     
     this.loadQuotationAddress()
+    this.loadQuotationContact()
     this.getCatalogById(this.quotation.catalogNum);
     this.loadQuotationReq(this.quotation.requirementId);
 
@@ -192,8 +207,9 @@ profile : UpdatedProfile[];
   buildQuotationForm(quotation?: any) {
     this.quotationForm = this.fb.group({
       billingType: [quotation ? quotation.billingType : ''],
-      billingInstruction: [quotation ? quotation.billingInstruction : ''],
+     // billingInstruction: [quotation ? quotation.billingInstruction : ''],
       addressBuyer: [quotation ? quotation.addressBuyer : ''],
+      contactBuyer: [quotation ? quotation.contactBuyer : ''],
       requirementNum: [quotation ? quotation.requirementNum : '' ],
       partnerNum: [ quotation ? { value: quotation.partnerNum, disabled: true } : ''],
       currency: [ quotation ? { value: quotation.currency, disabled: true } : ''],
@@ -202,6 +218,7 @@ profile : UpdatedProfile[];
       catalogNum: [quotation ? quotation.catalogNum : ''],
       tva: [quotation ? quotation.tva : ''],
       htRevenue: [quotation ? quotation.htRevenue : 0],
+      htRevenueRemiseProfile: [quotation ? quotation.htRevenueRemiseProfile : 0],
       changeRate: [quotation ? quotation.changeRate : ''],
       discount: [quotation ? quotation.discount : ''],
       discountAmount: [quotation ? quotation.discountAmount : ''],
@@ -209,6 +226,7 @@ profile : UpdatedProfile[];
       tvaCost: [quotation ? quotation.tvaCost : 0],
       revenueOrd: [quotation ? quotation.revenueOrd : 0],
       paymentCondition: [quotation ? quotation.paymentCondition : ''],
+      legalIdentifier: [quotation ? quotation.legalIdentifier : ''],
       paymentMode: [quotation ? quotation.paymentMode : ''],
       otherPaymentMode: [quotation ? quotation.otherPaymentMode : ''],      
       comment: [quotation ? quotation.comment : ''],
@@ -222,6 +240,8 @@ profile : UpdatedProfile[];
           experience: [pro.experience || ''],
           startDate: [pro.startDate || ''],
           total: [pro.total || ''],
+          totalDiscount: [pro.totalDiscount || ''],
+          profileDiscount: [pro.profileDiscount || ''],
           endDate: [pro.endDate || ''],
           comment: [pro.comment || ''],
           profile: [pro.profile || '']
@@ -234,8 +254,9 @@ profile : UpdatedProfile[];
   buildUpdateQuotationForm(quotation?: any) {
     this.quotationForm = this.fb.group({
       billingType: [quotation ? quotation.billingType : ''],
-      billingInstruction: [quotation ? quotation.billingInstruction : ''],
+    //  billingInstruction: [quotation ? quotation.billingInstruction : ''],
       addressBuyer: [quotation ? quotation.addressBuyer : ''],
+      contactBuyer: [quotation ? quotation.contactBuyer : ''],
       requirementNum: [quotation ? quotation.requirementId : '' ],
       partnerNum: [ quotation ? quotation.partnerNum : ''],
       currency: [ quotation ? quotation.currency : ''],
@@ -247,6 +268,7 @@ profile : UpdatedProfile[];
       quotationDate: [quotation ? quotation.quotationDate : ''],
       quotationStatus: [quotation ? quotation.quotationStatus : ''],
       htRevenue: [quotation ? quotation.htRevenue : 0],
+      htRevenueRemiseProfile: [quotation ? quotation.htRevenueRemiseProfile : 0],
       changeRate: [quotation ? quotation.changeRate : ''],
       discount: [quotation ? quotation.discount : ''],
       discountAmount: [quotation ? quotation.discountAmount : ''],
@@ -254,6 +276,7 @@ profile : UpdatedProfile[];
       tvaCost: [quotation ? quotation.tvaCost : 0],
       revenueOrd: [quotation ? quotation.revenueOrd : 0],
       paymentCondition: [quotation ? quotation.paymentCondition : ''],
+      legalIdentifier: [quotation ? quotation.legalIdentifier : ''],
       paymentMode: [quotation ? quotation.paymentMode : ''],
       otherPaymentMode: [quotation ? quotation.otherPaymentMode : ''],      
       comment: [quotation ? quotation.comment : ''],
@@ -267,6 +290,8 @@ profile : UpdatedProfile[];
           experience: [pro.experience || ''],
           startDate: [pro.startDate || ''],
           total: [(pro.total || '').toFixed(3)],
+          totalDiscount: [(pro.totalDiscount || '').toFixed(3)],
+          profileDiscount: [pro.profileDiscount || ''],
           endDate: [pro.endDate || ''],
           comment: [pro.comment || ''],
           profileNum: [pro.profileId || '']
@@ -294,6 +319,8 @@ profile : UpdatedProfile[];
       candidateDailyCost: [profile ? profile.candidateDailyCost : ''],
       experience: [profile ? profile.experience : ''],
       total: [profile ? profile.total : ''],
+      totalDiscount: [profile ? profile.totalDiscount : ''],
+      profileDiscount: [profile ? profile.profileDiscount : ''],
       function: [profile ? profile.function : ''],
       profile: [profile? profile.profile : '']
     })
@@ -319,6 +346,7 @@ profile : UpdatedProfile[];
 }
 
 
+
   addUpdateNewUpdatedProfile(profile?: UpdatedProfile) {
     
       const newFormGroup = this.fb.group({
@@ -330,6 +358,8 @@ profile : UpdatedProfile[];
         candidateDailyCost: [profile ? profile.candidateDailyCost : ''],
         experience: [profile ? profile.experience : ''],
         total: [profile ? profile.total : ''],
+        totalDiscount: [profile ? profile.totalDiscount : ''],
+        profileDiscount: [profile ? profile.profileDiscount : ''],
         function: [profile ? profile.function : ''],
         profileNum: [profile? profile.profileId : '']
       })
@@ -458,6 +488,26 @@ profile : UpdatedProfile[];
     return sum;
   }
 
+  get htRevenueRemiseProfile() {
+    let sum = 0;
+    this.quotationProfilesFormArray.controls.forEach((profiles: FormGroup) => {
+      const candidateDailyCost = profiles.get('candidateDailyCost').value;
+      const candidateNumber = profiles.get('candidateNumber').value;
+      const period = profiles.get('period').value;
+      const profileDiscount = profiles.get('profileDiscount').value;
+  
+      // Calcul du total sans remise
+      const totalWithoutDiscount = candidateDailyCost * candidateNumber * period;
+  
+      // Calcul du total avec remise en pourcentage
+      const totalWithDiscount = totalWithoutDiscount - (totalWithoutDiscount * (profileDiscount / 100));
+  
+      sum += totalWithDiscount;
+    });
+    return sum;
+  }
+  
+
   get tvaCost() {
     let ttc = this.revenue
     let tva = this.quotationForm.get('tva').value
@@ -555,11 +605,15 @@ profile : UpdatedProfile[];
       this.partner = data
       console.log(this.partner)
       this.listAddress = data.addresses
+      this.listContact = data.contacts
       console.log(this.listAddress);
+      console.log('data.contacts', data.contacts);
+      console.log(this.listContact);
       //if(this.data.isNew){
         this.quotationForm.get('partnerNum').patchValue(this.partner.id);
         this.quotationForm.get('paymentMode').patchValue(this.partner.paymentMode);
         this.quotationForm.get('paymentCondition').patchValue(this.partner.paymentCondition);
+        this.quotationForm.get('legalIdentifier').patchValue(this.partner.legalIdentifier);
       /*}
       else{
         this.itemForm.get('partnerNum').patchValue(this.partner.id);
@@ -570,7 +624,15 @@ profile : UpdatedProfile[];
   getAddress(id: number){
     this.addressService.getAddress(id).subscribe((data: any) => {
       this.address = data
-      console.log(this.address)
+      console.log('this.address',this.address)
+    })
+  }
+
+
+  getContacts(id: number){
+    this.contactService.getItem(id).subscribe((data: any) => {
+      this.contact = data
+      console.log('this.contact',this.contact)
     })
   }
 
@@ -617,7 +679,18 @@ profile : UpdatedProfile[];
       this.quotationForm.get('addressBuyer').patchValue(address.id);
     })
   }
-    
+  
+  
+  loadQuotationContact(){
+    this.contactService.getItem(parseInt(this.quotation.contactBuyer)).subscribe((data: any) => {
+      const contact = data
+      this.quotationForm.get('contactBuyer').patchValue(contact.id);
+    })
+  }
+  
+
+  
+
 
   loadProfileByUpdatedProfile(profilesC: any[]){
     let profileC : any

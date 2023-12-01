@@ -10,6 +10,8 @@ export interface UpdatedProfile {
     period ?: number
     candidateDailyCost?: number
     total: number;
+    totalDiscount: number;
+    profileDiscount: number;
     comment?: string
     profile : Profile
     profileId : number

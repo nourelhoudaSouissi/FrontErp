@@ -41,86 +41,20 @@
           
         </div>
         <mat-divider></mat-divider>
-      <!--div>
-        <div>
-          <label for="image">
-            <mat-icon>add_a_photo</mat-icon>
-          </label>
-          <input formControlName="logo" type="file" id="image" name="image" (change)="handleFileInput($event)">
-        </div>
-        
-        <div>
-          <img *ngIf="imageUrl" [src]="imageUrl" alt="image">
-          <div *ngIf="!imageUrl && quotationForm.get('logo').errors?.required">
-            <mat-icon>image</mat-icon>
-            <span>Aucune image sélectionnée</span>
-          </div>
-          <div *ngIf="!imageUrl && quotationForm.get('logo').errors?.maxSize">
-            <mat-icon>image</mat-icon>
-            <span>La taille de l'image doit être inférieure à 1MB</span>
-          </div>
-          <div *ngIf="!imageUrl && quotationForm.get('logo').errors?.invalidFormat">
-            <mat-icon>image</mat-icon>
-            <span>Le format de l'image doit être JPG, JPEG ou PNG</span>
-          </div>
-        </div>
-      </div-->
+     
       
         <div fxLayout="column">
-        <!--h4><strong>Référence du devis</strong></h4-->
-        <!--mat-form-field>
-          <input
-            formControlName="invoiceNumber"
-            matInput
-            required
-            placeholder="numéro de facture."
-          />
-        </mat-form-field-->
-
-        <!--mat-form-field>
-          <mat-label>Catalogue</mat-label>
-          <mat-select  [formControlName]="'catalogNum'">
-            <mat-option *ngFor="let catalogNum of listCatalog" [value]="catalogNum.id">{{ catalogNum.ref }}</mat-option>
-          </mat-select>
-        </mat-form-field-->
+       
         
       
       </div>
 
-      <!--div fxLayout="column" fxFlex="33.33%" fxLayoutGap="20px">
-        <h4><strong>Information du devis</strong></h4>
-        
-          <div fxLayout="column" fxLayoutAlign="start start">
-            <mat-form-field class="full-width">
-              <mat-label>Opportunité</mat-label>
-              <mat-select [formControlName]="'requirementNum'">
-                <mat-option *ngFor="let x of listReq" [value]="x.id">{{ x.ref }} - {{ x.title }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        <div>
-          <mat-form-field fxFill>
-            <mat-label>Type de facturation</mat-label>
-              <mat-select [formControlName]="'billingType'">
-                <mat-option *ngFor="let x of billingTypes" [value]="x">{{ billingTypeMap[x] }}</mat-option>
-              </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field fxFill>
-            <input
-              [formControlName]="'billingInstruction'"
-              matInput
-              required
-              placeholder="Instruction de facturation"
-            />
-          </mat-form-field>
-        </div>
+     
         
       
        
      
-      </div-->
+     
     </div>
     <!-- end of order details -->
 
@@ -154,15 +88,17 @@
             <mat-option *ngFor="let address of listAddress" [value]="address.id">{{ address.type }} - {{ address.city }}, {{ address.country }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <!--mat-form-field fxFill>
-          <textarea
-            [formControlName]="'addressBuyer'"
-            matInput
-            required
-            matTextareaAutosize
-            placeholder="Adresse Client"
-          ></textarea>
-        </mat-form-field-->
+       
+
+        <mat-form-field class="full-width">
+          <mat-label>Contact</mat-label>
+          <mat-select  [formControlName]="'contactBuyer'">
+            <mat-option *ngFor="let contact of listContact" [value]="contact.contactId">
+              {{ contact.civility }} {{ contact.firstName }} {{ contact.lastName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+       
       </div>
       <div fxFlex="25%" fxLayoutGap="20px" fxLayout="column">
         <div fxLayout="column" fxLayoutAlign="start start">
@@ -222,10 +158,10 @@
       </mat-form-field>
       <mat-form-field class="full-width">
         <input
-          [formControlName]="'billingInstruction'"
+          [formControlName]="'legalIdentifier'"
           matInput
           required
-          placeholder="Instruction de facturation"
+          placeholder="Matricule Fiscal"
         />
       </mat-form-field>
        
@@ -235,6 +171,9 @@
       fxLayout="column"
       fxLayoutGap="20px"
       fxFlex="30%">
+
+
+      
       <mat-form-field class="full-width">
          <mat-label>Mode de payment</mat-label>
          <mat-select [formControlName]="'paymentMode'">
@@ -304,7 +243,8 @@
         <p>Profil</p>
         <p>Nombre ressources</p>
         <p>Nombre jours</p>
-        <p>Coût journalier</p>
+        <p>Taux journalier</p>
+        <p>Remise</p>
         <p>Date début</p>
         <p>Date fin</p>
         <!--p>TVA</p-->
@@ -333,8 +273,13 @@
             <input type="number" formControlName="period" matInput placeholder="Nombre de jours" required />
           </mat-form-field>
           <mat-form-field fxFlex="14%">
-            <input type="number" formControlName="candidateDailyCost" matInput placeholder="Coût journalier candidat" required />
+            <input type="number" formControlName="candidateDailyCost" matInput placeholder="Taux journalier candidat" required />
           </mat-form-field>
+
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="profileDiscount" matInput placeholder="Remise (%)" required />
+          </mat-form-field>
+
           <mat-form-field fxFlex="14%">
             <!--input type="number" formControlName="startDate" matInput placeholder="Date début" required /-->
             <mat-label>Date début</mat-label>
@@ -374,7 +319,24 @@
            <strong>Total : </strong> <input type="number" matInput disabled required [value]="(profiles.get('candidateDailyCost').value * profiles.get('candidateNumber').value * profiles.get('period').value).toFixed(3)" />
            {{ currency }}
           </mat-form-field>
+          
+          <!-- <mat-form-field>
+            <strong>Total avec Remise : </strong>
+            <input type="number" matInput disabled required 
+              [value]="((profiles.get('candidateDailyCost').value * profiles.get('candidateNumber').value * profiles.get('period').value) * (profiles.get('profileDiscount').value / 100)).toFixed(3)" />
+            {{ currency }}
+          </mat-form-field>-->
+
+
+          <mat-form-field>
+            <strong>Total avec Remise : </strong>
+            <input type="number" matInput disabled required 
+              [value]="((profiles.get('candidateDailyCost').value * profiles.get('candidateNumber').value * profiles.get('period').value) * (1 - (profiles.get('profileDiscount').value / 100))).toFixed(3)" />
+            {{ currency }}
+          </mat-form-field>
+          
           <!--mat-form-field>
+            
             <strong>Totale TTC :</strong><input type="number" matInput  required disabled [value]="((feeClients.get('cost').value * feeClients.get('quantity').value) * ((feeClients.get('tva').value / 100) + 1)).toFixed(3)" />
           </mat-form-field-->
         
@@ -410,9 +372,16 @@
           <span>Montant brut HT : </span>
           <span>{{ htRevenue.toFixed(3) }} {{ currency }}</span>
         </div>
+
         <div fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Montant brut HT Remise : </span>
+          <span>{{ htRevenueRemiseProfile.toFixed(3) }} {{ currency }}</span>
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="discount !== 0">
           <span>Remise ({{ discount }}%): </span>
-          <span>{{ discountAmount.toFixed(3) }} {{ currency }}</span>
+          <span >{{ discountAmount.toFixed(3) }} {{ currency }}</span>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <span>Montant net HT : </span>
@@ -533,11 +502,44 @@
           <p>{{ partner.name }}</p>
         </div>
         <div fxLayout="column" fxLayoutAlign="start start">
-          <p>{{ address.num }}, {{ address.street }}, {{ address.city }},</p>
-          <p> {{ address.postalCode }}, {{ address.region }}, {{ address.country }}</p>
+          <p style="white-space: nowrap; margin: 0;">
+            {{ address.num }}, 
+            {{ address.street }}, 
+            {{ address.city }}, 
+            {{ address.postalCode }}, 
+            {{ address.region }}, 
+            {{ address.country }}
+          </p>
         </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <p style="white-space: nowrap; margin: 0;">
+            {{ contact.civility }}
+            {{ contact.firstName }} {{ contact.lastName }} 
+          </p>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <p style="white-space: nowrap; margin: 0;">
+          <p>
+            <strong>Matricule fiscale : </strong>{{ quotation?.legalIdentifier}}
+          </p>
+        </div>
+
       </div>
-    
+
+     <!-- <div fxFlex="25%" fxLayout="column">
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <h4><strong>Contact</strong></h4>
+          <p>{{ partner.name }}</p>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <p style="white-space: nowrap; margin: 0;">
+            {{ contact.civility }}
+            {{ contact.firstName }} {{ contact.lastName }} 
+          </p>
+        </div>
+      </div>-->
+      
     
     
     
@@ -570,22 +572,27 @@
             <mat-cell *matCellDef="let element">{{ element.get('function').value }} - {{ levelMap[element.get('experience').value] }}</mat-cell>
           </ng-container>
       
-          <!-- Description Column -->
+          
           <ng-container matColumnDef="candidateNumber">
             <mat-header-cell *matHeaderCellDef>Nbr ressources</mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.get('candidateNumber').value }}</mat-cell>
           </ng-container>
 
-           <!-- Quantité Column -->
            <ng-container matColumnDef="period">
             <mat-header-cell *matHeaderCellDef>Nbr jours</mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.get('period').value }}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="candidateDailyCost">
-            <mat-header-cell *matHeaderCellDef>Coût journalier</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Taux journalier</mat-header-cell>
             <mat-cell *matCellDef="let element">{{ element.get('candidateDailyCost').value }} {{ quotation.currency }}</mat-cell>
           </ng-container>
+
+          <ng-container matColumnDef="profileDiscount">
+            <mat-header-cell *matHeaderCellDef>Remise</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('profileDiscount').value }} </mat-cell>
+          </ng-container>
+
 
           <!-- Tarif Column -->
           <ng-container matColumnDef="startDate">
@@ -603,27 +610,15 @@
             <mat-cell *matCellDef="let element">{{ element.get('total').value }} {{ quotation.currency }}</mat-cell>
           </ng-container>
 
-          <!-- TVA Column -->
-          <!--ng-container matColumnDef="tva">
-            <mat-header-cell *matHeaderCellDef>TVA</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.get('tva').value }}</mat-cell>
-          </ng-container-->
+          <ng-container matColumnDef="totalDiscount">
+            <mat-header-cell *matHeaderCellDef>Total avec Remise</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('totalDiscount').value }} {{ quotation.currency }}</mat-cell>
+          </ng-container>
 
-           <!-- Montant HT Column -->
-           <!--ng-container matColumnDef="priceWithoutTax">
-            <mat-header-cell *matHeaderCellDef>Montant HT</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ (element.get('priceWithoutTax').value).toFixed(3) }}</mat-cell>
-          </ng-container-->
-
-           <!-- Montant TTC Column -->
-           <!--ng-container matColumnDef="priceWithAllTaxIncluded">
-            <mat-header-cell *matHeaderCellDef>Montant TTC</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ (element.get('priceWithAllTaxIncluded').value).toFixed(3) }}</mat-cell>
-          </ng-container-->
           
           <!-- Column definitions -->
-          <mat-header-row *matHeaderRowDef="['number', 'profile', 'candidateNumber','period', 'candidateDailyCost','startDate', 'endDate', 'total']"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: ['number', 'profile', 'candidateNumber','period', 'candidateDailyCost','startDate', 'endDate', 'total']"></mat-row>
+          <mat-header-row *matHeaderRowDef="['number', 'profile', 'candidateNumber','period', 'candidateDailyCost','profileDiscount','startDate', 'endDate', 'total', 'totalDiscount']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['number', 'profile', 'candidateNumber','period', 'candidateDailyCost', 'profileDiscount', 'startDate', 'endDate', 'total', 'totalDiscount']"></mat-row>
         </mat-table>
       </div>
     </div>
@@ -635,18 +630,18 @@
     <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">
       <!-- seller -->
       <div>
-         
+        <p><strong>Type de facturation : </strong> {{ billingTypeMap[quotation?.billingType] }}</p>
         <p><strong>Mode de payment : </strong> {{ paymentModeMap[quotation?.paymentMode] }}</p>
         <p><strong>Condition de payment : </strong> {{ paymentConditionMap[quotation?.paymentCondition] }}</p>
-        <p><strong>Type de facturation : </strong> {{ billingTypeMap[quotation?.billingType] }}</p>
-        <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>
+       <!-- <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>-->
   
      </div>
 
       <!-- buyer -->
       <div fxFlex="25%" fxLayout="column" fxLayoutAlign="start start">
         <p><strong>Montant brut HT : </strong>{{ quotation?.htRevenue.toFixed(3) }} {{ quotation?.currency }}</p>
-        <p><strong>Remise ({{ quotation?.discount }}%) : </strong>{{ quotation?.discountAmount.toFixed(3) }} {{ quotation?.currency }}</p>
+        <p><strong>Montant brut HT Remise : </strong>{{ quotation?.htRevenueRemiseProfile.toFixed(3) }} {{ quotation?.currency }}</p>
+        <p *ngIf="quotation?.discount !== 0"><strong>Remise ({{ quotation?.discount }}%) : </strong>{{ quotation?.discountAmount.toFixed(3) }} {{ quotation?.currency }}</p>
         <p><strong>Montant net HT : </strong>{{ quotation?.revenue.toFixed(3) }} {{ quotation?.currency }}</p>
         <p><strong>TVA ({{ quotation?.tva }}%) : </strong>{{ quotation?.tvaCost.toFixed(3) }} {{ quotation?.currency }}</p>
         <h5><strong><strong>Net à payer TTC : </strong>{{ quotation?.revenueOrd.toFixed(3) }} {{ quotation?.currency }}</strong></h5>

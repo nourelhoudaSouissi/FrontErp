@@ -5,6 +5,8 @@ import { Catalog } from 'app/shared/models/Catalog';
 import { Currency } from 'app/shared/models/Partner';
 import { Level } from 'app/shared/models/Profile';
 import { ProfileCatalogService } from '../profile-catalog.service';
+import { ProfileDomain } from 'app/shared/models/ProfileDomain';
+import { ProfileDomainService } from 'app/views/Component/Referentiel/ProfilDomain/profile-domain.service';
 
 @Component({
   selector: 'app-catalog-pop',
@@ -13,7 +15,11 @@ import { ProfileCatalogService } from '../profile-catalog.service';
 })
 export class CatalogPopComponent implements OnInit {
   isNew: boolean
+  private profileDomainNum : number
   submitted = false;
+
+  listProfileDomains : ProfileDomain[] = []
+
 
   public itemForm: FormGroup
   public myProfileForm: FormGroup;
@@ -33,7 +39,12 @@ export class CatalogPopComponent implements OnInit {
     function: new FormControl(''),
     experience: new FormControl(''),
     comment: new FormControl(''),
-    candidateDailyCost: new FormControl('')
+    candidateDailyCost: new FormControl(''),
+    yearsOfExperience: new FormControl(''),
+    technologie: new FormControl(''),
+    profileDomainNum: new FormControl(''),
+    isActif: new FormControl('')
+
   });
 
   constructor(
@@ -42,14 +53,24 @@ export class CatalogPopComponent implements OnInit {
     private fb: FormBuilder,
     private _formBuilder: FormBuilder,
     private catalogService: ProfileCatalogService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private profileDomainService: ProfileDomainService,
+
   ) { }
+
+  getProfileDomains(){
+    this.profileDomainService.getItems().subscribe((data :any )=>{
+      this.listProfileDomains = data
+    });
+  }
 
   ngOnInit() {
     this.buildItemForm(this.data.payload);
     console.log(this.data.isNew);
     console.log(this.data.payload);
     this.isNew = this.data.isNew;
+    this.getProfileDomains()
+    this.profileDomainNum = this.data.profileDomainId;
 
     this.catalogService.getItems().subscribe((catalogs) => {
       this.existingCatalogs = catalogs;
@@ -90,6 +111,10 @@ export class CatalogPopComponent implements OnInit {
       function: [profile.function || ''],
       experience: [profile.experience || ''],
       candidateDailyCost: [profile.candidateDailyCost || ''],
+      yearsOfExperience: [profile.yearsOfExperience || ''],
+      technologie: [profile.technologie || ''],
+      profileDomainNum: [this.data.profileDomainId || null, Validators.required],
+      isActif: [profile.isActif || ''],
       comment: [profile.comment || '']
     });
   }
@@ -120,7 +145,11 @@ export class CatalogPopComponent implements OnInit {
       function: ['', Validators.required],
       experience: [''],
       comment: [''],
-      candidateDailyCost: ['']
+      candidateDailyCost: [''],
+      yearsOfExperience: [''],
+      technologie: [''],
+      profileDomainNum:[''],
+      isActif: ['']
     }));
   }
   
@@ -138,6 +167,9 @@ export class CatalogPopComponent implements OnInit {
         experience: [''],
         comment: [''],
         candidateDailyCost: [''],
+        yearsOfExperience: [''],
+        technologie: [''],
+        isActif: ['']
       }));
     }
     this.showProfilesForm = true; // Always set showProfilesForm to true

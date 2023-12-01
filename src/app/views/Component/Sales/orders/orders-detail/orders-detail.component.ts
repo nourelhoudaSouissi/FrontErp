@@ -204,7 +204,7 @@ export class OrdersDetailComponent implements OnInit {
   buildOrderForm(order?: any) {
     this.orderForm = this.fb.group({
       billingType: [order ? order.billingType : ''],
-      billingInstruction: [order ? order.billingInstruction : ''],
+     // billingInstruction: [order ? order.billingInstruction : ''],
       addressBuyer: [order ? order.addressBuyer : ''],
       requirementNum: [order ? order.requirementNum : '' ],
       partnerNum: [ order ? { value: order.partnerNum, disabled: true } : ''],
@@ -514,7 +514,7 @@ export class OrdersDetailComponent implements OnInit {
       //if(this.data.isNew){
         this.orderForm.get('requirementNum').patchValue(this.quotation.requirementId);
         this.orderForm.get('billingType').patchValue(this.quotation.billingType);
-        this.orderForm.get('billingInstruction').patchValue(this.quotation.billingInstruction);
+      //  this.orderForm.get('billingInstruction').patchValue(this.quotation.billingInstruction);
         this.orderForm.get('currency').patchValue(this.quotation.currency);
         this.orderForm.get('catalogCurrency').patchValue(this.quotation.catalogCurrency);
         this.orderForm.get('catalogNum').patchValue(this.quotation.catalogNum);

@@ -235,7 +235,7 @@
               <mat-option *ngFor="let x of billingTypes" [value]="x">{{ billingTypeMap[x] }}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field class="full-width">
+       <!-- <mat-form-field class="full-width">
           <input
             [formControlName]="'billingInstruction'"
             matInput
@@ -244,7 +244,7 @@
             readonly
             ngClass="disabled-input"
           />
-        </mat-form-field>
+        </mat-form-field>-->
          
          
         </div>
@@ -323,7 +323,7 @@
           <p>Profil</p>
           <p>Nombre ressources</p>
           <p>Nombre jours</p>
-          <p>Coût journalier</p>
+          <p>Taux journalier</p>
           <p>Date début</p>
           <p>Date fin</p>
           <!--p>TVA</p-->
@@ -366,7 +366,7 @@
               <input type="number" 
               formControlName="candidateDailyCost" 
               matInput 
-              placeholder="Coût journalier candidat" 
+              placeholder="Taux journalier candidat" 
               required 
               readonly
               ngClass="disabled-input"
@@ -628,7 +628,7 @@
             </ng-container>
   
             <ng-container matColumnDef="candidateDailyCost">
-              <mat-header-cell *matHeaderCellDef>Coût journalier</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef>Taux journalier</mat-header-cell>
               <mat-cell *matCellDef="let element">{{ element.candidateDailyCost.toFixed(3) }} {{ quotation.currency }}</mat-cell>
             </ng-container>
   
@@ -684,7 +684,7 @@
           <p><strong>Mode de payment : </strong> {{ paymentModeMap[quotation?.paymentMode] }}</p>
           <p><strong>Condition de payment : </strong> {{ paymentConditionMap[quotation?.paymentCondition] }}</p>
           <p><strong>Type de facturation : </strong> {{ billingTypeMap[quotation?.billingType] }}</p>
-          <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>
+         <!-- <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>-->
     
        </div>
   

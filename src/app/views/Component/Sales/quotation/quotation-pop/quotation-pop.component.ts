@@ -69,7 +69,7 @@ export class QuotationPopComponent implements OnInit {
     this.itemForm = this.fb.group({
       billingType : [item.billingType || '', Validators.required],
       quotationStatus : [item.quotationStatus || QuotationStatus.IN_PROGRESS, Validators.required],
-      billingInstruction : [item.billingInstruction || '', Validators.required],
+    //  billingInstruction : [item.billingInstruction || '', Validators.required],
       requirementNum: [{ value: item.partnerNum, disabled: !this.isNew }|| '', Validators.required],
       customerAgreement: [item.customerAgreement, Validators.required],
       catalogNum: [item.catalogId, Validators.required],

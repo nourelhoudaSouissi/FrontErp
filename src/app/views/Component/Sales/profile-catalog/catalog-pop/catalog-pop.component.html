@@ -161,9 +161,20 @@
                         formControlName="function"
                         placeholder="Fonction"
                       />
-                      <!--mat-error *ngIf="partnerAddressForm.get('value').at(i).get('num').invalid && partnerAddressForm.get('value').at(i).get('num').touched">
-                        Ce champs est requis.
-                      </mat-error-->
+                     
+                  </mat-form-field>
+                </div>
+
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Technologies</mat-label>
+                      <input
+                        matInput
+                        required
+                        name="technologie"
+                        formControlName="technologie"
+                        placeholder="Techlogies"
+                      />
                   </mat-form-field>
                 </div>
               
@@ -178,23 +189,57 @@
         </mat-form-field>
       </div>
               
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre d'années d'expérience</mat-label>
+          <input
+            matInput
+            required
+            type="number"
+            name="yearsOfExperience"
+            formControlName="yearsOfExperience"
+            placeholder="Nombre d'années d'expérience"
+          />
+      </mat-form-field>
+      </div>
+
+      
 
       <div fxFlex="50"  class="pr-16">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Coût journalier candidat (en {{ itemForm.get('currency').value }})</mat-label>
+          <mat-label>Taux journalier candidat (en {{ itemForm.get('currency').value }})</mat-label>
           <input
             matInput
             required
             type="number"
             name="candidateDailyCost"
             formControlName="candidateDailyCost"
-            placeholder="Coût journalier candidat (en {{ itemForm.get('currency').value }})"
+            placeholder="Taux journalier candidat (en {{ itemForm.get('currency').value }})"
           />
-          <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
-            Ce champs est requis.
-          </mat-error-->
       </mat-form-field>
       </div>
+
+      <div  fxFlex="50"  class="pr-16" >
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Domaine du profile</mat-label>
+            <mat-select  [formControlName]="'profileDomainNum'">
+              <mat-option *ngFor="let profileDomain of listProfileDomains" [value]="profileDomain.id">{{profileDomain.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      
+      <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
+        <label>
+          Actif
+          <input type="checkbox" 
+          [formControlName]="'isActif'" 
+          >
+        </label>
+      </div>
+
+
                   <div class="mini-container" >
                     <mat-form-field [style.width.cm]=20.8 class="example-full-width" appearance="outline">
                       <mat-label>Commentaire</mat-label>
@@ -202,6 +247,9 @@
                       formControlName="comment"></textarea>
                     </mat-form-field>
                   </div>
+
+
+                  
                   <div class="button-container">
                     <div>
                       <button class="left-button" mat-icon-button (click)="removeProfileFormGroup(i)">

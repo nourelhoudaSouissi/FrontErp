@@ -8,7 +8,7 @@ export class Quotation {
     customerAgreement?: boolean
     quotationDate?: string
     billingType?: string
-    billingInstruction?: string
+    //billingInstruction?: string
     catalogNum?: number
     tva?: number
     tvaCost?: number
@@ -16,15 +16,18 @@ export class Quotation {
     discountAmount?: number
     discount?: number
     paymentCondition?: string
+    legalIdentifier ?: number
     paymentMode?: string
     otherPaymentMode?: string
     htRevenue?: number
+    htRevenueRemiseProfile?: number
     revenueOrd?: number
     revenue?: number
     requirementId: number
     partnerId: number
     partnerNum: number
     addressBuyer: string
+    contactBuyer : string
     partnerName: string;
     currency: string;
     catalogCurrency: string;

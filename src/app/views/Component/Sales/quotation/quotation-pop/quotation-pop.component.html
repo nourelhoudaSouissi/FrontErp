@@ -55,7 +55,7 @@
       </mat-form-field>
     </div>
     
-    <div fxFlex="50"  class="pr-16">
+   <!-- <div fxFlex="50"  class="pr-16">
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Instruction de facturation</mat-label>
             <input
@@ -65,7 +65,7 @@
               [formControlName]="'billingInstruction'"
               placeholder="Instruction de facturation">
         </mat-form-field>
-    </div>
+    </div>-->
 
     <div fxFlex="50"  class="pr-16">
       <mat-form-field class="full-width" appearance="outline">
@@ -211,14 +211,14 @@
 
             <div fxFlex="50"  class="pr-16">
               <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Coût journalier candidat <!--(en {{ itemForm.get('currency').value }})--></mat-label>
+                <mat-label>Taux journalier candidat <!--(en {{ itemForm.get('currency').value }})--></mat-label>
                 <input
                   matInput
                   required
                   type="number"
                   name="candidateDailyCost"
                   [formControlName]="'candidateDailyCost'"
-                  placeholder="Coût journalier candidat"
+                  placeholder="Taux journalier candidat"
                 />
                 <!--mat-error *ngIf="requestedProfileForm.get('value').at(i).get('candidateNumber').invalid && requestedProfileForm.get('value').at(i).get('candidateNumber').touched">
                   Ce champs est requis.

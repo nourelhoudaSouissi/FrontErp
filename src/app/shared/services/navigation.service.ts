@@ -205,6 +205,17 @@ export class NavigationService {
     
     ]
   },
+  
+
+  {
+    name: 'Paramétrage',
+    type: 'dropDown',
+    tooltip: 'Shop',
+    icon: 'description',
+    sub: [
+      { name: 'Domaine de Profile', state: 'profileDomain/profile-domain-crud' },
+    ]
+  },
   {
     name: 'Aide',
     type: 'extLink',

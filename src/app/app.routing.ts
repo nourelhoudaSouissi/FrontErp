@@ -421,6 +421,10 @@ export const rootRouterConfig: Routes = [
       {
         path: 'client',
         loadChildren: () => import('./views/client/client.module').then(m => m.ClientModule)
+      },
+      {
+        path: 'profileDomain',
+        loadChildren: () => import('./views/Component/Referentiel/ProfilDomain/profile-domain.module').then(m => m.ProfileDomainModule)
       }
     ]
   },
