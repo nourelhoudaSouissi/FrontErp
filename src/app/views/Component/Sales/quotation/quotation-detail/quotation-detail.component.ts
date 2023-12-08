@@ -221,6 +221,7 @@ profile : UpdatedProfile[];
       htRevenueRemiseProfile: [quotation ? quotation.htRevenueRemiseProfile : 0],
       changeRate: [quotation ? quotation.changeRate : ''],
       discount: [quotation ? quotation.discount : ''],
+      limitDuration: [quotation ? quotation.limitDuration : ''],
       discountAmount: [quotation ? quotation.discountAmount : ''],
       revenue: [quotation ? quotation.revenue : ''],
       tvaCost: [quotation ? quotation.tvaCost : 0],
@@ -272,6 +273,7 @@ profile : UpdatedProfile[];
       changeRate: [quotation ? quotation.changeRate : ''],
       discount: [quotation ? quotation.discount : ''],
       discountAmount: [quotation ? quotation.discountAmount : ''],
+      limitDuration: [quotation ? quotation.limitDuration : ''],
       revenue: [quotation ? quotation.revenue : ''],
       tvaCost: [quotation ? quotation.tvaCost : 0],
       revenueOrd: [quotation ? quotation.revenueOrd : 0],
@@ -520,16 +522,42 @@ profile : UpdatedProfile[];
     return ttc * discount/100
   }
 
+
+  get revenueOrd() {
+    let ttc = this.htRevenueRemiseProfile
+    let tvaCost = this.tvaCost
+   // let tvaCost = this.quotationForm.get('tvaCost').value
+    return  ttc + tvaCost
+  }
+
   get revenue(){
     return this.htRevenue - this.discountAmount
   }
 
-  get revenueOrd() {
+ /* get revenueOrd() {
     let ttc = this.revenue
+    
     let tva = this.quotationForm.get('tva').value
     return  ttc + (ttc * tva/100)
-  }
+  }*/
 
+/*
+  get revenueOrd() {
+    let tva = parseFloat(this.quotationForm.get('tvaCost').value) || 0; // VAT amount
+    let htRevenueRemiseProfile = parseFloat(this.quotationForm.get('htRevenueRemiseProfile').value) || 0; // Subtotal after discounts
+    
+    let totalRevenue = htRevenueRemiseProfile + tva; // Net à payer TTC including VAT
+    
+  
+    console.log('tvaCost:', tva);
+    console.log('htRevenueRemiseProfile:', htRevenueRemiseProfile);
+    console.log('revenueOrd:', totalRevenue);
+  
+    return totalRevenue;
+  }
+  
+*/
+  
   get discount(){
     return this.quotationForm.get('discount').value
   }

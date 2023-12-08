@@ -214,6 +214,7 @@ export class NavigationService {
     icon: 'description',
     sub: [
       { name: 'Domaine de Profile', state: 'profileDomain/profile-domain-crud' },
+      { name: 'Condition de payement', state: 'paymentTerm/payment-term-crud' },
     ]
   },
   {

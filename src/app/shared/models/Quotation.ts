@@ -21,6 +21,7 @@ export class Quotation {
     otherPaymentMode?: string
     htRevenue?: number
     htRevenueRemiseProfile?: number
+    limitDuration?: number
     revenueOrd?: number
     revenue?: number
     requirementId: number

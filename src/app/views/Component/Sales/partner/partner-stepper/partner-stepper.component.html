@@ -104,43 +104,61 @@
                                         </mat-form-field>
                                     </div>
                                 </mat-grid-tile>
-                                <mat-grid-tile>
-                                    <div class="pb-16">
-                                      <!--Identifiant juridique entreprise-->
-                                        <mat-form-field appearance="outline" [style.width.cm]="10">
-                                            <mat-label>Identifiant TVA</mat-label>
-                                            <input
-                                              matInput
-                                              required
-                                              name="tvaIdentifier"
-                                              formControlName="tvaIdentifier"
-                                              placeholder="Identifiant TVA"
-                                            />
-                                            <mat-error *ngIf="partnerForm.get('tvaIdentifier').invalid && partnerForm.get('tvaIdentifier').touched">
-                                              Ce champs est requis et doit comporter au maximum 30 caractères.
-                                            </mat-error>
-                                        </mat-form-field>
-                                    </div>
-                                </mat-grid-tile>
-                                <mat-grid-tile>
-                                    <div class="pb-16">
-                                      <!--Identifiant juridique entreprise-->
-                                        <mat-form-field appearance="outline" [style.width.cm]="10">
-                                            <mat-label>Code NAF</mat-label>
-                                            <input
-                                              matInput
-                                              required
-                                              name="nafCode"
-                                              formControlName="nafCode"
-                                              placeholder="Code NAF"
-                                            />
-                                            <mat-error *ngIf="partnerForm.get('nafCode').invalid && partnerForm.get('nafCode').touched">
-                                              Ce champs doit comporter au maximum 30 caractères.
-                                            </mat-error>
-                                        </mat-form-field>
-                                    </div>
-                                </mat-grid-tile>
 
+                                <mat-grid-tile>
+                                  <div class="pb-16">
+                                    <!--Identifiant juridique entreprise-->
+                                      <mat-form-field appearance="outline" [style.width.cm]="10">
+                                          <mat-label>Code APE (NAF)</mat-label>
+                                          <input
+                                            matInput
+                                            required
+                                            name="nafCode"
+                                            formControlName="nafCode"
+                                            placeholder="Code APE (NAF)"
+                                          />
+                                          <mat-error *ngIf="partnerForm.get('nafCode').invalid && partnerForm.get('nafCode').touched">
+                                            Ce champs doit comporter au maximum 30 caractères.
+                                          </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                              </mat-grid-tile>
+
+
+                              
+                              
+
+                                <mat-grid-tile>
+                                <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
+                                  <label>
+                                    Assujetti
+                                    <input type="checkbox" 
+                                    [formControlName]="'isTaxable'"
+                                    [checked]="showDiv" 
+                                    (change)="toggleDiv()" >
+                                  </label>
+                                </div>
+                                
+                            </mat-grid-tile>
+
+                            <mat-grid-tile *ngIf="showDiv">
+                              <div class="pb-16">
+                                <!--Identifiant juridique entreprise-->
+                                  <mat-form-field appearance="outline" [style.width.cm]="10">
+                                      <mat-label>Identifiant TVA</mat-label>
+                                      <input
+                                        matInput
+                                        required
+                                        name="tvaIdentifier"
+                                        formControlName="tvaIdentifier"
+                                        placeholder="Identifiant TVA"
+                                      />
+                                      <mat-error *ngIf="partnerForm.get('tvaIdentifier').invalid && partnerForm.get('tvaIdentifier').touched">
+                                        Ce champs est requis et doit comporter au maximum 30 caractères.
+                                      </mat-error>
+                                  </mat-form-field>
+                              </div>
+                          </mat-grid-tile>
 
                                 <mat-grid-tile>
                                   <!--Logo-->
@@ -182,36 +200,34 @@
                               <!--n° tel fixe-->
                               <div class = "d-flex">
                                 <div class="form-group mb-1 col-sm-12 col-md-3">
-                                    <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
-                                        <mat-label>n° téléphone fixe</mat-label>
-                                        <input
+                                  <mat-form-field appearance="outline" [style.width.cm]="10" style="padding-right: 1cm;">
+                                      <mat-label>n° téléphone fixe</mat-label>
+                                      <input
                                           matInput
-                                          required
                                           name="phoneNumber"
                                           formControlName="phoneNumber"
                                           placeholder="n° téléphone fixe"
-                                        />
-                                        <mat-error *ngIf="coordonneesForm.get('phoneNumber').invalid && coordonneesForm.get('phoneNumber').touched">
-                                          Ce champs est requis et doit comporter seulement des caractères numériques.
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
-                              <!--n° tel mobile-->
-                                <div class="form-group mb-1 col-sm-12 col-md-3">
-                                    <mat-form-field appearance="outline" [style.width.cm]="10">
-                                        <mat-label>n° téléphone mobile</mat-label>
-                                        <input
+                                      />
+                                      <mat-error *ngIf="coordonneesForm.get('phoneNumber').invalid && coordonneesForm.get('phoneNumber').touched">
+                                          Ce champ doit comporter seulement des caractères numériques.
+                                      </mat-error>
+                                  </mat-form-field>
+                              </div>
+                              
+                              <div class="form-group mb-1 col-sm-12 col-md-3">
+                                  <mat-form-field appearance="outline" [style.width.cm]="10">
+                                      <mat-label>n° téléphone mobile</mat-label>
+                                      <input
                                           matInput
-                                          required
                                           name="mobilePhoneNumber"
                                           formControlName="mobilePhoneNumber"
                                           placeholder="n° téléphone mobile"
-                                        />
-                                        <mat-error *ngIf="coordonneesForm.get('mobilePhoneNumber').invalid && coordonneesForm.get('mobilePhoneNumber').touched">
-                                          Ce champs est requis et doit comporter seulement des caractères numériques.
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
+                                      />
+                                      <mat-error *ngIf="coordonneesForm.get('mobilePhoneNumber').invalid && coordonneesForm.get('mobilePhoneNumber').touched">
+                                          Ce champ doit comporter seulement des caractères numériques.
+                                      </mat-error>
+                                  </mat-form-field>
+                              </div>
                               </div>
                               <!--email-->
                               <div class = "d-flex">
@@ -475,6 +491,19 @@
                                  </mat-form-field>
                                </div>
                             </mat-grid-tile>
+
+                          <mat-grid-tile>
+                            <div   class="pr-16" >
+                              <mat-form-field appearance="outline" [style.width.cm]=10>
+                                <mat-label>Condition de paiement</mat-label>
+                                  <mat-select  [formControlName]="'paymentTermNum'" (selectionChange)="onPaymentTermSelection($event.value)">
+                                    <mat-option *ngFor="let paymentTerm of listPaymentTerms" [value]="paymentTerm.id">{{paymentTerm.code}}</mat-option>
+                                  </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </mat-grid-tile>
+
+                            
                           </form>
                         </mat-grid-list>
                         <mat-card-title>

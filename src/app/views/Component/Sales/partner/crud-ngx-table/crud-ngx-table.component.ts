@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { CompanyStatus, LegalStatus, Partner, Provenance, WorkField } from 'app/shared/models/Partner';
 import { Router } from '@angular/router';
+import { PartnerStepperComponent } from '../partner-stepper/partner-stepper.component';
 
 
 
@@ -30,7 +31,8 @@ export class CrudNgxTableComponent implements OnInit, OnDestroy {
   public getItemSub: Subscription;
  
 
-
+  queryParamsObject = { key: 'value' };
+  
   constructor(
     private router : Router,
     private dialog: MatDialog,
@@ -76,6 +78,37 @@ export class CrudNgxTableComponent implements OnInit, OnDestroy {
     });
   }
   
+
+  
+openCreatePopUp(data: any = {}, isNew?) {
+  let title =  'Nouveau Partenaire' ;
+  let dialogRef: MatDialogRef<any> = this.dialog.open(PartnerStepperComponent, {
+    height: '620px',
+    width: '920px',
+    disableClose: true,
+    data: { title: title, payload: data }
+  })
+  console.log(data.contactId)
+  dialogRef.afterClosed()
+    .subscribe(res => {
+      if(!res) {
+        // If user press cancel
+        return;
+      }
+    
+        this.loader.open('Ajout en cours');
+        this.crudService.addItem(res)
+          .subscribe((data:any) => {
+            this.dataSource = data;
+            this.loader.close();
+            this.snack.open('Contact ajouté avec succès!', 'OK', { duration: 4000 })
+            this.getItems();
+          })
+     
+    })
+}
+
+
 
   openPopUp(data:  any , isNew?) {
     let title = isNew ? 'Nouveau partenaire' : 'Modifier Partenaire';

@@ -425,6 +425,10 @@ export const rootRouterConfig: Routes = [
       {
         path: 'profileDomain',
         loadChildren: () => import('./views/Component/Referentiel/ProfilDomain/profile-domain.module').then(m => m.ProfileDomainModule)
+      },
+      {
+        path: 'paymentTerm',
+        loadChildren: () => import('./views/Component/Referentiel/PaymentTerm/payment-term.module').then(m => m.PaymentTermModule)
       }
     ]
   },

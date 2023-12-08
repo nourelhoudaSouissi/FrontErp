@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild , Inject} from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { Router } from '@angular/router';
 import { CompanyStatus, ControlType, Currency, LegalStatus, Partner, PaymentCondition, PaymentMode, WorkField } from 'app/shared/models/Partner';
 import { Civility, Privilege } from 'app/shared/models/contact';
@@ -10,11 +12,14 @@ import { Observable, Subscription, catchError, of } from 'rxjs';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+
 import { Employee } from 'app/shared/models/Employee';
 import { AddAddressService } from '../../add-address/add-address.service';
 import { DatePipe } from '@angular/common';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ValidatorService } from 'angular-iban';
+import { PaymentTerm } from 'app/shared/models/PaymentTerm';
+import { PaymentTermService } from 'app/views/Component/Referentiel/PaymentTerm/payment-term.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -37,7 +42,10 @@ export const MY_DATE_FORMATS = {
   ]
 })
 export class PartnerStepperComponent implements OnInit {
-
+  showDiv = false; 
+  toggleDiv() {
+    this.showDiv = !this.showDiv;
+  }
   currentStepIndex = 0
   formData = {}
   console = console;
@@ -81,6 +89,10 @@ export class PartnerStepperComponent implements OnInit {
   bankAccountId:number;
   contactId: number;
 
+  listPaymentTerms : PaymentTerm[] = []
+  private paymentTermNum : number
+  
+
   i: number;
   j: number;
   k: number;
@@ -96,16 +108,22 @@ export class PartnerStepperComponent implements OnInit {
   sortedCurrencies = Object.values(Currency).sort();
 
   constructor(
+    //@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
     private partnerService: CrudPartnerService,
     private addressService: AddAddressService,
+    private paymentTermService: PaymentTermService,
     private formBuilder: FormBuilder,
     private fb: FormBuilder,
     private router: Router,
     private http: HttpClient,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-  ) {}
+    
+  ) {
+
+   
+}
 
 // Validator pour vérifier si le nom commence par une majuscule
  capitalLetterValidator2: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -115,6 +133,13 @@ export class PartnerStepperComponent implements OnInit {
   }
   return null; // Le nom commence par une majuscule ou est vide
 };
+
+
+getPaymentTerms(){
+  this.paymentTermService.getItems().subscribe((data :any )=>{
+    this.listPaymentTerms = data
+  });
+}
 
 // Validator pour vérifier l'unicité du nom
  uniqueNameValidator: AsyncValidatorFn = (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -139,6 +164,8 @@ export class PartnerStepperComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getPaymentTerms();
+   // this.paymentTermNum = this.data.paymentTermId;
     this.partnerForm = new UntypedFormGroup({
       name: new UntypedFormControl('', [
         Validators.required,
@@ -152,6 +179,7 @@ export class PartnerStepperComponent implements OnInit {
       legalIdentifier: new UntypedFormControl('', []),
       tvaIdentifier: new UntypedFormControl('',[] ),
       nafCode: new UntypedFormControl('',[] ),
+      isTaxable: new UntypedFormControl('',[] ),
       logo: new UntypedFormControl('',[Validators.required] ),
       ref: new UntypedFormControl('',[Validators.required, 
         Validators.pattern(/^[a-zA-Z0-9]{10}$/)] ),
@@ -177,7 +205,8 @@ export class PartnerStepperComponent implements OnInit {
     this.financialInfoForm = this.fb.group({
       currency: new UntypedFormControl('', []),
       paymentMode: new UntypedFormControl('', []),
-      paymentCondition : new UntypedFormControl('', [])
+      paymentCondition : new UntypedFormControl('', []),
+      paymentTermNum: new UntypedFormControl('', [])
     });
 
     this.complInfoForm = this.fb.group({
@@ -289,6 +318,22 @@ export class PartnerStepperComponent implements OnInit {
         }
       });
     }
+          /*********************************** Controle isTaxable Field *******************************************/
+      
+/*
+    const isTaxableControl = this.partnerForm.get('isTaxable');
+    if (companyStatusControl && isTaxableControl) {
+      companyStatusControl.valueChanges.subscribe((status: string) => {
+        if (status === 'PROSPECT') {
+          isTaxableControl.clearValidators(); // Remove required validator
+          isTaxableControl.setValue(null);
+          isTaxableControl.updateValueAndValidity();
+        } else {
+          isTaxableControl.setValidators([Validators.required]); // Set as required
+          isTaxableControl.updateValueAndValidity();
+        }
+      });
+    }*/
 
      /*********************************** Controle nafCode Field *******************************************/
 
@@ -314,40 +359,31 @@ export class PartnerStepperComponent implements OnInit {
      /*********************************** Controle "Coordonnées" Fields *******************************************/
     
      /*********************************** Controle phoneNumber Field *******************************************/
-    
      const phoneNumberControl = this.coordonneesForm.get('phoneNumber');
-     if (companyStatusControl && phoneNumberControl) {
-       companyStatusControl.valueChanges.subscribe((status: string) => {
-         if (status === 'PROSPECT') {
-          phoneNumberControl.clearValidators(); // Remove required validator
-          phoneNumberControl.setValue(null);
-          phoneNumberControl.updateValueAndValidity();
-         } else {
-          phoneNumberControl.setValidators([  Validators.required, Validators.pattern(/^[\d\s\-+]*$/)]); 
-          phoneNumberControl.updateValueAndValidity();
-         }
-       });
-     }
-     /*********************************** Controle phoneNumber Field *******************************************/
-    
      const mobilePhoneNumberControl = this.coordonneesForm.get('mobilePhoneNumber');
-     if (companyStatusControl && mobilePhoneNumberControl) {
-       companyStatusControl.valueChanges.subscribe((status: string) => {
-         if (status === 'PROSPECT') {
-          mobilePhoneNumberControl.clearValidators(); // Remove required validator
-          mobilePhoneNumberControl.setValue(null);
-          mobilePhoneNumberControl.updateValueAndValidity();
-         } else {
-          mobilePhoneNumberControl.setValidators([  
-            Validators.required,
-            Validators.pattern(/^[\d\s\-+]*$/)]); 
-            mobilePhoneNumberControl.updateValueAndValidity();
-         }
-       });
-     }
-
      
-
+     if (phoneNumberControl && mobilePhoneNumberControl) {
+       const handleValidation = () => {
+         const phoneNumberValue = phoneNumberControl.value;
+         const mobilePhoneNumberValue = mobilePhoneNumberControl.value;
+     
+         const phoneNumberInvalid = phoneNumberControl.invalid && phoneNumberControl.touched;
+         const mobilePhoneNumberInvalid = mobilePhoneNumberControl.invalid && mobilePhoneNumberControl.touched;
+     
+         if (!phoneNumberValue && !mobilePhoneNumberValue) {
+           phoneNumberControl.setErrors({ required: true });
+           mobilePhoneNumberControl.setErrors({ required: true });
+         } else {
+           phoneNumberControl.setErrors(null);
+           mobilePhoneNumberControl.setErrors(null);
+         }
+       };
+     
+       phoneNumberControl.valueChanges.subscribe(() => handleValidation());
+       mobilePhoneNumberControl.valueChanges.subscribe(() => handleValidation());
+     }
+     
+     
       /*********************************** Controle webSite Field *******************************************/
   
       const webSiteControl = this.coordonneesForm.get('webSite');
@@ -641,7 +677,35 @@ export class PartnerStepperComponent implements OnInit {
   
   
   }
+  onPaymentTermSelection(paymentTermId: number): void {
+    this.partnerForm.get('paymentTermNum')?.patchValue(paymentTermId);
+  }
 
+  phoneNumberValidator(mobilePhoneNumberControl: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const phoneNumber = control.value;
+      const mobilePhoneNumber = mobilePhoneNumberControl.value;
+  
+      if ((!phoneNumber && mobilePhoneNumber) || (phoneNumber && !mobilePhoneNumber)) {
+        return Validators.required(control);
+      }
+  
+      return Validators.nullValidator(control);
+    };
+  }
+  
+  mobilePhoneNumberValidator(phoneNumberControl: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const mobilePhoneNumber = control.value;
+      const phoneNumber = phoneNumberControl.value;
+  
+      if ((!mobilePhoneNumber && phoneNumber) || (mobilePhoneNumber && !phoneNumber)) {
+        return Validators.required(control);
+      }
+  
+      return Validators.nullValidator(control);
+    };
+  }
   initializeAddressForm(): void {
     this.partnerAddressForm = this.fb.group({
       value: this.fb.array([]),

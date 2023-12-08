@@ -1,3 +1,4 @@
+import { PaymentTerm } from "./PaymentTerm";
 import { address } from "./address";
 import { contact } from "./contact";
 import { req } from "./req";
@@ -26,32 +27,36 @@ export interface Partner {
     description ?: string ;
     logo ?: string ;
     email ?: string;
-    webSite ?: string
+    webSite ?: string;
     foundedSince ?: string;
     activityStartDate? : string;
     activityEndDate? : string;
     partnerShipDate ?: string;
     creationDate ?: string;
-    companyStatus ?:CompanyStatus,
-    refPhoneNumber?: number,
-    country? :string,
-    legalStatus?:LegalStatus,
-    blocked?: boolean,
-    insurancePolicy?: string,
-    insuranceCompany?: string,
-    comment?: string,
-    controlType?: string,
-    inProgressAuthorized?: number,
-    capital?: number,
-    classification?: Privilege,
-    paymentCondition?: string,
-    paymentMode?: string,
-    externalReference ?: number,
-    toleranceRate ?: number,
-    addresses?: address[],
-    contacts?: contact[],
-    currency?: Currency,
-    requirements?:req[]
+    companyStatus ?:CompanyStatus;
+    refPhoneNumber?: number;
+    country? :string;
+    legalStatus?:LegalStatus;
+    blocked?: boolean;
+    insurancePolicy?: string;
+    insuranceCompany?: string;
+    comment?: string;
+    controlType?: string;
+    inProgressAuthorized?: number;
+    capital?: number;
+    classification?: Privilege;
+    paymentCondition?: string;
+    paymentMode?: string;
+    externalReference ?: number;
+    toleranceRate ?: number;
+    addresses?: address[];
+    contacts?: contact[];
+    currency?: Currency;
+    isTaxable?: boolean;
+    requirements?:req[];
+    paymentTerm?:PaymentTerm; 
+    paymentTermId ?:number
+    //paymentTermNum?:number
   }
 
   export interface Country {

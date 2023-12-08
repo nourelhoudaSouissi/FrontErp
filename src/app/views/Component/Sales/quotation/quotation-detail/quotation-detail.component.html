@@ -100,6 +100,8 @@
 
        
       </div>
+
+      <!--
       <div fxFlex="25%" fxLayoutGap="20px" fxLayout="column">
         <div fxLayout="column" fxLayoutAlign="start start">
           <h4><strong>Emetteur</strong></h4>
@@ -108,7 +110,9 @@
           <p>CSI Digital</p>
           <p>Administration PAEB, 7000 Bizerte</p>
         </div>
-      </div>
+      </div>-->
+
+
     </div>
     <mat-divider></mat-divider>
     <!-- end of billing details -->
@@ -136,16 +140,29 @@
              placeholder="TVA"
            />
          </mat-form-field>
-         <mat-form-field class="full-width">
+
+         <!--<mat-form-field class="full-width">
            <input
              [formControlName]="'discount'"
              type="number"
              matInput
              required
-             placeholder="Taux de remise %"
+             placeholder="Taux de remise %" 
+             />
+         </mat-form-field>-->
+
+
+          <mat-form-field class="full-width">
+           <input
+             [formControlName]="'limitDuration'"
+             type="number"
+             matInput
+             required
+             placeholder="Durée de validation"
            />
          </mat-form-field>
       </div>
+
       <div 
       fxLayout="column"
       fxLayoutGap="20px"
@@ -374,23 +391,26 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between center">
-          <span>Montant brut HT Remise : </span>
+          <span>Montant net HT : </span>
           <span>{{ htRevenueRemiseProfile.toFixed(3) }} {{ currency }}</span>
         </div>
 
 
-        <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="discount !== 0">
+       <!-- <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="discount !== 0">
           <span>Remise ({{ discount }}%): </span>
           <span >{{ discountAmount.toFixed(3) }} {{ currency }}</span>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
+        </div>-->
+        
+      <!--<div fxLayout="row" fxLayoutAlign="space-between center">
           <span>Montant net HT : </span>
           <span>{{ revenue.toFixed(3) }} {{ currency }}</span>
-        </div>
+        </div>-->  
+
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <span>TVA ({{ tva }}%) : </span>
           <span>{{ tvaCost.toFixed(3) }} {{ currency }}</span>
         </div>
+
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <span>Net à payer TTC : </span>
           <span>{{ revenueOrd.toFixed(3) }} {{ currency }}</span>
@@ -468,8 +488,8 @@
       <!--p><strong>Etat de la facture :</strong> {{ quotation?.invoiceEtat }}</p-->
       <h1><p>DEVIS</p></h1>
       <p><strong>Référence devis :</strong> {{ quotation?.ref }}</p>
-      <p><strong>Devise: </strong> {{ currencyMap[quotation?.currency] }}</p>
       <p><strong>Date d'émission :</strong> {{ quotation?.quotationDate | date: 'dd-MM-yyyy' }}</p>
+      <p><strong>Devise: </strong> {{ currencyMap[quotation?.currency] }}</p>
     
     </div>
          
@@ -589,8 +609,8 @@
           </ng-container>
 
           <ng-container matColumnDef="profileDiscount">
-            <mat-header-cell *matHeaderCellDef>Remise</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.get('profileDiscount').value }} </mat-cell>
+            <mat-header-cell *matHeaderCellDef>Remise (%)</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('profileDiscount').value }}</mat-cell>
           </ng-container>
 
 
@@ -606,13 +626,13 @@
           </ng-container>
 
           <ng-container matColumnDef="total">
-            <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.get('total').value }} {{ quotation.currency }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef>Total ( {{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('total').value }} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="totalDiscount">
-            <mat-header-cell *matHeaderCellDef>Total avec Remise</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.get('totalDiscount').value }} {{ quotation.currency }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef>Total avec Remise ({{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('totalDiscount').value }}</mat-cell>
           </ng-container>
 
           
@@ -640,11 +660,11 @@
       <!-- buyer -->
       <div fxFlex="25%" fxLayout="column" fxLayoutAlign="start start">
         <p><strong>Montant brut HT : </strong>{{ quotation?.htRevenue.toFixed(3) }} {{ quotation?.currency }}</p>
-        <p><strong>Montant brut HT Remise : </strong>{{ quotation?.htRevenueRemiseProfile.toFixed(3) }} {{ quotation?.currency }}</p>
-        <p *ngIf="quotation?.discount !== 0"><strong>Remise ({{ quotation?.discount }}%) : </strong>{{ quotation?.discountAmount.toFixed(3) }} {{ quotation?.currency }}</p>
+        <p><strong>Montant net HT : </strong>{{ quotation?.htRevenueRemiseProfile.toFixed(3) }} {{ quotation?.currency }}</p>
+        <!--<p *ngIf="quotation?.discount !== 0"><strong>Remise ({{ quotation?.discount }}%) : </strong>{{ quotation?.discountAmount.toFixed(3) }} {{ quotation?.currency }}</p>
         <p><strong>Montant net HT : </strong>{{ quotation?.revenue.toFixed(3) }} {{ quotation?.currency }}</p>
-        <p><strong>TVA ({{ quotation?.tva }}%) : </strong>{{ quotation?.tvaCost.toFixed(3) }} {{ quotation?.currency }}</p>
-        <h5><strong><strong>Net à payer TTC : </strong>{{ quotation?.revenueOrd.toFixed(3) }} {{ quotation?.currency }}</strong></h5>
+        --><p><strong>TVA ({{ quotation?.tva }}%) : </strong>{{ quotation?.tvaCost.toFixed(3) }} {{ quotation?.currency }}</p>
+         <h5><strong><strong>Net à payer TTC : </strong>{{ quotation?.revenueOrd.toFixed(3) }} {{ quotation?.currency }}</strong></h5>
       </div>
     </div>
 
