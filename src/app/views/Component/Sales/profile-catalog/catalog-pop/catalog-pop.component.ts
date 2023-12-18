@@ -7,6 +7,9 @@ import { Level } from 'app/shared/models/Profile';
 import { ProfileCatalogService } from '../profile-catalog.service';
 import { ProfileDomain } from 'app/shared/models/ProfileDomain';
 import { ProfileDomainService } from 'app/views/Component/Referentiel/ProfilDomain/profile-domain.service';
+import { CatalogType } from 'app/shared/models/Service';
+import { TvaCode } from 'app/shared/models/TvaCode';
+import { TvaCodeService } from 'app/views/Component/Referentiel/TvaCode/tva-code.service';
 
 @Component({
   selector: 'app-catalog-pop',
@@ -17,19 +20,28 @@ export class CatalogPopComponent implements OnInit {
   isNew: boolean
   private profileDomainNum : number
   submitted = false;
-
+  private tvaCodeNum : number
   listProfileDomains : ProfileDomain[] = []
-
+  listTvaCodes : any[] = []
 
   public itemForm: FormGroup
+
   public myProfileForm: FormGroup;
+  public myServiceForm: FormGroup;
+
   profiles: FormArray;
+  services: FormArray;
 
   repeatForm: FormGroup;
+  repeatFormSevice: FormGroup;
+
   repeatFormUpdated: FormGroup;
   public showProfilesForm: boolean = false;
+  public showServicesForm: boolean = false;
+
   levels = Object.values(Level)
   currencies = Object.values(Currency)
+  catalogTypes = Object.values(CatalogType)
 
   existingCatalogs: Catalog[] = [];
 
@@ -47,15 +59,30 @@ export class CatalogPopComponent implements OnInit {
 
   });
 
+
+
+  formService = new FormGroup({
+    id: new FormControl(''),
+    amount: new FormControl(''),
+    code: new FormControl(''),
+    title: new FormControl(''),
+    comment: new FormControl(''),
+    tvaPercentage: new FormControl('')
+
+  });
+
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CatalogPopComponent>,
     private fb: FormBuilder,
+    private fbService: FormBuilder,
     private _formBuilder: FormBuilder,
+    private _formBuilderServices: FormBuilder,
     private catalogService: ProfileCatalogService,
     private changeDetectorRef: ChangeDetectorRef,
     private profileDomainService: ProfileDomainService,
-
+    private tvaCodeService: TvaCodeService,
   ) { }
 
   getProfileDomains(){
@@ -65,6 +92,10 @@ export class CatalogPopComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTvaCodes()
+    this.tvaCodeNum = this.data.tvaCodeId;
+
+    console.log ('datttttttttttttttttttttttttttttttttttta', this.data)
     this.buildItemForm(this.data.payload);
     console.log(this.data.isNew);
     console.log(this.data.payload);
@@ -81,19 +112,32 @@ export class CatalogPopComponent implements OnInit {
     this.myProfileForm = this._formBuilder.group({
       profiles: this._formBuilder.array([]) // Initialize profiles as an empty FormArray
     });
+
+    this.myServiceForm = this._formBuilderServices.group({
+      services: this._formBuilderServices.array([]) // Initialize profiles as an empty FormArray
+    });
   
     this.buildItemForm(this.data.payload);
     this.repeatForm = this._formBuilder.group({
       repeatArray: this._formBuilder.array([this.createRepeatForm()])
     });
-    
+
+    this.repeatFormSevice = this._formBuilderServices.group({
+      repeatArray: this._formBuilderServices.array([this.createServiceRepeatForm()])
+    });
     //////////////////////////////////////end updates repeat form
   }
   
-  
+  getTvaCodes(){
+    this.tvaCodeService.getItems().subscribe((data :any )=>{
+      this.listTvaCodes = data
+    });
+  }
 
   buildItemForm(item) {
     const profiles = item.profiles && item.profiles.length > 0 ? item.profiles : [];
+    const services = item.services && item.services.length > 0 ? item.services : [];
+
     this.itemForm = this.fb.group({
       title: [item.title || '', Validators.required],
       currency: [item.currency || '', Validators.required],
@@ -101,7 +145,9 @@ export class CatalogPopComponent implements OnInit {
       endDate: [item.endDate || '', Validators.required],
       ref: [item.ref || '', Validators.required],
       comment: [item.comment || '', Validators.required],
-      profiles: this.fb.array(profiles.map(profile => this.buildProfileFormGroup(profile)))
+      profiles: this.fb.array(profiles.map(profile => this.buildProfileFormGroup(profile))),
+      services: this.fbService.array(services.map(service => this.buildServiceFormGroup(service)))
+
     });
   }
 
@@ -119,18 +165,52 @@ export class CatalogPopComponent implements OnInit {
     });
   }
 
+  buildServiceFormGroup(service): FormGroup {
+    return this.fbService.group({
+      id: [service.id || ''],
+      amount: [service.amount || ''],
+      code: [service.code || ''],
+      title: [service.title || ''],
+      comment: [service.comment || ''],
+      catalogType: [CatalogType.SERVICE],
+      tvaCodeNum: [this.data.tvaCodeId || ''],
+      tvaPercentage: [service.tvaPercentage || ''],
+
+    });
+  }
+
+
   get myArrayControls() {
     return (this.myProfileForm.get('profiles') as FormArray).controls;
   }
+  get myServiceArrayControls() {
+    return (this.myServiceForm.get('services') as FormArray).controls;
+  }
+
+
   createRepeatForm(): FormGroup {
     return this._formBuilder.group({});
   }
+  createServiceRepeatForm(): FormGroup {
+    return this._formBuilderServices.group({});
+  }
+
+
   get repeatFormGroup() {
     return this.repeatForm.get('repeatArray') as FormArray;
   }
+  get repeatServiceFormGroup() {
+    return this.repeatFormSevice.get('repeatArray') as FormArray;
+  }
+
   handleAddRepeatForm() {
     this.repeatFormGroup.push(this.createRepeatForm());
   }
+  handleServiceAddRepeatForm() {
+    this.repeatServiceFormGroup.push(this.createServiceRepeatForm());
+  }
+
+
   handleRemoveRepeatForm(index: number) {
     this.repeatFormGroup.removeAt(index);
     if (index > 0) {
@@ -138,6 +218,15 @@ export class CatalogPopComponent implements OnInit {
       repeatArray.removeAt(index);
     }
   }
+  handleServiceRemoveRepeatForm(index: number) {
+    this.repeatServiceFormGroup.removeAt(index);
+    if (index > 0) {
+      const repeatArray = this.repeatFormSevice.get('repeatArray') as FormArray;
+      repeatArray.removeAt(index);
+    }
+  }
+
+
   addProfileFormGroup(): void {
     const profilesFormArray = this.itemForm.get('profiles') as FormArray;
     profilesFormArray.push(this.fb.group({
@@ -152,10 +241,30 @@ export class CatalogPopComponent implements OnInit {
       isActif: ['']
     }));
   }
+
+  addServiceFormGroup(): void {
+    const servicesFormArray = this.itemForm.get('services') as FormArray;
+    servicesFormArray.push(this.fbService.group({
+      id: [''],
+      amount: ['', Validators.required],
+      code: [''],
+      title: [''],
+      comment: [''],
+      tvaCodeNum: [''],
+      tvaPercentage: ['']
+
+    }));
+  }
   
+
   removeProfileFormGroup(index: number): void {
     const profilesFormArray = this.itemForm.get('profiles') as FormArray;
     profilesFormArray.removeAt(index);
+  }
+
+  removeServiceFormGroup(index: number): void {
+    const servicesFormArray = this.itemForm.get('services') as FormArray;
+    servicesFormArray.removeAt(index);
   }
   
   toggleProfilesForm(): void {
@@ -175,6 +284,22 @@ export class CatalogPopComponent implements OnInit {
     this.showProfilesForm = true; // Always set showProfilesForm to true
   }
   
+
+  toggleServicesForm(): void {
+    const servicesFormArray = this.itemForm.get('services') as FormArray;
+    if (servicesFormArray.length === 0) {
+      servicesFormArray.push(this.fbService.group({
+        id:[''],
+        amount: ['', Validators.required],
+        code: [''],
+        title: [''],
+        comment: [''],
+        tvaCodeNum: [''],
+        tvaPercentage: ['']
+      }));
+    }
+    this.showServicesForm = true; // Always set showProfilesForm to true
+  }
   
   //////////////////////////////////////end updates repeat form
 
@@ -257,26 +382,12 @@ export class CatalogPopComponent implements OnInit {
       }
     }
 
-    /*for (const catalog of this.existingCatalogs) {
-      if (endDate >= catalog.endDate && startDate <= catalog.startDate) {
-        periodOverlapping = true;
-        break; // No need to check further
-      }
-    }*/
-
     // Check if endDate is after startDate
     if (endDate <= startDate) {
       dateRange = true 
     }
   
-    // Set error message if overlapping dates found
-    /*if(dateRange){
-      endDateControl.setErrors({ invalidDateRange: true });
-      console.log('Invalid date range error set');
-    } else {
-      endDateControl.setErrors({invalidDateRange: false}); // Reset the error when date range is valid
-      console.log('Date range is valid');
-    }*/
+
     
     if (startDateOverlapping) {
       startDateControl.setErrors({ overlappingStartDate: true });
@@ -295,15 +406,6 @@ export class CatalogPopComponent implements OnInit {
       console.log('end date is valid');
     }
 
-    /*if(periodOverlapping){
-      startDateControl.setErrors({ periodOverlapping: true, overlappingStartDate: startDateControl.errors.overlappingStartDate})
-      endDateControl.setErrors({ periodOverlapping: true, overlappingEndDate: endDateControl.errors.overlappingEndDate, invalidDateRange: endDateControl.errors.invalidDateRange})
-      console.log('Invalid period error set');
-    } else {
-      startDateControl.setErrors({ periodOverlapping: false, overlappingStartDate: startDateControl.errors.overlappingStartDate})
-      endDateControl.setErrors({ periodOverlapping: false, overlappingEndDate: endDateControl.errors.overlappingEndDate, invalidDateRange: endDateControl.errors.invalidDateRange})
-      console.log('period is valid');
-    }*/
     console.log(startDateControl)
     console.log(endDateControl)
   }
@@ -324,15 +426,6 @@ export class CatalogPopComponent implements OnInit {
     // Filter out the row to update from existingCatalogs based on catalogIdToUpdate
     const filteredCatalogs = this.existingCatalogs.filter(catalog => catalog.id !== catalogIdToUpdate);
     console.log(filteredCatalogs);
-  
-    /*for (const catalog of filteredCatalogs) {
-      if (endDate <= catalog.endDate && startDate >= catalog.startDate) {
-        endDateOverlapping = true;
-        startDateOverlapping = true;
-        console.log("les 2")
-        break; // No need to check further
-      }
-    }*/
 
     for (const catalog of filteredCatalogs) {
       if (startDate >= catalog.startDate && startDate <= catalog.endDate) {
@@ -355,15 +448,7 @@ export class CatalogPopComponent implements OnInit {
       dateRange = true;
     }
   
-    // Set error message if overlapping dates found
-    /*if (startDateOverlapping && endDateOverlapping) {
-      startDateControl.setErrors({ overlappingDates: true });
-      endDateControl.setErrors({ overlappingDates: true });
-      console.log("les 2.0")
-    } else {
-      startDateControl.setErrors(null); // Reset the error when not overlapping
-      endDateControl.setErrors(null); // Reset the error when not overlapping
-    }*/
+ 
     if (startDateOverlapping) {
       startDateControl.setErrors({ overlappingStartDate: true });
       console.log("start 2.0")
@@ -391,6 +476,7 @@ export class CatalogPopComponent implements OnInit {
     this.itemForm.updateValueAndValidity();
     console.log(this.data.payload.id)
     // Perform validation before submitting
+    console.log ('datttttttttttttttttttttttttttttttttttta Submittt', this.data)
     if(this.isNew){
       this.validateDates();
       this.validateRef()
@@ -401,18 +487,41 @@ export class CatalogPopComponent implements OnInit {
     }
     console.log(this.itemForm.valid)
     const profilesFormArray = this.itemForm.get('profiles') as FormArray;
+    const servicesFormArray = this.itemForm.get('services') as FormArray;
     console.log(profilesFormArray.value.length)
+
     // Check if the form is valid before closing the dialog
-    if (this.itemForm.valid && profilesFormArray.value.length > 0) {
+    if (this.itemForm.valid && profilesFormArray.value.length > 0 && servicesFormArray.value.length > 0) {
       console.log(this.itemForm.value);
       this.dialogRef.close(this.itemForm.value);
     }
+    
     this.submitted = true;
   }
 
   get profilesFormArray() {
     return this.itemForm.get('profiles') as FormArray;
   }
+  get servicesFormArray() {
+    return this.itemForm.get('services') as FormArray;
+  }
+
+
+  onTvaCodeSelectionChange(event: any, index: number) {
+    const selectedTvaCodeId = event.value; // Récupère l'ID du code TVA sélectionné
+  
+    // Recherche du code TVA sélectionné dans la liste
+    const selectedTvaCode = this.listTvaCodes.find(tvaCode => tvaCode.id === selectedTvaCodeId);
+  
+    // Met à jour la valeur de tvaPercentage si un code TVA est sélectionné
+    if (selectedTvaCode) {
+      const servicesFormArray = this.itemForm.get('services') as FormArray;
+      const serviceFormGroup = servicesFormArray.at(index) as FormGroup;
+      serviceFormGroup.get('tvaPercentage').setValue(selectedTvaCode.tvaValue);
+    }
+  }
+  
+
 
   levelMap = {
     [Level.JUNIOR]: "Junior",
@@ -420,7 +529,10 @@ export class CatalogPopComponent implements OnInit {
     [Level.SENIOR]: "Senior",
     [Level.EXPERT]: "Expert"
   }
-
+ CatalogTypeMap ={
+    [CatalogType.RESOURCE]: "Ressource",
+    [CatalogType.SERVICE]: "Service"
+}
   currencyMap: {[key: string]: string} = {
     'AFN': 'AFN - Afghani afghan',
     'AMD': 'AMD - Dram arménien',

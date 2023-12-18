@@ -1,0 +1,112 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+    
+    <button mat-raised-button class="mb-2" style="float: right ;"  color="primary" (click)="openPopUp({}, true )">
+    Nouveau Code TVA
+    </button>
+    <mat-form-field style="padding-left: 19px;">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+    </mat-form-field>
+
+     <div style="clear: both;"></div>
+    
+    <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+         
+            <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div class="column-header">
+                    <div class="column-name">
+                      <span class="centered-text">Code</span>
+                    </div>
+                    <div class="filter-input">
+                      <mat-form-field>
+                        <input matInput (input)="applyFilterr($event, 'code')" placeholder="Filtrer">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="code">{{row.code}}</mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div class="column-header">
+                    <div class="column-name">
+                      <span class="centered-text">Titre</span>
+                    </div>
+                    <div class="filter-input">
+                      <mat-form-field>
+                        <input matInput (input)="applyFilterr($event, 'title')" placeholder="Filtrer">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="title">{{row.title}}</mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="tvaValue">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="column-header">
+                  <div class="column-name">
+                    <span class="centered-text">Pourcentage (%)</span>
+                  </div>
+                  <div class="filter-input">
+                    <mat-form-field>
+                      <input matInput (input)="applyFilterr($event, 'tvaValue')" placeholder="Filtrer">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="tvaValue">{{row.tvaValue}}</mat-cell>
+          </ng-container>
+
+     
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <div class="column-header">
+                    <div class="column-name">
+                      <span class="centered-text">Description</span>
+                    </div>
+                    <div class="filter-input">
+                      <mat-form-field>
+                        <input matInput (input)="applyFilterr($event, 'description')" placeholder="Filtrer">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="description">{{row.description}}</mat-cell>
+            </ng-container>
+
+
+            
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button  matTooltip="Modifier la Condition de payement"  mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button  matTooltip="Voir les détails du la Condition de payement"  mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpView(row)">
+                <mat-icon>remove_red_eye </mat-icon>
+              </button>
+              
+              <button matTooltip="Supprimer la Condition de payement"  mat-icon-button mat-sm-button color="warn" (click)="deleteItem(row)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+      </mat-card-content>
+    </mat-card>
+ 
+   </div>

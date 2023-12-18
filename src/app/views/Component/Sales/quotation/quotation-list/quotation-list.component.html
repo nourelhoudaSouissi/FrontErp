@@ -70,6 +70,11 @@
                     <mat-icon>check_circle</mat-icon>
                     <span>En attente</span>
                   </button>
+                  <button mat-menu-item (click)="changeQuotationStatus('quotationStatus.SENT_TO_CLIENT', row.id)">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Envoyé</span>
+                  </button>
+
                   <button mat-menu-item (click)="changeQuotationStatus('quotationStatus.ACCEPTED', row.id)">
                     <mat-icon>check_circle</mat-icon>
                     <span>Accepté</span>

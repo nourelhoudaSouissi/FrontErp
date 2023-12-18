@@ -41,7 +41,8 @@ export enum QuotationStatus{
     IN_PROGRESS = "IN_PROGRESS",
     VALIDATED = "VALIDATED",
     REFUSED = "REFUSED",
-    UNANSWERED = "UNANSWERED"
+    UNANSWERED = "UNANSWERED",
+    SENT_TO_CLIENT= "SENT_TO_CLIENT"
 }
 
 export enum BillingType{

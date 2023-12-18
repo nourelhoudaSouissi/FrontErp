@@ -74,6 +74,13 @@ export class QuotationService {
     );
   }
 
+  updateStatusToSentToClient(id: number) : Observable<any> {
+    const url = `${this.apiUrl}/updateToSentToClient/${id}`;
+    return this.http.put<any>(url, {}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   // POST a new item
   addQuotation(quotation: any): Observable<any> {
     console.log(quotation)

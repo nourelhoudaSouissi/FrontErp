@@ -94,12 +94,13 @@ export class CatalogListComponent implements OnInit {
 
  openPopUp(data:  any , isNew?) {
   let title = isNew ? 'Ajouter catalogue' : 'Mettre à jour catalogue';
-  let titleP = isNew ? 'Ajouter Les profils' : 'Mettre à jour les profils';
+  let titleP = isNew ? 'Ajouter Les Profils' : 'Mettre à jour les profils';
+  let titleS = isNew ? 'Ajouter Les Services' : 'Mettre à jour les services';
   let dialogRef: MatDialogRef<any> = this.dialog.open(CatalogPopComponent, {
     height: '620px',
     width: '920px',
     disableClose: true,
-    data: { title: title, payload: data , isNew: isNew, titleP: titleP}
+    data: { title: title, payload: data , isNew: isNew, titleP: titleP, titleS: titleS}
   })
   dialogRef.afterClosed()
     .subscribe(res => {

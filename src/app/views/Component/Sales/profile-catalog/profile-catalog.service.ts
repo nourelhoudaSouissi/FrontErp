@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Profile } from 'app/shared/models/Profile';
 import { Catalog } from 'app/shared/models/Catalog';
 import { Observable, catchError, throwError } from 'rxjs';
+import { Service } from 'app/shared/models/Service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ import { Observable, catchError, throwError } from 'rxjs';
 export class ProfileCatalogService {
   private apiUrl = 'http://localhost:8085/crm/catalogs';
   private apiUrl1 = 'http://localhost:8085/crm/profiles';
+  private apiUrl2 = 'http://localhost:8085/referentiel/service';
+
   constructor(private http: HttpClient) { }
 
     //******* Implement your APIs ********
@@ -108,7 +111,14 @@ export class ProfileCatalogService {
         catchError(this.handleError)
       );
     }
-  
+      ////////////////////////requested Services///////////////////////////////////////
+ // DELETE an item by id
+ deleteService(id: number): Observable<Service> {
+  const url = `${this.apiUrl2}/${id}`;
+  return this.http.delete<Service>(url).pipe(
+    catchError(this.handleError)
+  );
+}
   
     private handleError(error: HttpErrorResponse) {
       if (error.error instanceof ErrorEvent) {

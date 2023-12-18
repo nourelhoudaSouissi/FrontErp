@@ -429,6 +429,10 @@ export const rootRouterConfig: Routes = [
       {
         path: 'paymentTerm',
         loadChildren: () => import('./views/Component/Referentiel/PaymentTerm/payment-term.module').then(m => m.PaymentTermModule)
+      },
+      {
+        path: 'tvaCode',
+        loadChildren: () => import('./views/Component/Referentiel/TvaCode/tva-code.module').then(m => m.TvaCodeModule)
       }
     ]
   },

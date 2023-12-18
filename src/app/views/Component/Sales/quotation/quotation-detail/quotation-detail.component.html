@@ -490,7 +490,8 @@
       <p><strong>Référence devis :</strong> {{ quotation?.ref }}</p>
       <p><strong>Date d'émission :</strong> {{ quotation?.quotationDate | date: 'dd-MM-yyyy' }}</p>
       <p><strong>Devise: </strong> {{ currencyMap[quotation?.currency] }}</p>
-    
+      <p><strong>Durée limite: </strong> {{ quotation?.limitDuration}} Jours</p>
+      <p><strong>Date de validation: </strong> {{ quotation?.ValidationDate}}</p>
     </div>
          
           <!--div class="espace">

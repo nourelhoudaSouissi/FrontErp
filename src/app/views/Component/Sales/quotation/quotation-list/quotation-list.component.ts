@@ -172,6 +172,9 @@ changeQuotationStatus(quotationStatus: string, reqId: number): void {
     case 'quotationStatus.REFUSED':
       updateObservable = this.quotationService.updateStatusToRefused(reqId);
       break;
+    case 'quotationStatus.SENT_TO_CLIENT':
+      updateObservable = this.quotationService.updateStatusToSentToClient(reqId);
+      break;
     case 'quotationStatus.UNANSWERED':
       updateObservable = this.quotationService.updateStatusToUnanswered(reqId);
       break;
@@ -217,7 +220,8 @@ getStatusColor(requirementStatus: string): { color: string, displayText: string 
     [QuotationStatus.IN_PROGRESS]: "En attente",
     [QuotationStatus.VALIDATED]: "Accepté",
     [QuotationStatus.REFUSED]: "Refusé",
-    [QuotationStatus.UNANSWERED]: "Sans suite"
+    [QuotationStatus.UNANSWERED]: "Sans suite",
+    [QuotationStatus.SENT_TO_CLIENT]: "Envoyé"
   }
 
 }

@@ -1,0 +1,39 @@
+
+
+
+<div fxFlex.gt-md="600px">
+   
+      <mat-card-header>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="header-content">
+          <mat-card-title >Détails du Code TVA</mat-card-title>
+          <div fxLayout="row" fxLayoutAlign="end center" >
+            <button style="margin-inline-start:280px;" mat-icon-button class="close-button" (click)="closeDialog()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="pt-0">
+        <mat-list>
+          <mat-list>
+            <mat-list-item>
+              <strong>Code  &nbsp;:&nbsp;</strong> {{ tvaCode.code }}
+            </mat-list-item>
+            <mat-list-item>
+              <strong>Titre  &nbsp;:&nbsp;</strong> {{ tvaCode.title }}
+            </mat-list-item>
+            <mat-list-item>
+                <strong>Decription  &nbsp;:&nbsp;</strong> {{ tvaCode.description }}
+              </mat-list-item>
+              <mat-list-item>
+                <strong>Poucentage de la TVA  &nbsp;:&nbsp;</strong> {{ tvaCode.tvaValue }}%
+              </mat-list-item>
+          </mat-list>
+          
+          
+          
+       
+        </mat-list>
+      </mat-card-content>
+  </div>
+ 

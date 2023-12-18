@@ -267,6 +267,133 @@
               </div>
             </div>
           </mat-card>
+
+
+<!----------------------------- Service RepeatForm ---------------------->
+
+          <mat-card class = "custom-card">
+            <mat-card-title>
+              <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px" >
+                <span>{{data.titleS}}</span>
+                <button mat-icon-button *ngIf="data.isNew" (click)="toggleServicesForm()">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="!data.isNew" (click)="toggleServicesForm()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+              <mat-error *ngIf="servicesFormArray.length === 0 && submitted">
+                Un service au moins est requis.
+              </mat-error>
+            </mat-card-title>
+  
+            <div formArrayName="services" *ngIf="showServicesForm">
+              <div *ngFor="let service of itemForm.get('services')?.controls; let i = index" [formGroup]="service">
+                <div fxLayout="row wrap" >
+
+
+                  <div fxFlex="50"  class="pr-16">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Code</mat-label>
+                        <input
+                          matInput
+                          required
+                          name="code"
+                          formControlName="code"
+                          placeholder="Code"
+                        />
+                    </mat-form-field>
+                  </div>
+              
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Titre</mat-label>
+                      <input
+                        matInput
+                        required
+                        name="title"
+                        formControlName="title"
+                        placeholder="Titre"
+                      />
+                  </mat-form-field>
+                </div>
+
+                <div fxFlex="50"  class="pr-16">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Montant</mat-label>
+                    <input
+                      matInput
+                      required
+                      type="number"
+                      name="amount"
+                      formControlName="amount"
+                      placeholder="Montant"
+                    />
+                </mat-form-field>
+                </div>
+
+                
+                <div fxFlex="50" class="pr-16">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Code TVA</mat-label>
+                    <mat-select [formControlName]="'tvaCodeNum'" (selectionChange)="onTvaCodeSelectionChange($event, i)">
+                      <mat-option *ngFor="let tvaCode of listTvaCodes" [value]="tvaCode.id">{{tvaCode.code}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                
+
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>TVA (%)</mat-label>
+          <input
+            matInput
+            required
+            type="number"
+            name="tvaPercentage"
+            formControlName="tvaPercentage"
+            placeholder="Porcentage de TVA"
+          />
+      </mat-form-field>
+      </div>
+
+      
+                
+                <div class="mini-container" >
+                  <mat-form-field [style.width.cm]=20.8 class="example-full-width" appearance="outline">
+                    <mat-label>Commentaire</mat-label>
+                    <textarea matInput placeholder="Saisissez un commentaire si nécessaire."
+                    formControlName="comment"></textarea>
+                  </mat-form-field>
+                </div>
+
+               
+              
+                  
+                  <div class="button-container">
+                    <div>
+                      <button class="left-button" mat-icon-button (click)="removeServiceFormGroup(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <div>
+                      <button class="right-button" mat-icon-button (click)="addServiceFormGroup(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </mat-card>
+  
+
+
+
+
+
+
   
           <div fxFlex="100" class="mt-16">
             <button mat-raised-button color="primary" (click)="submit()">Enregistrer</button>
