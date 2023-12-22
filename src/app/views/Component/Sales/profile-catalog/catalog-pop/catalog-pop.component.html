@@ -227,7 +227,16 @@
             </mat-select>
         </mat-form-field>
       </div>
-
+                  
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Unité</mat-label>
+          <mat-select [formControlName]="'calculationUnitNum'" >
+            <mat-option *ngFor="let calculationUnit of listCalculationUnits" [value]="calculationUnit.id">{{calculationUnit.code}} - {{calculationUnit.title}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
 
       
       <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
@@ -357,7 +366,14 @@
       </mat-form-field>
       </div>
 
-      
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Unité</mat-label>
+          <mat-select [formControlName]="'calculationUnitNum'" >
+            <mat-option *ngFor="let calculationUnit of listCalculationUnits" [value]="calculationUnit.id">{{calculationUnit.code}} - {{calculationUnit.title}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
                 
                 <div class="mini-container" >
                   <mat-form-field [style.width.cm]=20.8 class="example-full-width" appearance="outline">

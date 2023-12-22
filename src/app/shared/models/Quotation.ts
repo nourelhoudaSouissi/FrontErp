@@ -1,3 +1,4 @@
+import { ServiceUpdated } from "./ServiceUpdated"
 import { UpdatedProfile } from "./UpdatedProfile"
 
 export class Quotation {
@@ -35,6 +36,8 @@ export class Quotation {
     comment : string
     orderId: number
     profiles?: UpdatedProfile[]
+
+    services?: ServiceUpdated[]
 }
 
 export enum QuotationStatus{

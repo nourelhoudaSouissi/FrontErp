@@ -20,6 +20,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ValidatorService } from 'angular-iban';
 import { PaymentTerm } from 'app/shared/models/PaymentTerm';
 import { PaymentTermService } from 'app/views/Component/Referentiel/PaymentTerm/payment-term.service';
+import { TvaCodeService } from 'app/views/Component/Referentiel/TvaCode/tva-code.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -43,6 +44,10 @@ export const MY_DATE_FORMATS = {
 })
 export class PartnerStepperComponent implements OnInit {
   showDiv = false; 
+
+ 
+
+
   toggleDiv() {
     this.showDiv = !this.showDiv;
   }
@@ -92,6 +97,8 @@ export class PartnerStepperComponent implements OnInit {
   listPaymentTerms : PaymentTerm[] = []
   private paymentTermNum : number
   
+  listTvaCodes : any[] = []
+  private tvaCodeNum : number
 
   i: number;
   j: number;
@@ -119,11 +126,14 @@ export class PartnerStepperComponent implements OnInit {
     private http: HttpClient,
     public dialog: MatDialog,
     private datePipe: DatePipe,
+    private tvaCodeService: TvaCodeService,
+
     
   ) {
 
    
 }
+
 
 // Validator pour vérifier si le nom commence par une majuscule
  capitalLetterValidator2: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -140,6 +150,13 @@ getPaymentTerms(){
     this.listPaymentTerms = data
   });
 }
+
+getTvaCodes(){
+  this.tvaCodeService.getItems().subscribe((data :any )=>{
+    this.listTvaCodes = data
+  });
+}
+
 
 // Validator pour vérifier l'unicité du nom
  uniqueNameValidator: AsyncValidatorFn = (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -164,6 +181,7 @@ getPaymentTerms(){
 
 
   ngOnInit(): void {
+    this.getTvaCodes()
     this.getPaymentTerms();
    // this.paymentTermNum = this.data.paymentTermId;
     this.partnerForm = new UntypedFormGroup({
@@ -183,7 +201,11 @@ getPaymentTerms(){
       logo: new UntypedFormControl('',[Validators.required] ),
       ref: new UntypedFormControl('',[Validators.required, 
         Validators.pattern(/^[a-zA-Z0-9]{10}$/)] ),
-      partnershipDate: new UntypedFormControl('',[Validators.required])
+      partnershipDate: new UntypedFormControl('',[Validators.required]),
+      tvaCodeNum: new UntypedFormControl('', []),
+      tvaPercentage: new UntypedFormControl('', []),
+
+
     })
     
     this.initializeAddressForm()
@@ -318,6 +340,51 @@ getPaymentTerms(){
         }
       });
     }
+
+          /*********************************** Controle tvaCodeNum Field *******************************************/
+
+    const tvaCodeNumControl = this.partnerForm.get('tvaCodeNum');
+    if (companyStatusControl && tvaCodeNumControl){
+      companyStatusControl.valueChanges.subscribe((status: string) => {
+        const tvaCodeNumControl = this.partnerForm.get('tvaCodeNum');
+  
+        if (tvaCodeNumControl) {
+          if (status === 'PROSPECT') {
+            tvaCodeNumControl.clearValidators(); // Remove required validator
+            tvaCodeNumControl.setValue(null);
+            // tvaIdentifierControl.disable();
+            tvaCodeNumControl.updateValueAndValidity();
+          } else {
+            tvaCodeNumControl.setValidators([Validators.required]); // Set as required
+           // tvaIdentifierControl.enable();
+           tvaCodeNumControl.updateValueAndValidity();
+          }
+        }
+      });
+    }
+
+      /*********************************** Controle tvaPercentage Field *******************************************/
+
+      const tvaPercentageControl = this.partnerForm.get('tvaPercentage');
+      if (companyStatusControl && tvaPercentageControl){
+        companyStatusControl.valueChanges.subscribe((status: string) => {
+          const tvaPercentageControl = this.partnerForm.get('tvaPercentage');
+    
+          if (tvaPercentageControl) {
+            if (status === 'PROSPECT') {
+              tvaPercentageControl.clearValidators(); // Remove required validator
+              tvaPercentageControl.setValue(null);
+              // tvaIdentifierControl.disable();
+              tvaPercentageControl.updateValueAndValidity();
+            } else {
+              tvaPercentageControl.setValidators([Validators.required]); // Set as required
+             // tvaIdentifierControl.enable();
+             tvaPercentageControl.updateValueAndValidity();
+            }
+          }
+        });
+      }
+
           /*********************************** Controle isTaxable Field *******************************************/
       
 /*
@@ -679,6 +746,24 @@ getPaymentTerms(){
   }
   onPaymentTermSelection(paymentTermId: number): void {
     this.partnerForm.get('paymentTermNum')?.patchValue(paymentTermId);
+  }
+
+
+  
+  onTvaCodeSelectionChange(event: any, index: number) {
+
+    const selectedTvaCodeId = event.value; // Récupérer l'ID du code TVA sélectionné
+  
+    // Rechercher le code TVA correspondant dans la liste
+    const selectedTvaCode = this.listTvaCodes.find(tvaCode => tvaCode.id === selectedTvaCodeId);
+  
+    // Mettre à jour la valeur du champ tvaPercentage si le code TVA est trouvé
+    if (selectedTvaCode) {
+      this.partnerForm.get('tvaPercentage')?.setValue(selectedTvaCode.tvaValue); // Mettre à jour la valeur du champ tvaPercentage
+    }
+  }
+  onTvaCodeSelection(tvaCodeId: number): void {
+    this.partnerForm.get('tvaCodeNum')?.patchValue(tvaCodeId);
   }
 
   phoneNumberValidator(mobilePhoneNumberControl: AbstractControl): ValidatorFn {

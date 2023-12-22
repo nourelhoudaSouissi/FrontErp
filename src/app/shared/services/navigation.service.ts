@@ -216,6 +216,7 @@ export class NavigationService {
       { name: 'Domaine de Profile', state: 'profileDomain/profile-domain-crud' },
       { name: 'Condition de payement', state: 'paymentTerm/payment-term-crud' },
       { name: 'Code TVA', state: 'tvaCode/tva-code-crud' },
+      { name: 'Unité', state: 'calculationUnit/calculation-unit-crud' },
     ]
   },
   {

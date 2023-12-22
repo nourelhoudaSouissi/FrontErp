@@ -19,6 +19,8 @@ import { address } from 'app/shared/models/address';
 import { AddAddressService } from '../../add-address/add-address.service';
 import { contact } from 'app/shared/models/contact';
 import { ContactService } from '../../contact/contact.service';
+import { Service } from 'app/shared/models/Service';
+import { ServiceUpdated } from 'app/shared/models/ServiceUpdated';
 
 @Component({
   selector: 'app-quotation-detail',
@@ -26,12 +28,20 @@ import { ContactService } from '../../contact/contact.service';
   styleUrls: ['./quotation-detail.component.scss']
 })
 export class QuotationDetailComponent implements OnInit {
-  private profileSelectionSubscription: Subscription | undefined;
+  private profileSelectionSubscription: Subscription | undefined; 
+  private ServiceSelectionSubscription: Subscription | undefined;
+
+
   partner : Partner
   currencyCatalog : Catalog
   public myProfileForm: FormGroup;
   
   dataSource = new MatTableDataSource([]);
+  dataSourceService = new MatTableDataSource([]);
+  
+  
+  combinedDataSource: MatTableDataSource<any>;
+
   billingTypes = Object.values(BillingType)
   paymentConditions = Object.values(PaymentCondition)
   paymentModes = Object.values(PaymentMode)
@@ -42,18 +52,26 @@ export class QuotationDetailComponent implements OnInit {
   listCatalog : any[]
   listPartner : Partner [] = [] 
   listProfiles : Profile [] = []
+  listServices : Service [] = []
+
   listAddress : address [] = []
   contact : contact
   listContact : contact [] = []
 
   private profileId : number
+  private serviceId : number
+
   private reqId : number
   private selectedCatalogId : number
   private selectedReqId : number
+
   private selectedProfileId : number
+  private selectedServiceId : number
+
   catalog : Catalog
   req : req
   private update: boolean = false
+  private updateService: boolean = false
 
   selectedValue: string;
   showOptions: boolean = false;
@@ -67,6 +85,9 @@ export class QuotationDetailComponent implements OnInit {
   quotationId: number;
   quotation: Quotation = {
     profiles: [],
+    services: [],
+
+
     requirementTitle: '',
     requirementId: 0,
     partnerNum: null,
@@ -80,7 +101,9 @@ export class QuotationDetailComponent implements OnInit {
     catalogCurrency: ''
   };
 profile : UpdatedProfile[];
-  emptyFormObject: UpdatedProfile = {
+service : ServiceUpdated[];
+
+emptyFormObject: UpdatedProfile = {
     id: null,
     candidateNumber: null,
     function: '',
@@ -98,6 +121,24 @@ profile : UpdatedProfile[];
     quotationId: null
   };
 
+  emptyFormObjectService: ServiceUpdated = {
+    id: null,
+    serviceQuantity: null,
+    code: '',
+    title: '',
+    startDate: '',
+    endDate: '',
+    period: null,
+    total: null,
+    totalTva: null,
+    tvaPercentage: null,
+    amount: null,
+    comment: '',
+    service: null,
+    serviceId: null,
+    quotationId: null
+  };
+
   ProfilesTableColumns: string[] = [
     'candidateNumber',
     'period',
@@ -108,15 +149,25 @@ profile : UpdatedProfile[];
     'candidateDailyCost',
     'profileDiscount',
     'totalDiscount'
+  ];
 
-    /*'tva',
-    'priceWithoutTax',
-    'priceWithAllTaxIncluded'*/
+
+  ServicesTableColumns: string[] = [
+    'serviceQuantity',
+    'period',
+    'startDate',
+    'endDate',
+    'serviceId',
+    'code',
+    'amount',
+    'tvaPercentage',
+    'totalTva'
   ];
 
   constructor(
     private confirmService: AppConfirmService,
     private fb: UntypedFormBuilder,
+    private fbService: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private quotationService: QuotationService,
@@ -131,6 +182,7 @@ profile : UpdatedProfile[];
 
   ngOnInit() {
     console.log(this.dataSource)
+    console.log(this.dataSourceService)
     this.getReqList()
     this.getCatalogList()
     this.getPartnerList()
@@ -152,6 +204,7 @@ profile : UpdatedProfile[];
     this.quotationForm.get('catalogNum').valueChanges.subscribe((selectedCatalogId: number) => {
       this.selectedCatalogId = selectedCatalogId;
       this.loadProfilesList();
+      this.loadServicesList();
       this.getCatalog()
     });
     this.quotationForm.get('requirementNum').valueChanges.subscribe((selectedReqId: number) => {
@@ -159,6 +212,18 @@ profile : UpdatedProfile[];
       this.getPartnerByReqId(selectedReqId)
       this.getRequirement(selectedReqId)
     });
+
+
+
+    const profilesData = this.dataSource.data; // Obtenez les données de this.dataSource
+    const servicesData = this.dataSourceService.data; // Obtenez les données de this.dataSourceService
+    
+    const combinedData = [...profilesData, ...servicesData]; // Fusionnez les deux ensembles de données
+  
+    this.combinedDataSource = new MatTableDataSource(combinedData); // Utilisez MatTableDataSource pour les données combinées
+
+
+
   }
 
   ngOnDestroy() {
@@ -174,6 +239,7 @@ profile : UpdatedProfile[];
       this.getContacts(parseInt(quotation.contactBuyer))
       this.buildUpdateQuotationForm(this.quotation);
       this.profilesEmptyList()
+      this.servicesEmptyList()
       this.cdr.markForCheck();
     });
   }
@@ -198,6 +264,7 @@ profile : UpdatedProfile[];
     this.quotationForm.get('catalogNum').valueChanges.subscribe((selectedCatalogId: number) => {
       this.selectedCatalogId = selectedCatalogId;
       this.loadProfilesList();
+      this.loadServicesList();
       this.getCatalog()
     });
     //this.loadProfileByUpdatedProfile(this.quotation.profiles);
@@ -246,6 +313,23 @@ profile : UpdatedProfile[];
           endDate: [pro.endDate || ''],
           comment: [pro.comment || ''],
           profile: [pro.profile || '']
+        }))
+      ),
+
+      services: this.fbService.array(
+        (quotation?.services || []).map(ser => this.fbService.group({
+          id: [ser.id || ''],
+          serviceQuantity: [ser.serviceQuantity || ''],
+          amount: [ser.amount || ''],
+          period: [ser.period || ''],
+          title: [ser.title || ''],
+          code: [ser.code || ''],
+          startDate: [ser.startDate || ''],
+          total: [ser.total || ''],
+          totalTva: [ser.totalTva || ''],
+          tvaPercentage: [ser.tvaPercentage || ''],
+          endDate: [ser.endDate || ''],
+          service: [ser.service || '']
         }))
       )
     });
@@ -298,7 +382,27 @@ profile : UpdatedProfile[];
           comment: [pro.comment || ''],
           profileNum: [pro.profileId || '']
         }))
+      ),
+
+
+      services: this.fbService.array(
+        (quotation?.services || []).map(ser => this.fbService.group({
+          id: [ser.id || ''],
+          serviceQuantity: [ser.serviceQuantity || ''],
+          amount: [ser.amount || ''],
+          period: [ser.period || ''],
+          title: [ser.title || ''],
+          code: [ser.code || ''],
+          startDate: [ser.startDate || ''],
+          total: [(ser.total || '').toFixed(3)],
+          totalTva: [(ser.totalTva || '').toFixed(3)],
+          tvaPercentage: [ser.tvaPercentage || ''],
+          endDate: [ser.endDate || ''],
+          serviceNum: [ser.serviceId || '']
+        }))
       )
+
+
     });
 
   }
@@ -310,8 +414,15 @@ profile : UpdatedProfile[];
     else return false
   }
 
+  servicesEmptyList(): boolean{
+    const services = this.quotationForm.get('services') as FormArray
+    if(services.length == 0)
+      return true
+    else return false
+  }
+
+
   addNewUpdatedProfile(profile?: UpdatedProfile) {
-    
     const newFormGroup = this.fb.group({
       id: [profile ? profile.id : ''],
       candidateNumber: [profile ? profile.candidateNumber : ''],
@@ -346,6 +457,48 @@ profile : UpdatedProfile[];
     }
   });
 }
+
+
+
+
+addNewUpdatedService(service?: ServiceUpdated) {
+  const newFormGroup = this.fbService.group({
+    id: [service ? service.id : ''],
+    serviceQuantity: [service ? service.serviceQuantity : ''],
+    period: [service ? service.period : ''],
+    startDate: [service ? service.startDate : ''],
+    endDate: [service ? service.endDate : ''],
+    amount: [service ? service.amount : ''],
+    code: [service ? service.code : ''],
+    total: [service ? service.total : ''],
+    totalTva: [service ? service.totalTva : ''],
+    tvaPercentage: [service ? service.tvaPercentage : ''],
+    title: [service ? service.title : ''],
+    service: [service? service.service : '']
+  }) 
+this.getServicesFormArray().push(newFormGroup);
+console.log('1')
+// Subscribe to value changes of 'profile' field
+this.ServiceSelectionSubscription?.unsubscribe();
+console.log('2')
+this.ServiceSelectionSubscription = newFormGroup.get('service')?.valueChanges.subscribe((selectedServiceId: any) => {
+  console.log('3')
+  console.log('Selected Service ID:', selectedServiceId);
+
+  if (selectedServiceId) {
+    const service = this.listServices.find(p => p.id === selectedServiceId.id);
+    console.log(service)
+    if (service) {
+      newFormGroup.patchValue({ amount: service.amount * this.quotationForm.get('changeRate').value});
+      newFormGroup.patchValue({ code: service.code });
+      newFormGroup.patchValue({ title: service.title });
+      newFormGroup.patchValue({ tvaPercentage: service.tvaPercentage });
+
+    }
+  }
+});
+}
+
 
 
 
@@ -385,9 +538,50 @@ profile : UpdatedProfile[];
       }
     });
   }
+
+
+  addUpdateNewUpdatedService(service?: ServiceUpdated) {
+    
+    const newFormGroup = this.fb.group({
+      id: [service ? service.id : ''],
+    serviceQuantity: [service ? service.serviceQuantity : ''],
+    period: [service ? service.period : ''],
+    startDate: [service ? service.startDate : ''],
+    endDate: [service ? service.endDate : ''],
+    amount: [service ? service.amount : ''],
+    code: [service ? service.code : ''],
+    total: [service ? service.total : ''],
+    totalTva: [service ? service.totalTva : ''],
+    tvaPercentage: [service ? service.tvaPercentage : ''],
+    title: [service ? service.title : ''],
+    serviceNum: [service? service.serviceId : '']
+    })
+  this.getServicesFormArray().push(newFormGroup);
+  console.log('1')
+  // Subscribe to value changes of 'profile' field
+  this.ServiceSelectionSubscription?.unsubscribe();
+  console.log('2')
+  this.ServiceSelectionSubscription = newFormGroup.get('serviceNum')?.valueChanges.subscribe((selectedServiceId: any) => {
+    console.log('3')
+    console.log('Selected Service ID:', selectedServiceId);
+
+    if (selectedServiceId) {
+      const service = this.listServices.find(p => p.id === selectedServiceId);
+      console.log(service)
+      if (service) {
+        newFormGroup.patchValue({ amount: service.amount * this.quotationForm.get('changeRate').value});
+        newFormGroup.patchValue({ code: service.code });
+        newFormGroup.patchValue({ title: service.title });
+      }
+    }
+  });
+}
   
   getProfilesFormArray(): FormArray {
     return this.quotationForm.get('profiles') as FormArray;
+  }
+  getServicesFormArray(): FormArray {
+    return this.quotationForm.get('services') as FormArray;
   }
 
   updateForm(): boolean {
@@ -396,7 +590,12 @@ profile : UpdatedProfile[];
     else return false
   }
   
-
+  updateFormService(): boolean {
+    if(this.updateService == true)
+    return true
+    else return false
+  }
+  
   deleteProfilesFromQuotation(index: number) {
     this.confirmService
       .confirm({ title: "Confirmer", message: "Voulez-vous supprimer ce profil ?" })
@@ -409,8 +608,25 @@ profile : UpdatedProfile[];
       });
   }
 
+
+  deleteServicesFromQuotation(index: number) {
+    this.confirmService
+      .confirm({ title: "Confirmer", message: "Voulez-vous supprimer ce Service ?" })
+      .subscribe(res => {
+        if (res) {
+          this.getServicesFormArray().removeAt(index);
+        } else {
+          return;
+        }
+      });
+  }
+
   deleteProfilesFromQuotationUpdate(index: number) {
     this.getProfilesFormArray().removeAt(index);
+  }
+
+  deleteServicesFromQuotationUpdate(index: number) {
+    this.getServicesFormArray().removeAt(index);
   }
   
   
@@ -474,9 +690,39 @@ profile : UpdatedProfile[];
     window.print();
   }
 
+  get quotationCombinedFormArray(): FormArray {
+    const profilesArray = this.quotationForm.get('profiles') as FormArray;
+    const servicesArray = this.quotationForm.get('services') as FormArray;
+  
+    const combinedArray = new FormArray([]);
+  
+    // Ajouter les éléments du FormArray 'profiles' dans le FormArray combiné
+    if (profilesArray && profilesArray.length > 0) {
+      profilesArray.controls.forEach((profileControl) => {
+        combinedArray.push(profileControl);
+      });
+    }
+  
+    // Ajouter les éléments du FormArray 'services' dans le FormArray combiné
+    if (servicesArray && servicesArray.length > 0) {
+      servicesArray.controls.forEach((serviceControl) => {
+        combinedArray.push(serviceControl);
+      });
+    }
+  
+    return combinedArray;
+  }
+  
   get quotationProfilesFormArray(): FormArray {
     return this.quotationForm.get('profiles') as FormArray;
   }
+  get quotationServicesFormArray(): FormArray {
+    return this.quotationForm.get('services') as FormArray;
+  }
+
+  /*get quotationCombinedFormArray(): FormArray {
+    return this.quotationForm.get('services') && this.quotationForm.get('profiles')  as FormArray;
+  }*/
 
   get currency() {
     return this.quotationForm.get('currency').value
@@ -611,6 +857,23 @@ profile : UpdatedProfile[];
     this.loadProfileByUpdatedProfile(this.quotation.profiles)
   }
 
+  loadServicesList() {
+    if (this.selectedCatalogId) {
+      this.catalogService.getItemServices(this.selectedCatalogId).subscribe(
+        (services: Service[]) => {
+          this.listServices = services;
+          console.log(this.listServices)
+        },
+        (error) => {
+          console.error('Error fetching services:', error);
+        }
+      );
+    } else {
+      this.listServices = []; // Clear the profiles list if no catalog is selected
+    }
+    this.loadServiceByUpdatedServices(this.quotation.services)
+  }
+
   getCatalog(){
     if(this.selectedCatalogId){
       this.catalogService.getItem(this.selectedCatalogId).subscribe((data: any) => {
@@ -685,6 +948,7 @@ profile : UpdatedProfile[];
       this.quotationForm.get('catalogNum').patchValue(this.catalog.id);
       this.selectedCatalogId = this.catalog.id
       this.loadProfilesList()
+      this.loadServicesList()
     })
   }
 
@@ -735,6 +999,27 @@ profile : UpdatedProfile[];
         console.log(profileC)
         console.log(profileD)
         profileD.get('profile').patchValue(profileC)
+        i += 1
+      });
+      
+    })
+  }
+
+  loadServiceByUpdatedServices(servicesC: any[]){
+    let serviceC : any
+    const servicesD = this.quotationForm.get('services') as FormArray
+    console.log(servicesD)
+    console.log(servicesC)
+    servicesD.controls.forEach((serviceD: FormGroup) => {
+        console.log('test')
+        let i = 0
+        let id = servicesC[i].profileId
+        console.log(id)
+        this.catalogService.getService(id).subscribe((data: any) => {
+          serviceC = data.id
+        console.log(serviceC)
+        console.log(serviceD)
+        serviceD.get('service').patchValue(serviceC)
         i += 1
       });
       
@@ -870,7 +1155,8 @@ profile : UpdatedProfile[];
     [QuotationStatus.IN_PROGRESS]: "En attente",
     [QuotationStatus.VALIDATED]: "Accepté",
     [QuotationStatus.REFUSED]: "Refusé",
-    [QuotationStatus.UNANSWERED]: "Sans suite"
+    [QuotationStatus.UNANSWERED]: "Sans suite",
+    [QuotationStatus.SENT_TO_CLIENT]: "Envoyé"
   }
 
   billingTypeMap = {

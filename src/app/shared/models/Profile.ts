@@ -1,3 +1,4 @@
+import { CalculationUnit } from "./CalculationUnit";
 import { ProfileDomain } from "./ProfileDomain";
 
 export interface Profile {
@@ -14,6 +15,8 @@ export interface Profile {
     profileDomain ?: ProfileDomain
     profileDomainNum ?: number
     catalogId : number
+    calculationUnitId?: number
+    calculationUnit ?: CalculationUnit
 }
 
 export enum Level {

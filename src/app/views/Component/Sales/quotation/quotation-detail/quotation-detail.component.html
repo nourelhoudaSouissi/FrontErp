@@ -254,7 +254,13 @@
 
 
 </div> 
-    <!-- additionalFees form table -->
+
+
+
+
+
+
+    <!-- Profiles form table -->
     <div formArrayName="profiles" class="additionalFees-form-list" fxLayout="column">
       <div class="additionalFees-form-list-head-line" fxLayout="row" fxLayoutAlign="space-around center">
         <p>Profil</p>
@@ -363,9 +369,8 @@
     </div>
     
     
-      <!-- end of additionalFees form table -->
-    
-      <!-- add additionalFees button -->
+      <!-- end of Profiles form table -->
+
       <div class="add-button" fxLayoutAlign="end center">
         <button-loading *ngIf="!updateForm()" color="primary" mat-button type="button" (click)="addNewUpdatedProfile(emptyFormObject)">
           Ajouter un profil
@@ -374,6 +379,117 @@
           Ajouter un profil
         </button-loading>
       </div>
+
+      <div class="table-space"></div>
+
+
+      
+    <!-- Services form table -->
+    <div formArrayName="profiles" class="additionalFees-form-list" fxLayout="column">
+      <div class="additionalFees-form-list-head-line" fxLayout="row" fxLayoutAlign="space-around center">
+        <p>Service</p>
+        <p>Quantité</p>
+        <p>Nombre de jours</p>
+        <p>Taux journalier</p>
+        <p>TVA</p>
+        <p>Date début</p>
+        <p>Date fin</p>
+        <p></p>
+      </div>
+    
+      <ng-container *ngFor="let services of quotationServicesFormArray.controls; let i = index">
+        <div [formGroup]="services" class="form-rows" fxLayout="row" fxLayoutAlign="space-around center">
+          <span>{{ i + 1 }}</span>
+          <mat-form-field fxFlex="14%">
+            
+              <mat-label>Service</mat-label>
+              <mat-select  *ngIf="!updateFormService()" [formControlName]="'service'">
+                <mat-option *ngFor="let service of listServices" [value]="service">{{ service.title }} - {{ service.code }}</mat-option>
+              </mat-select>
+              <mat-select  *ngIf="updateFormService()" [formControlName]="'serviceNum'">
+                <mat-option *ngFor="let service of listServices" [value]="service.id">{{ service.title }} - {{ service.code }}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="serviceQuantity" matInput placeholder="Quantité" required />
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="period" matInput placeholder="Nombre de jours" required />
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="amount" matInput placeholder="Taux journalier" required />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="14%">
+            <input type="number" formControlName="tvaPercentage" matInput placeholder="TVA (%)" required />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="14%">
+            <!--input type="number" formControlName="startDate" matInput placeholder="Date début" required /-->
+            <mat-label>Date début</mat-label>
+                  <input
+                    matInput
+                    name="startDate"
+                    type="date" 
+                    [formControlName]="'startDate'"
+                    placeholder="Date début"
+                    required>
+          </mat-form-field>
+          <mat-form-field fxFlex="14%">
+            <!--input type="number" formControlName="endDate" matInput placeholder="Date fin" required /-->
+            <mat-label>Date fin</mat-label>
+                  <input
+                    matInput
+                    name="endDate"
+                    type="date" 
+                    [formControlName]="'endDate'"
+                    placeholder="Date fin"
+                    required>
+          </mat-form-field>
+          <!--mat-form-field>
+            <input type="number" formControlName="tva" matInput placeholder="TVA" required />
+          </mat-form-field-->
+    
+          <button *ngIf="!updateFormService()" mat-icon-button mat-sm-button color="warn" (click)="deleteServicesFromQuotation(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button *ngIf="updateFormService()" mat-icon-button mat-sm-button color="warn" (click)="deleteServicesFromQuotationUpdate(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+    
+        <div class="form-rows" fxLayout="row" fxLayoutAlign="end center">
+          <mat-form-field>
+           <strong>Total : </strong> <input type="number" matInput disabled required [value]="(services.get('amount').value * services.get('serviceQuantity').value * services.get('period').value).toFixed(3)" />
+           {{ currency }}
+          </mat-form-field>
+        
+
+
+          <mat-form-field>
+            <strong>Total avec TVA : </strong>
+            <input type="number" matInput disabled required 
+              [value]="((services.get('amount').value * services.get('serviceQuantity').value * services.get('period').value) * (1 - (services.get('tvaPercentage').value / 100))).toFixed(3)" />
+            {{ currency }}
+          </mat-form-field>
+  
+        </div>
+        
+      </ng-container>
+    </div>
+
+    <!-- end of services form table-->
+
+    <div class="add-button" fxLayoutAlign="end center">
+      <button-loading *ngIf="!updateFormService()" color="primary" mat-button type="button" (click)="addNewUpdatedService(emptyFormObjectService)">
+        Ajouter un service
+      </button-loading>
+      <button-loading *ngIf="updateFormService()" color="primary" mat-button type="button" (click)="addUpdateNewUpdatedService(emptyFormObjectService)">
+        Ajouter un service
+      </button-loading>
+    </div>
+      <!-- add additionalFees button -->
+     
     
     <div class="billing-address" fxLayout="row wrap" fxLayoutAlign="space-between center">
          <!-- payment -->
@@ -443,6 +559,29 @@
 
 <!-- end of edit quotation -->
 <!-- =================================================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- =================================================== -->
 <!-- quotation details -->
@@ -569,16 +708,12 @@
     </div>
     <!-- end of billing details -->
     <mat-divider></mat-divider>
-    <!--div>
-      <br>
-      <h4><strong>Infos supplémentaires</strong></h4>
-         <br>
-      <p><strong>Mode de payment : </strong> {{ paymentModeMap[quotation?.paymentMode] }}</p>
-      <p><strong>Condition de payment : </strong> {{ paymentConditionMap[quotation?.paymentCondition] }}</p>
-      <p><strong>Type de facturation : </strong> {{ billingTypeMap[quotation?.billingType] }}</p>
-      <p><strong>Instruction de facturation : </strong> {{ quotation?.billingInstruction }}</p>
-      <br>
-   </div-->
+ 
+
+
+
+
+    <!-- start of profil table-->
     <div class="additionalFees-table">
       <div>
         <mat-table [dataSource]="quotationProfilesFormArray.controls" class="mat-elevation-z4" #table>
@@ -645,7 +780,164 @@
     </div>
     
     
-    <!-- end of table -->
+    <!-- end of Profil table -->
+
+    <div class="table-space"></div>
+
+
+
+    <div class="additionalFees-table">
+      <div>
+        <mat-table [dataSource]="quotationServicesFormArray.controls" class="mat-elevation-z4" #table>
+          
+          <ng-container matColumnDef="number">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="service">
+            <mat-header-cell *matHeaderCellDef>Service</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('title').value }} - {{ levelMap[element.get('code').value] }}</mat-cell>
+          </ng-container>
+      
+          
+          <ng-container matColumnDef="serviceQuantity">
+            <mat-header-cell *matHeaderCellDef>Quantité</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('serviceQuantity').value }}</mat-cell>
+          </ng-container>
+
+           <ng-container matColumnDef="period">
+            <mat-header-cell *matHeaderCellDef>Nbr jours</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('period').value }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef>Taux journalier ({{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('amount').value }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="tvaPercentage">
+            <mat-header-cell *matHeaderCellDef>TVA (%)</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('tvaPercentage').value }}</mat-cell>
+          </ng-container>
+
+
+          <!-- Tarif Column -->
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef>Date début</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('startDate').value | date: 'dd-MM-yyyy'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef>Date fin</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('endDate').value | date: 'dd-MM-yyyy'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef>Total ( {{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('total').value }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalTva">
+            <mat-header-cell *matHeaderCellDef>Total avec TVA ({{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('totalTva').value }}</mat-cell>
+          </ng-container>
+
+          
+          <!-- Column definitions -->
+          <mat-header-row *matHeaderRowDef="['number', 'service', 'serviceQuantity','period', 'amount','tvaPercentage','startDate', 'endDate', 'total', 'totalTva']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['number', 'service', 'serviceQuantity','period', 'amount', 'tvaPercentage', 'startDate', 'endDate', 'total', 'totalTva']"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="table-space"></div>
+
+    <!--------------------------------- Combined Table ------------------------------------------>
+
+
+
+
+
+
+
+    <div class="additionalFees-table">
+      <div>
+        <mat-table [dataSource]="quotationCombinedFormArray.controls" class="mat-elevation-z4" class="mat-elevation-z4" #table>
+          <!-- Colonnes communes -->
+          <ng-container matColumnDef="number">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="item">
+            <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('function').value || element.get('title').value }} - {{ levelMap[element.get('experience').value || element.get('code').value] }}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="occurrences">
+            <mat-header-cell *matHeaderCellDef>Nombre d'occurrences</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('candidateNumber').value || element.get('serviceQuantity').value }}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="quantity">
+            <mat-header-cell *matHeaderCellDef>Quantité</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('period').value }}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="unitPrice">
+            <mat-header-cell *matHeaderCellDef>Prix unitaire ({{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('candidateDailyCost').value || element.get('amount').value }} {{ quotation.currency }}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="discount">
+            <mat-header-cell *matHeaderCellDef>Remise (%)</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('profileDiscount').value || element.get('tvaPercentage').value }}</mat-cell>
+          </ng-container>
+    
+          <!-- Colonnes spécifiques à chaque type -->
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef>Date début</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('startDate').value | date: 'dd-MM-yyyy'}}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef>Date fin</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('endDate').value | date: 'dd-MM-yyyy'}}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef>Total ({{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('total').value || element.get('totalTva').value }}</mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="totalDiscounted">
+            <mat-header-cell *matHeaderCellDef>Total remisé ({{ quotation.currency }})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.get('totalDiscount').value || element.get('totalTva').value }}</mat-cell>
+          </ng-container>
+    
+          <!-- Définition des colonnes -->
+          <mat-header-row *matHeaderRowDef="['number', 'item', 'occurrences', 'quantity', 'unitPrice', 'discount', 'startDate', 'endDate', 'total', 'totalDiscounted']"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: ['number', 'item', 'occurrences', 'quantity', 'unitPrice', 'discount', 'startDate', 'endDate', 'total', 'totalDiscounted']"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+
+
+    <!----------------------------------End Of Combined table------------------------------------------->
+
+
+
+
+
+
+
 
     <!-- total cost -->
     <div class="billing-address" fxLayout="row" fxLayoutAlign="space-between">

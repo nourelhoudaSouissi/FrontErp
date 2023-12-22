@@ -433,6 +433,10 @@ export const rootRouterConfig: Routes = [
       {
         path: 'tvaCode',
         loadChildren: () => import('./views/Component/Referentiel/TvaCode/tva-code.module').then(m => m.TvaCodeModule)
+      },
+      {
+        path: 'calculationUnit',
+        loadChildren: () => import('./views/Component/Referentiel/CalculationUnit/calculation-unit.module').then(m => m.CalculationUnitModule)
       }
     ]
   },

@@ -69,6 +69,13 @@ export class ProfileCatalogService {
         catchError(this.handleError)
       )
     }
+    // GET addresses list by partner id
+    getItemServices(id: number): Observable<Service[]> {
+      const url = `${this.apiUrl}/${id}/services`;
+      return this.http.get<Service[]>(url).pipe(
+        catchError(this.handleError)
+      )
+    }
 
     // GET an item by id
     getCatalogByProfileId(profileId: number): Observable<Catalog> {
@@ -85,6 +92,13 @@ export class ProfileCatalogService {
         catchError(this.handleError)
       );
     }
+       // GET an item by id
+       getService(id: number): Observable<Service> {
+        const url = `${this.apiUrl2}/getServiceById/${id}`;
+        return this.http.get<Service>(url).pipe(
+          catchError(this.handleError)
+        );
+      }
   
     // POST a new item
     addProfile(profile: any): Observable<any> {

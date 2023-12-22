@@ -10,6 +10,7 @@ import { ProfileDomainService } from 'app/views/Component/Referentiel/ProfilDoma
 import { CatalogType } from 'app/shared/models/Service';
 import { TvaCode } from 'app/shared/models/TvaCode';
 import { TvaCodeService } from 'app/views/Component/Referentiel/TvaCode/tva-code.service';
+import { CalculationUnitService } from 'app/views/Component/Referentiel/CalculationUnit/calculation-unit.service';
 
 @Component({
   selector: 'app-catalog-pop',
@@ -18,11 +19,13 @@ import { TvaCodeService } from 'app/views/Component/Referentiel/TvaCode/tva-code
 })
 export class CatalogPopComponent implements OnInit {
   isNew: boolean
-  private profileDomainNum : number
   submitted = false;
+  private profileDomainNum : number
   private tvaCodeNum : number
-  listProfileDomains : ProfileDomain[] = []
+  private calculationUnitNum : number
+  listProfileDomains : any[] = []
   listTvaCodes : any[] = []
+  listCalculationUnits : any[] = []
 
   public itemForm: FormGroup
 
@@ -83,25 +86,25 @@ export class CatalogPopComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private profileDomainService: ProfileDomainService,
     private tvaCodeService: TvaCodeService,
-  ) { }
+    private calculationUnitService: CalculationUnitService,
+    ) { }
 
-  getProfileDomains(){
-    this.profileDomainService.getItems().subscribe((data :any )=>{
-      this.listProfileDomains = data
-    });
-  }
+ 
 
   ngOnInit() {
     this.getTvaCodes()
     this.tvaCodeNum = this.data.tvaCodeId;
+    this.getCalculationUnit()
+    this.calculationUnitNum = this.data.calculationUnitId;
+    this.getProfileDomains()
+    this.profileDomainNum = this.data.profileDomainId;
 
     console.log ('datttttttttttttttttttttttttttttttttttta', this.data)
     this.buildItemForm(this.data.payload);
     console.log(this.data.isNew);
     console.log(this.data.payload);
     this.isNew = this.data.isNew;
-    this.getProfileDomains()
-    this.profileDomainNum = this.data.profileDomainId;
+    
 
     this.catalogService.getItems().subscribe((catalogs) => {
       this.existingCatalogs = catalogs;
@@ -127,10 +130,22 @@ export class CatalogPopComponent implements OnInit {
     });
     //////////////////////////////////////end updates repeat form
   }
+
+  getProfileDomains(){
+    this.profileDomainService.getItems().subscribe((data :any )=>{
+      this.listProfileDomains = data
+    });
+  }
   
   getTvaCodes(){
     this.tvaCodeService.getItems().subscribe((data :any )=>{
       this.listTvaCodes = data
+    });
+  }
+
+  getCalculationUnit(){
+    this.calculationUnitService.getItems().subscribe((data :any )=>{
+      this.listCalculationUnits = data
     });
   }
 
@@ -160,6 +175,7 @@ export class CatalogPopComponent implements OnInit {
       yearsOfExperience: [profile.yearsOfExperience || ''],
       technologie: [profile.technologie || ''],
       profileDomainNum: [this.data.profileDomainId || null, Validators.required],
+      calculationUnitNum: [this.data.calculationUnitId || ''],
       isActif: [profile.isActif || ''],
       comment: [profile.comment || '']
     });
@@ -174,6 +190,7 @@ export class CatalogPopComponent implements OnInit {
       comment: [service.comment || ''],
       catalogType: [CatalogType.SERVICE],
       tvaCodeNum: [this.data.tvaCodeId || ''],
+      calculationUnitNum: [this.data.calculationUnitId || ''],
       tvaPercentage: [service.tvaPercentage || ''],
 
     });
@@ -238,6 +255,7 @@ export class CatalogPopComponent implements OnInit {
       yearsOfExperience: [''],
       technologie: [''],
       profileDomainNum:[''],
+      calculationUnitNum: [''],
       isActif: ['']
     }));
   }
@@ -251,6 +269,7 @@ export class CatalogPopComponent implements OnInit {
       title: [''],
       comment: [''],
       tvaCodeNum: [''],
+      calculationUnitNum: [''],
       tvaPercentage: ['']
 
     }));
@@ -278,6 +297,7 @@ export class CatalogPopComponent implements OnInit {
         candidateDailyCost: [''],
         yearsOfExperience: [''],
         technologie: [''],
+        calculationUnitNum: [''],
         isActif: ['']
       }));
     }
@@ -295,6 +315,7 @@ export class CatalogPopComponent implements OnInit {
         title: [''],
         comment: [''],
         tvaCodeNum: [''],
+        calculationUnitNum: [''],
         tvaPercentage: ['']
       }));
     }

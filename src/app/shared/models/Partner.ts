@@ -1,4 +1,5 @@
 import { PaymentTerm } from "./PaymentTerm";
+import { TvaCode } from "./TvaCode";
 import { address } from "./address";
 import { contact } from "./contact";
 import { req } from "./req";
@@ -57,6 +58,9 @@ export interface Partner {
     paymentTerm?:PaymentTerm; 
     paymentTermId ?:number
     //paymentTermNum?:number
+    tvaCodeId?: number
+    tvaCode ?: TvaCode
+    tvaPercentage ?: number
   }
 
   export interface Country {

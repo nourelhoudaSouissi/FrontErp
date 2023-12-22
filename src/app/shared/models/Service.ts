@@ -1,3 +1,4 @@
+import { CalculationUnit } from "./CalculationUnit"
 import { TvaCode } from "./TvaCode"
 
 export interface Service {
@@ -11,6 +12,9 @@ export interface Service {
     tvaCodeId?: number
     tvaCode ?: TvaCode
     tvaPercentage ?: number
+    calculationUnitId?: number
+    calculationUnit ?: CalculationUnit
+    
 }
 export enum CatalogType {
     RESOURCE="RESOURCE",

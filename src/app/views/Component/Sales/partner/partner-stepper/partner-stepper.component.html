@@ -160,6 +160,41 @@
                               </div>
                           </mat-grid-tile>
 
+
+                          <mat-grid-tile *ngIf="showDiv">
+                            <div   class="pr-16" >
+                              <mat-form-field appearance="outline" [style.width.cm]=10>
+                                <mat-label>Code TVA</mat-label>
+                                  <mat-select  [formControlName]="'tvaCodeNum'" (selectionChange)="onTvaCodeSelectionChange($event, i)" >
+                                    <mat-option *ngFor="let codeTva of listTvaCodes" [value]="codeTva.id">{{codeTva.code}}</mat-option>
+                                  </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </mat-grid-tile>
+
+                          <mat-grid-tile *ngIf="showDiv">
+                            <div class="pb-16">
+                              <!--Identifiant juridique entreprise-->
+                              <mat-form-field appearance="outline" [style.width.cm]=10>
+                                <mat-label>TVA (%)</mat-label>
+                                <input
+                                  matInput
+                                  required
+                                  type="number"
+                                  name="tvaPercentage"
+                                  formControlName="tvaPercentage"
+                                  placeholder="Porcentage de TVA"
+                                />
+                                <mat-error *ngIf="partnerForm.get('tvaPercentage').invalid && partnerForm.get('tvaPercentage').touched">
+                                  Ce champs est requis et doit comporter au maximum 30 caractères.
+                                </mat-error>
+                            </mat-form-field>
+                                    
+                            </div>
+                        </mat-grid-tile>
+
+                          
+
                                 <mat-grid-tile>
                                   <!--Logo-->
                                   <mat-label style="margin-bottom: 10px;">Logo</mat-label>
