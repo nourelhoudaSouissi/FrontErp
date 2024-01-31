@@ -437,6 +437,14 @@ export const rootRouterConfig: Routes = [
       {
         path: 'calculationUnit',
         loadChildren: () => import('./views/Component/Referentiel/CalculationUnit/calculation-unit.module').then(m => m.CalculationUnitModule)
+      },
+      {
+        path: 'service',
+        loadChildren: () => import('./views/Component/Referentiel/Service/service.module').then(m => m.ServiceModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./views/Component/Referentiel/Profile/profile.module').then(m => m.ProfileModule)
       }
     ]
   },

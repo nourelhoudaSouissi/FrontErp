@@ -23,7 +23,7 @@ export class CatalogPopComponent implements OnInit {
   private profileDomainNum : number
   private tvaCodeNum : number
   private calculationUnitNum : number
-  listProfileDomains : any[] = []
+  listProfileDomains : ProfileDomain[] = []
   listTvaCodes : any[] = []
   listCalculationUnits : any[] = []
 
@@ -57,8 +57,10 @@ export class CatalogPopComponent implements OnInit {
     candidateDailyCost: new FormControl(''),
     yearsOfExperience: new FormControl(''),
     technologie: new FormControl(''),
-    profileDomainNum: new FormControl(''),
-    isActif: new FormControl('')
+   // profileDomainNum: new FormControl(''),
+    isActif: new FormControl(''),
+    tvaPercentage: new FormControl('')
+
 
   });
 
@@ -98,6 +100,8 @@ export class CatalogPopComponent implements OnInit {
     this.calculationUnitNum = this.data.calculationUnitId;
     this.getProfileDomains()
     this.profileDomainNum = this.data.profileDomainId;
+    console.log('Profile Domain ID init:', this.data.profileDomainId); // Log the value for debugging
+
 
     console.log ('datttttttttttttttttttttttttttttttttttta', this.data)
     this.buildItemForm(this.data.payload);
@@ -167,6 +171,11 @@ export class CatalogPopComponent implements OnInit {
   }
 
   buildProfileFormGroup(profile): FormGroup {
+    console.log('Profile Domain IDDDDDDDDDD 1:', this.data.profileDomainId); // Log the value for debugging
+    profile.controls.forEach(profileControl => {
+      console.log('Profile Domain IDDDDDDDDDD 2:', this.data.profileDomainId); // Log the value for debugging
+      profileControl.get('profileDomainNum').setValue(this.data.profileDomainId || '');
+    });
     return this.fb.group({
       id: [profile.id || ''],
       function: [profile.function || ''],
@@ -174,9 +183,11 @@ export class CatalogPopComponent implements OnInit {
       candidateDailyCost: [profile.candidateDailyCost || ''],
       yearsOfExperience: [profile.yearsOfExperience || ''],
       technologie: [profile.technologie || ''],
-      profileDomainNum: [this.data.profileDomainId || null, Validators.required],
+      profileDomainNum: [this.data.profileDomainId || ''],
       calculationUnitNum: [this.data.calculationUnitId || ''],
       isActif: [profile.isActif || ''],
+      tvaCodeNum: [this.data.tvaCodeId || ''],
+      tvaPercentage: [profile.tvaPercentage || ''],
       comment: [profile.comment || '']
     });
   }
@@ -256,6 +267,8 @@ export class CatalogPopComponent implements OnInit {
       technologie: [''],
       profileDomainNum:[''],
       calculationUnitNum: [''],
+      tvaCodeNum: [''],
+      tvaPercentage: [''],
       isActif: ['']
     }));
   }
@@ -298,6 +311,8 @@ export class CatalogPopComponent implements OnInit {
         yearsOfExperience: [''],
         technologie: [''],
         calculationUnitNum: [''],
+        tvaCodeNum: [''],
+        tvaPercentage: [''],
         isActif: ['']
       }));
     }
@@ -537,6 +552,22 @@ export class CatalogPopComponent implements OnInit {
     // Met à jour la valeur de tvaPercentage si un code TVA est sélectionné
     if (selectedTvaCode) {
       const servicesFormArray = this.itemForm.get('services') as FormArray;
+      const serviceFormGroup = servicesFormArray.at(index) as FormGroup;
+      serviceFormGroup.get('tvaPercentage').setValue(selectedTvaCode.tvaValue);
+    }
+  }
+  
+
+  
+  onProfileTvaCodeSelectionChange(event: any, index: number) {
+    const selectedTvaCodeId = event.value; // Récupère l'ID du code TVA sélectionné
+  
+    // Recherche du code TVA sélectionné dans la liste
+    const selectedTvaCode = this.listTvaCodes.find(tvaCode => tvaCode.id === selectedTvaCodeId);
+  
+    // Met à jour la valeur de tvaPercentage si un code TVA est sélectionné
+    if (selectedTvaCode) {
+      const servicesFormArray = this.itemForm.get('profiles') as FormArray;
       const serviceFormGroup = servicesFormArray.at(index) as FormGroup;
       serviceFormGroup.get('tvaPercentage').setValue(selectedTvaCode.tvaValue);
     }

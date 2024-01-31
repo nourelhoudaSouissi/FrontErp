@@ -15,7 +15,8 @@ export interface ServiceUpdated {
     total: number;
     totalTva: number;
     tvaPercentage: number;
-
+    totalDiscount: number;
+    serviceDiscount: number;
     comment?: string
    
     service : Service

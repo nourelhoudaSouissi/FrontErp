@@ -1,0 +1,90 @@
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.title}}</span>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()" >
+   
+    
+   
+        
+   <div fxLayout="row wrap" fxLayout.lt-sm="column">
+  
+      
+      <div fxFlex="50" class="pr-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+            <input matInput 
+            name="function" 
+            type="text"  
+            formControlName="function" 
+            placeholder="Fonction"  />
+            <mat-error *ngIf="itemForm.controls['function'].invalid && itemForm.controls['function'].touched">
+              Le champ fonction est requis.
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+  
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <input matInput 
+              name="technologie" 
+              type="text"  
+              formControlName="technologie" 
+              placeholder="Technologie"  />
+              <mat-error *ngIf="itemForm.controls['technologie'].invalid && itemForm.controls['technologie'].touched">
+                Le champ technologie est requis.
+              </mat-error>
+            </mat-form-field>
+          </div>
+     
+        <div fxFlex="50"  class="pb-16">
+          <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Experience</mat-label>
+          <mat-select formControlName="experience" >
+            <mat-option *ngFor="let x of experiences " [value]="x">{{experienceMap[x]}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="itemForm.controls['experience'].invalid && itemForm.controls['experience'].touched">
+            Le champ expérience  est requis.
+          </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field appearance="outline" [style.width.cm]=10>
+              <input matInput 
+              name="yearsOfExperience" 
+              type="number"  
+              formControlName="yearsOfExperience" 
+              placeholder="Nombre d'année d'expérience"  />
+              <mat-error *ngIf="itemForm.controls['yearsOfExperience'].invalid && itemForm.controls['yearsOfExperience'].touched">
+                Le champ nombre d'année d'expérience  est requis.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          
+        <div class="mini-container" >
+            <mat-form-field [style.width.cm]=22 class="example-full-width" appearance="outline">
+             <mat-label>Description</mat-label>
+             <textarea matInput placeholder="Veuillez saisir une description." 
+             [formControl]="itemForm.controls['description']"></textarea>
+           </mat-form-field>
+         </div>
+
+
+
+        
+          
+            <div fxFlex="100" class="mt-16">
+              <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+              <span fxFlex></span>
+              <button mat-raised-button color="primary" >Enregistrer</button>
+            </div>
+        </div>
+  
+  
+  </form>

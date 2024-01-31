@@ -1,5 +1,6 @@
 import { CalculationUnit } from "./CalculationUnit";
 import { ProfileDomain } from "./ProfileDomain";
+import { TvaCode } from "./TvaCode";
 
 export interface Profile {
     id ?: number
@@ -13,10 +14,12 @@ export interface Profile {
     activationDate ?: Date
     deativationDate ?: Date
     profileDomain ?: ProfileDomain
-    profileDomainNum ?: number
+    profileDomainId ?: number
     catalogId : number
     calculationUnitId?: number
     calculationUnit ?: CalculationUnit
+    tvaCode ?: TvaCode
+    tvaPercentage ?: number
 }
 
 export enum Level {

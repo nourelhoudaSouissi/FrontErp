@@ -118,7 +118,9 @@ emptyFormObject: UpdatedProfile = {
     comment: '',
     profile: null,
     profileId: null,
-    quotationId: null
+    quotationId: null,
+    tvaPercentage: null,
+    totalTva: null
   };
 
   emptyFormObjectService: ServiceUpdated = {
@@ -136,7 +138,9 @@ emptyFormObject: UpdatedProfile = {
     comment: '',
     service: null,
     serviceId: null,
-    quotationId: null
+    quotationId: null,
+    serviceDiscount: null,
+    totalDiscount: null,
   };
 
   ProfilesTableColumns: string[] = [
@@ -148,7 +152,10 @@ emptyFormObject: UpdatedProfile = {
     'experience',
     'candidateDailyCost',
     'profileDiscount',
-    'totalDiscount'
+    'totalDiscount',
+    'tvaPercentage',
+    'totalTva'
+
   ];
 
 
@@ -161,7 +168,9 @@ emptyFormObject: UpdatedProfile = {
     'code',
     'amount',
     'tvaPercentage',
-    'totalTva'
+    'totalTva',
+    'totalDiscount',
+    'serviceDiscount'
   ];
 
   constructor(
@@ -310,6 +319,8 @@ emptyFormObject: UpdatedProfile = {
           total: [pro.total || ''],
           totalDiscount: [pro.totalDiscount || ''],
           profileDiscount: [pro.profileDiscount || ''],
+          totalTva: [pro.totalTva || ''],
+          tvaPercentage: [pro.tvaPercentage || ''],
           endDate: [pro.endDate || ''],
           comment: [pro.comment || ''],
           profile: [pro.profile || '']
@@ -326,6 +337,8 @@ emptyFormObject: UpdatedProfile = {
           code: [ser.code || ''],
           startDate: [ser.startDate || ''],
           total: [ser.total || ''],
+          totalDiscount: [ser.totalDiscount || ''],
+          serviceDiscount: [ser.profileDiscount || ''],
           totalTva: [ser.totalTva || ''],
           tvaPercentage: [ser.tvaPercentage || ''],
           endDate: [ser.endDate || ''],
@@ -378,6 +391,8 @@ emptyFormObject: UpdatedProfile = {
           total: [(pro.total || '').toFixed(3)],
           totalDiscount: [(pro.totalDiscount || '').toFixed(3)],
           profileDiscount: [pro.profileDiscount || ''],
+          totalTva: [pro.totalTva || ''],
+          tvaPercentage: [pro.tvaPercentage || ''],
           endDate: [pro.endDate || ''],
           comment: [pro.comment || ''],
           profileNum: [pro.profileId || '']
@@ -397,6 +412,8 @@ emptyFormObject: UpdatedProfile = {
           total: [(ser.total || '').toFixed(3)],
           totalTva: [(ser.totalTva || '').toFixed(3)],
           tvaPercentage: [ser.tvaPercentage || ''],
+          totalDiscount: [ser.totalDiscount || ''],
+          serviceDiscount: [ser.profileDiscount || ''],
           endDate: [ser.endDate || ''],
           serviceNum: [ser.serviceId || '']
         }))
@@ -434,6 +451,8 @@ emptyFormObject: UpdatedProfile = {
       total: [profile ? profile.total : ''],
       totalDiscount: [profile ? profile.totalDiscount : ''],
       profileDiscount: [profile ? profile.profileDiscount : ''],
+      totalTva: [profile ? profile.totalTva : ''],
+      tvaPercentage: [profile ? profile.tvaPercentage : ''],
       function: [profile ? profile.function : ''],
       profile: [profile? profile.profile : '']
     })
@@ -453,6 +472,7 @@ emptyFormObject: UpdatedProfile = {
         newFormGroup.patchValue({ candidateDailyCost: profile.candidateDailyCost * this.quotationForm.get('changeRate').value});
         newFormGroup.patchValue({ function: profile.function });
         newFormGroup.patchValue({ experience: profile.experience });
+        newFormGroup.patchValue({ tvaPercentage: profile.tvaPercentage });
       }
     }
   });
@@ -473,6 +493,8 @@ addNewUpdatedService(service?: ServiceUpdated) {
     total: [service ? service.total : ''],
     totalTva: [service ? service.totalTva : ''],
     tvaPercentage: [service ? service.tvaPercentage : ''],
+    totalDiscount:  [service ? service.totalDiscount : ''],
+    serviceDiscount:  [service ? service.serviceDiscount : ''],
     title: [service ? service.title : ''],
     service: [service? service.service : '']
   }) 
@@ -515,6 +537,8 @@ this.ServiceSelectionSubscription = newFormGroup.get('service')?.valueChanges.su
         total: [profile ? profile.total : ''],
         totalDiscount: [profile ? profile.totalDiscount : ''],
         profileDiscount: [profile ? profile.profileDiscount : ''],
+        totalTva: [profile ? profile.totalTva : ''],
+        tvaPercentage: [profile ? profile.tvaPercentage : ''],
         function: [profile ? profile.function : ''],
         profileNum: [profile? profile.profileId : '']
       })
@@ -553,6 +577,8 @@ this.ServiceSelectionSubscription = newFormGroup.get('service')?.valueChanges.su
     total: [service ? service.total : ''],
     totalTva: [service ? service.totalTva : ''],
     tvaPercentage: [service ? service.tvaPercentage : ''],
+    totalDiscount:  [service ? service.totalDiscount : ''],
+    serviceDiscount:  [service ? service.serviceDiscount : ''],
     title: [service ? service.title : ''],
     serviceNum: [service? service.serviceId : '']
     })
@@ -729,15 +755,23 @@ this.ServiceSelectionSubscription = newFormGroup.get('service')?.valueChanges.su
   }
 
   get htRevenue() {
-    let sum = 0;
+    let sumProfiles = 0;
+    let sumServices = 0;
+    let sumTotal = 0; 
     this.quotationProfilesFormArray.controls.forEach((profiles: FormGroup) => {
-      sum += profiles.get('candidateDailyCost').value * profiles.get('candidateNumber').value * profiles.get('period').value;
+      sumProfiles += profiles.get('candidateDailyCost').value * profiles.get('candidateNumber').value * profiles.get('period').value;
     });
-    return sum;
+    this.quotationServicesFormArray.controls.forEach((services: FormGroup) => {
+      sumServices += services.get('amount').value * services.get('serviceQuantity').value * services.get('period').value;
+    });
+    sumTotal =  sumProfiles + sumServices
+    return sumTotal;
   }
 
   get htRevenueRemiseProfile() {
-    let sum = 0;
+    let sumProfiles = 0;
+    let sumServices = 0;
+    let sumTotal = 0;
     this.quotationProfilesFormArray.controls.forEach((profiles: FormGroup) => {
       const candidateDailyCost = profiles.get('candidateDailyCost').value;
       const candidateNumber = profiles.get('candidateNumber').value;
@@ -750,17 +784,79 @@ this.ServiceSelectionSubscription = newFormGroup.get('service')?.valueChanges.su
       // Calcul du total avec remise en pourcentage
       const totalWithDiscount = totalWithoutDiscount - (totalWithoutDiscount * (profileDiscount / 100));
   
-      sum += totalWithDiscount;
+      sumProfiles += totalWithDiscount;
     });
-    return sum;
+
+    this.quotationServicesFormArray.controls.forEach((services: FormGroup) => {
+      const amount = services.get('amount').value;
+      const serviceQuantity = services.get('serviceQuantity').value;
+      const period = services.get('period').value;
+      const serviceDiscount = services.get('serviceDiscount').value;
+  
+      // Calcul du total sans remise
+      const totalWithoutDiscount = amount * serviceQuantity * period;
+  
+      // Calcul du total avec remise en pourcentage
+      const totalWithDiscount = totalWithoutDiscount - (totalWithoutDiscount * (serviceDiscount / 100));
+  
+      sumServices += totalWithDiscount;
+    });
+    sumTotal = sumProfiles + sumServices;
+    return sumTotal;
   }
   
 
-  get tvaCost() {
+ /* get tvaCost() {
     let ttc = this.revenue
     let tva = this.quotationForm.get('tva').value
     return  ttc * tva/100
+  }*/
+
+
+  get tvaCost() {
+    let totalDiscount = this.htRevenueRemiseProfile
+    let sumProfiles = 0;
+    let sumServices = 0;
+    let sumTotal = 0;
+    this.quotationProfilesFormArray.controls.forEach((profiles: FormGroup) => {
+      const candidateDailyCost = profiles.get('candidateDailyCost').value;
+      const candidateNumber = profiles.get('candidateNumber').value;
+      const period = profiles.get('period').value;
+      const tvaPercentage = profiles.get('tvaPercentage').value;
+      const profileDiscount = profiles.get('profileDiscount').value;
+
+      // Calcul du total sans remise
+      const totalWithoutDiscount = candidateDailyCost * candidateNumber * period;
+  
+      // Calcul du total avec remise en pourcentage
+      const totalWithDiscount = totalWithoutDiscount - (totalWithoutDiscount * (profileDiscount / 100));
+      const montantTvaProfil = totalWithDiscount * (tvaPercentage / 100);
+
+      sumProfiles += montantTvaProfil;
+    });
+
+    this.quotationServicesFormArray.controls.forEach((services: FormGroup) => {
+      const amount = services.get('amount').value;
+      const serviceQuantity = services.get('serviceQuantity').value;
+      const period = services.get('period').value;
+      const tvaPercentage = services.get('tvaPercentage').value;
+      const serviceDiscount = services.get('serviceDiscount').value;
+  
+     
+  
+      // Calcul du total sans remise
+      const totalWithoutDiscount = amount * serviceQuantity * period;
+
+      // Calcul du total avec remise en pourcentage
+      const totalWithDiscount = totalWithoutDiscount - (totalWithoutDiscount * (serviceDiscount / 100));
+      const montantTvaService = totalWithDiscount * (tvaPercentage / 100);
+
+      sumServices += montantTvaService;
+    });
+    sumTotal = sumProfiles + sumServices;
+    return sumTotal;
   }
+
 
   get discountAmount(){
     let ttc = this.htRevenue
@@ -770,11 +866,16 @@ this.ServiceSelectionSubscription = newFormGroup.get('service')?.valueChanges.su
 
 
   get revenueOrd() {
-    let ttc = this.htRevenueRemiseProfile
-    let tvaCost = this.tvaCost
+    let totalTva = this.tvaCost
+    let totalDiscount = this.htRevenueRemiseProfile
+    
    // let tvaCost = this.quotationForm.get('tvaCost').value
-    return  ttc + tvaCost
+    return  totalTva + totalDiscount
   }
+
+  
+
+
 
   get revenue(){
     return this.htRevenue - this.discountAmount

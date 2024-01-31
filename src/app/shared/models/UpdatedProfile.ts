@@ -12,6 +12,8 @@ export interface UpdatedProfile {
     total: number;
     totalDiscount: number;
     profileDiscount: number;
+    totalTva: number;
+    tvaPercentage: number;
     comment?: string
     profile : Profile
     profileId : number

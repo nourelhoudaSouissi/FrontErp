@@ -199,7 +199,10 @@ export class NavigationService {
       { name: 'Questionnaire', state: 'TableReferentiel/referentielTable' },
       { name: 'Type de congé', state: 'leaveType/leaveType-crud' },
       { name: 'Weekend', state: 'weekend/weekend-crud' },
-      { name: 'Catalogue profils', state: 'catalog/catalog-crud' }    
+      { name: 'Services', state: 'service/service-crud' },
+      { name: 'Profile', state: 'profile/profile-crud' },    
+      { name: 'Catalogue', state: 'catalog/catalog-crud' }
+        
 
     
     

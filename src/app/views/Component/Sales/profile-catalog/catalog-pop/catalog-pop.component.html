@@ -236,7 +236,30 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Code TVA</mat-label>
+          <mat-select [formControlName]="'tvaCodeNum'" (selectionChange)="onProfileTvaCodeSelectionChange($event, i)">
+            <mat-option *ngFor="let tvaCode of listTvaCodes" [value]="tvaCode.id">{{tvaCode.code}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       
+
+<div fxFlex="50"  class="pr-16">
+<mat-form-field appearance="outline" class="full-width">
+<mat-label>TVA (%)</mat-label>
+<input
+  matInput
+  required
+  type="number"
+  name="tvaPercentage"
+  formControlName="tvaPercentage"
+  placeholder="Porcentage de TVA"
+/>
+</mat-form-field>
+</div>
+
 
       
       <div fxFlex="50"  class="pr-16" style="padding-top: 17px;">
